@@ -53,3 +53,17 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
   }
 );
+
+// Detect Expired Token
+if (error.response?.status === 401 && !originalRequest._retry) {
+  if (isRefreshing) {
+    // queue up requests until refresh is done
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject });
+    })
+      .then((token) => {
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        return axiosInstance(originalRequest);
+      })
+      .catch(Promise.reject);
+  }
