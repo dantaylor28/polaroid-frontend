@@ -36,3 +36,20 @@ const processQueue = (error, token = null) => {
   });
   failedQueue = [];
 };
+
+// Axios Request Interceptor
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = getAccessToken();
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Axios Response Interceptor
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+  }
+);
