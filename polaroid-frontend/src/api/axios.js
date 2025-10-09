@@ -67,3 +67,27 @@ if (error.response?.status === 401 && !originalRequest._retry) {
       })
       .catch(Promise.reject);
   }
+
+//   Refresh the token
+  originalRequest._retry = true;
+  isRefreshing = true;
+
+  try {
+    const refreshToken = getRefreshToken();
+    const { data } = await axios.post(
+      `${BASE_URL}dj-rest-auth/token/refresh/`,
+      {
+        refresh: refreshToken,
+      }
+    );
+    
+    // Save and use new token
+    const newAccess = data.access;
+    localStorage.setItem("access_token", newAccess);
+
+    axiosInstance.defaults.headers.Authorization = `Bearer ${newAccess}`;
+    processQueue(null, newAccess);
+
+    return axiosInstance(originalRequest);
+  } catch {}
+}
