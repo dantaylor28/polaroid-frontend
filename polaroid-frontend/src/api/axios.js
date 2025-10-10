@@ -42,6 +42,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
   },
   (error) => Promise.reject(error)
 );
@@ -51,43 +52,53 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    // Detect Expired Token
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        // queue up requests until refresh is done
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch(Promise.reject);
+      }
+
+      //   Refresh the token
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refreshToken = getRefreshToken();
+        const { data } = await axios.post(
+          `${BASE_URL}dj-rest-auth/token/refresh/`,
+          {
+            refresh: refreshToken,
+          }
+        );
+
+        // Save and use new token
+        const newAccess = data.access;
+        localStorage.setItem("access_token", newAccess);
+
+        axiosInstance.defaults.headers.Authorization = `Bearer ${newAccess}`;
+        processQueue(null, newAccess);
+
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        clearTokens();
+        window.location.href = "/login";
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+    return Promise.reject(error);
   }
 );
 
-// Detect Expired Token
-if (error.response?.status === 401 && !originalRequest._retry) {
-  if (isRefreshing) {
-    // queue up requests until refresh is done
-    return new Promise((resolve, reject) => {
-      failedQueue.push({ resolve, reject });
-    })
-      .then((token) => {
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return axiosInstance(originalRequest);
-      })
-      .catch(Promise.reject);
-  }
-
-//   Refresh the token
-  originalRequest._retry = true;
-  isRefreshing = true;
-
-  try {
-    const refreshToken = getRefreshToken();
-    const { data } = await axios.post(
-      `${BASE_URL}dj-rest-auth/token/refresh/`,
-      {
-        refresh: refreshToken,
-      }
-    );
-    
-    // Save and use new token
-    const newAccess = data.access;
-    localStorage.setItem("access_token", newAccess);
-
-    axiosInstance.defaults.headers.Authorization = `Bearer ${newAccess}`;
-    processQueue(null, newAccess);
-
-    return axiosInstance(originalRequest);
-  } catch {}
-}
+export default axiosInstance;
