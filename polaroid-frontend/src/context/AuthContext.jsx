@@ -1,25 +1,51 @@
-import { React, createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { clearTokens } from "../api/axios";
+import axiosInstance, { clearTokens, setTokens } from "../api/axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  //   Load currentUser from existing tokens
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setCurrentUser({
-          username: decoded.username,
-          id: decoded.user_id,
-        });
-      } catch (error) {
+      const decoded = jwtDecode(token);
+      const now = Date.now() / 1000;
+
+      if (decoded.exp > now) {
+        const fetchUser = async () => {
+          try {
+            const { data } = await axiosInstance.get("dj-rest-auth/user/");
+            setCurrentUser(data);
+          } catch (error) {
+            clearTokens();
+          }
+        };
+        fetchUser();
+      } else {
         clearTokens();
       }
     }
   }, []);
+
+  const login = (access, refresh, userData) => {
+    setTokens(access, refresh);
+    setCurrentUser(userData);
+  };
+
+  const logout = () => {
+    clearTokens();
+    setCurrentUser(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ currentUser, setCurrentUser, login, logout }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
+
+export const useAuth = () => useContext(AuthContext);
