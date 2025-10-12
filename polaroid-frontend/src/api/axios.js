@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const BASE_URL = "add live api url here when deployed through render";
+const BASE_URL = "https://social-media-api-9cgk.onrender.com/";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
