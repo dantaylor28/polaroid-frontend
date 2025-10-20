@@ -8,6 +8,10 @@ export const Login = () => {
 
   const [signInData, setSignInData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    setSignInData({ ...signInData, [e.target.name]: e.target.value });
+  };
   return (
     <div>
       <h1>Login Page</h1>
@@ -18,7 +22,7 @@ export const Login = () => {
             name="username"
             placeholder="username"
             value={form.username}
-            onChange={() => {}}
+            onChange={handleChange}
             className="border p-2"
           />
           <input
@@ -26,13 +30,11 @@ export const Login = () => {
             name="password"
             placeholder="password"
             value={form.password}
-            onChange={() => {}}
+            onChange={handleChange}
             className="border p-2"
           />
           {errors && <p className="text-red-500 text-sm">{errors}</p>}
-          <button type="submit">
-            Login
-          </button>
+          <button type="submit">Login</button>
         </form>
       </div>
     </div>
