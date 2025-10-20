@@ -44,19 +44,24 @@ export const Login = () => {
             type="text"
             name="username"
             placeholder="username"
-            value={form.username}
+            value={signInData.username}
             onChange={handleChange}
             className="border p-2"
           />
+          {errors.username?.map((msg, idx) => (
+            <p key={idx} className="text-red-500 text-sm">{msg}</p>
+          ))}
           <input
             type="password"
             name="password"
             placeholder="password"
-            value={form.password}
+            value={signInData.password}
             onChange={handleChange}
             className="border p-2"
           />
-          {errors && <p className="text-red-500 text-sm">{errors}</p>}
+          {errors.password?.map((msg, idx) => (
+            <p key={idx} className="text-red-500 text-sm">{msg}</p>
+          ))}
           <button type="submit">Login</button>
         </form>
       </div>
