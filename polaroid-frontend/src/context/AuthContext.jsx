@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("access_token");
     if (token) {
       const decoded = jwtDecode(token);
+      console.log("Decoded token:", decoded);
       const now = Date.now() / 1000;
 
       if (decoded.exp > now) {

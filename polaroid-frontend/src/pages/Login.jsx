@@ -23,6 +23,7 @@ export const Login = () => {
         "/dj-rest-auth/login/",
         signInData
       );
+      console.log("Login Response:", data);
 
       //   expect { access_token, refresh_token, user: {...} }
       login(data.access_token, data.refresh_token, data.user);
