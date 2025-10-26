@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       if (decoded.exp > now) {
         const fetchUser = async () => {
           try {
-            const { data } = await axiosInstance.get("dj-rest-auth/user/");
+            const { data } = await axiosInstance.get("/dj-rest-auth/user/");
             setCurrentUser(data);
           } catch (error) {
             clearTokens();
