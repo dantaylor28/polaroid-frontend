@@ -1,14 +1,14 @@
 import axios from "axios";
-// import jwtDecode from "jwt-decode";
 
 const BASE_URL = "https://social-media-api-9cgk.onrender.com";
 
+// Create Axios instance
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  withCredentials: true, // required for cross-origin requests if cookies are used
 });
 
 // Token Utilities
@@ -25,7 +25,7 @@ export const clearTokens = () => {
   localStorage.removeItem("refresh_token");
 };
 
-// Refresh Queue Setup
+// Token Refresh Queue
 let isRefreshing = false;
 let failedQueue = [];
 
@@ -37,26 +37,42 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-// Axios Request Interceptor
+// Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
+    const skipAuth = [
+      "/dj-rest-auth/login",
+      "/dj-rest-auth/registration",
+      "/dj-rest-auth/token/refresh",
+    ];
+
+    if (skipAuth.some((url) => config.url.includes(url))) {
+      return config;
+    }
+
     const token = getAccessToken();
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      // console.log(
+      //   "➡️ REQUEST INTERCEPTOR — sending:",
+      //   config.url,
+      //   "with token"
+      // );
+    }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Axios Response Interceptor
+// Response Interceptor
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // Detect Expired Token
+    // Only handle 401 once
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
-        // queue up requests until refresh is done
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
@@ -67,12 +83,15 @@ axiosInstance.interceptors.response.use(
           .catch(Promise.reject);
       }
 
-      //   Refresh the token
       originalRequest._retry = true;
       isRefreshing = true;
 
       try {
         const refreshToken = getRefreshToken();
+        if (!refreshToken) throw new Error("No refresh token available");
+
+        // console.log("Refreshing token using:", refreshToken);
+
         const { data } = await axios.post(
           `${BASE_URL}/dj-rest-auth/token/refresh/`,
           {
@@ -80,9 +99,11 @@ axiosInstance.interceptors.response.use(
           }
         );
 
-        // Save and use new token
+        // console.log("Received new tokens:", data);
+
         const newAccess = data.access;
-        localStorage.setItem("access_token", newAccess);
+        const newRefresh = data.refresh || refreshToken; // Fallback if server doesn't rotate
+        setTokens(newAccess, newRefresh);
 
         axiosInstance.defaults.headers.Authorization = `Bearer ${newAccess}`;
         processQueue(null, newAccess);
@@ -91,12 +112,13 @@ axiosInstance.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         clearTokens();
-        window.location.href = "/login";
+
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
       }
     }
+
     return Promise.reject(error);
   }
 );
