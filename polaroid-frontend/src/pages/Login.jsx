@@ -40,7 +40,7 @@ export const Login = () => {
 
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1 className="text-red-500">Login Page</h1>
       <div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
