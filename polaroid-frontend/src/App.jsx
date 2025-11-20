@@ -5,6 +5,7 @@ import { Login } from "./pages/auth/Login";
 import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import { GuestRoute } from "./routes/GuestRoute";
 
 function App() {
   return (
@@ -13,7 +14,16 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+
+          {/* Guest Routes */}
+          <Route
+            path="/login"
+            element={
+              <GuestRoute>
+                <Login />
+              </GuestRoute>
+            }
+          />
 
           {/* Protected Routes */}
           <Route
