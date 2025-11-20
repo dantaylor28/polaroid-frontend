@@ -20,13 +20,13 @@ export const Login = () => {
     setErrors({});
 
     try {
-    //   console.log("Submitting login request with data:", signInData);
+      //   console.log("Submitting login request with data:", signInData);
       const { data } = await axiosInstance.post(
         "/dj-rest-auth/login/",
         signInData
       );
-    //   console.log("Login Response:", data);
-    //   console.log("Tokens received:", data.access, data.refresh);
+      //   console.log("Login Response:", data);
+      //   console.log("Tokens received:", data.access, data.refresh);
 
       await login(data.access, data.refresh);
 
