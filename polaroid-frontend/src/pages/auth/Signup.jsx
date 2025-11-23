@@ -101,7 +101,7 @@ export const Signup = () => {
               {msg}
             </p>;
           })}
-          <button type="submit" className="border p-2"></button>
+          <button type="submit">Signup</button>
         </form>
       </div>
     </div>
