@@ -39,5 +39,71 @@ export const Signup = () => {
       );
     }
   };
-  return <div>Signup</div>;
+  return (
+    <div>
+      <h1 className="text-red-500">Create Account</h1>
+      <div>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            value={signUpData.username}
+            onChange={handleChange}
+            className="border p-2"
+          />
+          {errors.username?.map((msg, idx) => {
+            <p key={idx} className="text-red-500 text-sm">
+              {msg}
+            </p>;
+          })}
+          <input
+            type="email"
+            name="email"
+            placeholder="email address"
+            value={signUpData.email}
+            onChange={handleChange}
+            className="border p-2"
+          />
+          {errors.email?.map((msg, idx) => {
+            <p key={idx} className="text-red-500 text-sm">
+              {msg}
+            </p>;
+          })}
+          <input
+            type="password"
+            name="password1"
+            placeholder="password"
+            value={signUpData.password1}
+            onChange={handleChange}
+            className="border p-2"
+          />
+          {errors.password1?.map((msg, idx) => {
+            <p key={idx} className="text-red-500 text-sm">
+              {msg}
+            </p>;
+          })}
+          <input
+            type="password"
+            name="password2"
+            placeholder="confirm password"
+            value={signUpData.password2}
+            onChange={handleChange}
+            className="border p-2"
+          />
+          {errors.password2?.map((msg, idx) => {
+            <p key={idx} className="text-red-500 text-sm">
+              {msg}
+            </p>;
+          })}
+          {errors.non_field_errors?.map((msg, idx) => {
+            <p key={idx} className="text-red-500 text-sm">
+              {msg}
+            </p>;
+          })}
+          <button type="submit" className="border p-2"></button>
+        </form>
+      </div>
+    </div>
+  );
 };
