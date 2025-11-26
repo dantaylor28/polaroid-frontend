@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axios";
 
@@ -52,11 +52,11 @@ export const Signup = () => {
             onChange={handleChange}
             className="border p-2"
           />
-          {errors.username?.map((msg, idx) => {
+          {errors.username?.map((msg, idx) => (
             <p key={idx} className="text-red-500 text-sm">
               {msg}
-            </p>;
-          })}
+            </p>
+          ))}
           <input
             type="email"
             name="email"
@@ -65,11 +65,11 @@ export const Signup = () => {
             onChange={handleChange}
             className="border p-2"
           />
-          {errors.email?.map((msg, idx) => {
+          {errors.email?.map((msg, idx) => (
             <p key={idx} className="text-red-500 text-sm">
               {msg}
-            </p>;
-          })}
+            </p>
+          ))}
           <input
             type="password"
             name="password1"
@@ -78,11 +78,11 @@ export const Signup = () => {
             onChange={handleChange}
             className="border p-2"
           />
-          {errors.password1?.map((msg, idx) => {
+          {errors.password1?.map((msg, idx) => (
             <p key={idx} className="text-red-500 text-sm">
               {msg}
-            </p>;
-          })}
+            </p>
+          ))}
           <input
             type="password"
             name="password2"
@@ -91,16 +91,16 @@ export const Signup = () => {
             onChange={handleChange}
             className="border p-2"
           />
-          {errors.password2?.map((msg, idx) => {
+          {errors.password2?.map((msg, idx) => (
             <p key={idx} className="text-red-500 text-sm">
               {msg}
-            </p>;
-          })}
-          {errors.non_field_errors?.map((msg, idx) => {
+            </p>
+          ))}
+          {errors.non_field_errors?.map((msg, idx) => (
             <p key={idx} className="text-red-500 text-sm">
               {msg}
-            </p>;
-          })}
+            </p>
+          ))}
           <button type="submit">Signup</button>
         </form>
       </div>
