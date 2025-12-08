@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axios";
+import { useAuth } from "../../context/AuthContext";
 
 export const Signup = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [signUpData, setSignUpData] = useState({
     username: "",
@@ -30,8 +32,22 @@ export const Signup = () => {
         signUpData
       );
 
-      console.log("signup success:", data);
-      navigate("/login");
+      // console.log("signup success:", data);
+      // console.log("access token:", data.access);
+      // console.log("refresh token:", data.refresh);
+
+      await login(data.access, data.refresh);
+      // Store user info in local storage
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: data.user_id,
+          username: data.username,
+          email: data.email,
+        })
+      );
+
+      navigate("/");
     } catch (error) {
       console.log("Signup error:", error.response?.data || error.message);
       setErrors(
