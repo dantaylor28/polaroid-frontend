@@ -7,11 +7,13 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { GuestRoute } from "./routes/GuestRoute";
 import { Signup } from "./pages/auth/Signup";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <Toaster />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
