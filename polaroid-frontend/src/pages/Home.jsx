@@ -1,3 +1,4 @@
+import { LogoutBtn } from "../components/LogoutBtn";
 import { useAuth } from "../context/AuthContext";
 
 export const Home = () => {
@@ -9,7 +10,10 @@ export const Home = () => {
         {!currentUser ? (
           <p>Not logged in</p>
         ) : (
-          <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
+          <div>
+            <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
+            <LogoutBtn />
+          </div>
         )}
       </div>
     </div>

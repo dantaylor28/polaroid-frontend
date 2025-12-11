@@ -23,6 +23,7 @@ export const setTokens = (access, refresh) => {
 export const clearTokens = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
+  localStorage.removeItem("user");
 };
 
 // Token Refresh Queue
