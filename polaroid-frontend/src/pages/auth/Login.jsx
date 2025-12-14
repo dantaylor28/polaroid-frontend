@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../api/axios";
+import toast from "react-hot-toast";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export const Login = () => {
 
       //   Redirect user
       navigate("/");
+      toast.success("Signed in successfully");
     } catch (error) {
       console.log("Login Error:", error.response?.data || error.message);
       setErrors(error.response?.data || { non_field_errors: ["Login Failed"] });

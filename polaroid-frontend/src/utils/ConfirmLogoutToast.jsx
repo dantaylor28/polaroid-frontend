@@ -9,8 +9,8 @@ export const ConfirmLogoutToast = (onConfirm) => {
         <button
           className="bg-red-500 text-white px-3 py-1 rounded mr-4"
           onClick={() => {
-            onConfirm();
             toast.dismiss(t.id); // close immediately
+            onConfirm();
           }}
         >
           Yes
