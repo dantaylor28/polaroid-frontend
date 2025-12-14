@@ -8,12 +8,14 @@ import { AuthProvider } from "./context/AuthContext";
 import { GuestRoute } from "./routes/GuestRoute";
 import { Signup } from "./pages/auth/Signup";
 import { Toaster } from "react-hot-toast";
+import { NavBar } from "./components/NavBar";
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <Toaster />
+        <NavBar />
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
