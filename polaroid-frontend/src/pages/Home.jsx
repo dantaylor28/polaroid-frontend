@@ -1,4 +1,3 @@
-import { LogoutBtn } from "../components/LogoutBtn";
 import { useAuth } from "../context/AuthContext";
 
 export const Home = () => {
@@ -12,7 +11,6 @@ export const Home = () => {
         ) : (
           <div>
             <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
-            <LogoutBtn />
           </div>
         )}
       </div>
