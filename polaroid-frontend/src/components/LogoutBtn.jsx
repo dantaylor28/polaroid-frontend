@@ -1,20 +1,33 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { ConfirmLogoutToast } from "../utils/ConfirmLogoutToast";
+import { ConfirmLogoutModal } from "../utils/ConfirmLogoutModal";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 export const LogoutBtn = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
-  const handleLogout = () => {
-    ConfirmLogoutToast(() => {
-      logout();
-      navigate("/login");
+  const confirmLogout = () => {
+    logout();
+    toast("Logged out successfully", {
+      icon: "👋",
     });
+    navigate("/login");
+    setOpen(false);
   };
   return (
-    <button onClick={handleLogout} className="text-red-500">
-      Logout
-    </button>
+    <>
+      <button onClick={() => setOpen(true)} className="text-red-500">
+        Logout
+      </button>
+
+      <ConfirmLogoutModal
+        open={open}
+        onConfirm={confirmLogout}
+        onCancel={() => setOpen(false)}
+      />
+    </>
   );
 };
