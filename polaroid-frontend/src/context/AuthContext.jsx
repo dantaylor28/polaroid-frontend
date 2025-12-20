@@ -38,9 +38,9 @@ export const AuthProvider = ({ children }) => {
     setTokens(access, refresh);
 
     try {
-    //   console.log("Fetching user after login..");
+      //   console.log("Fetching user after login..");
       const { data } = await axiosInstance.get("/dj-rest-auth/user/");
-    //   console.log("Logged in user:", data);
+      //   console.log("Logged in user:", data);
       setCurrentUser(data);
     } catch (error) {
       console.log("Failed to fetch user after login", error.response?.data);

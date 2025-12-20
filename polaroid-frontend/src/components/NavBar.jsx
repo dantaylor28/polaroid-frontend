@@ -32,7 +32,14 @@ export const NavBar = () => {
                   isActive ? "font-semibold" : "text-gray-400"
                 }
               >
-                Profile
+                <div className="flex items-center justify-center gap-1.5">
+                  <img
+                    src={currentUser.profile_image}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                  {currentUser.username}
+                </div>
               </NavLink>
 
               <LogoutBtn />
