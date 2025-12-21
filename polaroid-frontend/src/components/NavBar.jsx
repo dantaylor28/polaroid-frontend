@@ -22,8 +22,8 @@ export const NavBar = () => {
               `px-3.5 py-1.5 rounded-full transition
      ${
        isActive
-         ? "bg-blue-600 text-white"
-         : "text-gray-700 hover:bg-blue-100 hover:text-black"
+         ? "bg-gray-100 text-blue-800"
+         : "text-blue-700 hover:bg-gray-50 hover:text-blue-800"
      }`
             }
           >
