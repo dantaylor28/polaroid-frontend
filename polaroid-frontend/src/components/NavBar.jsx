@@ -2,6 +2,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
+import { House } from "lucide-react";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
@@ -26,7 +27,7 @@ export const NavBar = () => {
      }`
             }
           >
-            Home
+            <House />
           </NavLink>
 
           {currentUser ? (
