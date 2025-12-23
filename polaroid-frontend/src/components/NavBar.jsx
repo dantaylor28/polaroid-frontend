@@ -35,10 +35,10 @@ export const NavBar = () => {
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-3 py-1.5 rounded transition
+                  `flex items-center gap-2 px-3 py-1 rounded-full transition font-medium
      ${
        isActive
-         ? "bg-gray-100 text-black font-medium"
+         ? "bg-gray-100 text-black"
          : "text-gray-700 hover:bg-gray-50 hover:text-black"
      }`
                 }
@@ -46,7 +46,7 @@ export const NavBar = () => {
                 <img
                   src={currentUser.profile_image}
                   alt="Profile"
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-7 h-7 rounded-full object-cover"
                 />
                 {currentUser.username}
               </NavLink>
@@ -58,11 +58,11 @@ export const NavBar = () => {
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  `px-3.5 py-1.5 rounded-full transition
+                  `px-3.5 py-1.5 rounded-full transition font-medium
      ${
        isActive
-         ? "bg-blue-600 text-white"
-         : "text-gray-700 hover:bg-blue-100 hover:text-black"
+         ? "bg-blue-600 text-white font-semibold"
+         : "text-gray-700 hover:bg-blue-50 hover:text-black"
      }`
                 }
               >
@@ -72,11 +72,11 @@ export const NavBar = () => {
               <NavLink
                 to="/signup"
                 className={({ isActive }) =>
-                  `px-3.5 py-1.5 rounded-full transition
+                  `px-3.5 py-1.5 rounded-full transition font-medium
      ${
        isActive
-         ? "bg-blue-600 text-white"
-         : "text-gray-700 hover:bg-blue-100 hover:text-black"
+         ? "bg-blue-600 text-white font-semibold"
+         : "text-gray-700 hover:bg-blue-50 hover:text-black"
      }`
                 }
               >
