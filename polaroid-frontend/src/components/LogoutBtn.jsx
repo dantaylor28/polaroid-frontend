@@ -22,7 +22,7 @@ export const LogoutBtn = () => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="px-3.5 py-1.5 rounded-full transition text-black hover:bg-red-500 hover:text-white"
+        className="px-3.5 py-1.5 rounded-full transition text-black hover:bg-red-500 hover:text-white hover:cursor-pointer"
       >
         <LogOut />
       </button>

@@ -7,7 +7,7 @@ import { House } from "lucide-react";
 export const NavBar = () => {
   const { currentUser } = useAuth();
   return (
-    <nav className="w-full pb-6 border-b bg-white">
+    <nav className="w-full pb-6 border-b border-black/30 bg-white">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-blue-700">
