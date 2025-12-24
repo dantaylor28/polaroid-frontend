@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ConfirmLogoutModal } from "../utils/ConfirmLogoutModal";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { LogOut } from "lucide-react";
 
 export const LogoutBtn = () => {
   const { logout } = useAuth();
@@ -19,8 +20,11 @@ export const LogoutBtn = () => {
   };
   return (
     <>
-      <button onClick={() => setOpen(true)} className="text-red-500">
-        Logout
+      <button
+        onClick={() => setOpen(true)}
+        className="px-3.5 py-1.5 rounded-full transition text-black hover:bg-red-500 hover:text-white"
+      >
+        <LogOut />
       </button>
 
       <ConfirmLogoutModal
