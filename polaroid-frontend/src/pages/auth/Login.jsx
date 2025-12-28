@@ -118,7 +118,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen grid md:grid-cols-2 bg-gray-50">
+    <div className="min-h-screen grid md:grid-cols-2">
       {/* Login Form */}
       <div className="flex items-center justify-center px-6">
         <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-sm">
@@ -184,7 +184,7 @@ export const Login = () => {
         <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" />
 
         {/* Center Text */}
-        <div className="relative text-white text-center px-8">
+        <div className="relative text-white text-center px-8 pointer-events-none">
           <h2 className="text-3xl font-semibold mb-3">Polaroid</h2>
           <p className="text-gray-300">Capture moments. Share stories.</p>
         </div>
