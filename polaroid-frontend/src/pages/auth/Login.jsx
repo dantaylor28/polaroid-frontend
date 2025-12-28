@@ -83,6 +83,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../api/axios";
 import toast from "react-hot-toast";
+import { AnimatedCircles } from "../../components/AnimatedCircles";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -176,25 +177,11 @@ export const Login = () => {
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
-        {/* Blob 1 */}
-        <div className="absolute animate-float top-20 left-20">
-          <div className="blob w-56 h-56 bg-purple-500/40 blur-3xl rounded-full" />
-        </div>
-
-        {/* Blob 2 */}
-        <div className="absolute animate-float-slow bottom-20 right-20">
-          <div className="blob w-56 h-56 bg-pink-500/30 blur-3xl rounded-full" />
-        </div>
-
-        {/* Blob 3 */}
-        <div className="absolute animate-float-slow top-40 right-20">
-          <div className="blob w-48 h-48 bg-blue-500/40 blur-3xl rounded-full" />
-        </div>
-
-        {/* Blob 4 */}
-        <div className="absolute animate-float bottom-50 left-40">
-          <div className="blob w-48 h-48 bg-green-500/30 blur-3xl rounded-full" />
-        </div>
+        <AnimatedCircles className="w-62 h-62 bg-purple-500/40 top-20 left-20 hover:bg-purple-500/50" />
+        <AnimatedCircles className="w-62 h-62 bg-pink-500/30 bottom-70 right-50 hover:bg-pink-500/40" />
+        <AnimatedCircles className="w-54 h-54 bg-blue-500/40 top-40 -right-1 hover:bg-blue-500/50" />
+        <AnimatedCircles className="w-54 h-54 bg-green-500/30 bottom-50 left-10 hover:bg-green-500/40" />
+        <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" />
 
         {/* Center Text */}
         <div className="relative text-white text-center px-8">
