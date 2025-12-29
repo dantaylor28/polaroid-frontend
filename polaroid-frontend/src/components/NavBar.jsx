@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
 import { House } from "lucide-react";
@@ -92,6 +92,8 @@ import { House } from "lucide-react";
 
 export const NavBar = () => {
   const { currentUser } = useAuth();
+  const { pathname } = useLocation();
+  const isAuthPage = pathname === "/login" || pathname === "/signup";
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-transparent">
@@ -109,7 +111,11 @@ export const NavBar = () => {
               to="/"
               className={({ isActive }) =>
                 `px-3.5 py-1.5 rounded-full transition ${
-                  isActive
+                  isAuthPage
+                    ? isActive
+                      ? "text-white bg-white/30"
+                      : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                    : isActive
                     ? "bg-gray-100 text-black"
                     : "text-gray-700 hover:bg-gray-50 hover:text-black"
                 }`
@@ -145,10 +151,15 @@ export const NavBar = () => {
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
-                    `px-3.5 py-1.5 rounded-full transition font-medium ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-700 hover:bg-blue-50 hover:text-black"
+                    `px-3.5 py-1.5 rounded-full transition font-medium 
+                    ${
+                      isAuthPage
+                        ? isActive
+                          ? "text-white bg-white/30"
+                          : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                        : !isActive
+                        ? "text-gray-700 hover:bg-gray-50 hover:text-black"
+                        : ""
                     }`
                   }
                 >
@@ -158,11 +169,16 @@ export const NavBar = () => {
                 <NavLink
                   to="/signup"
                   className={({ isActive }) =>
-                    `px-3.5 py-1.5 rounded-full transition font-medium ${
-                      isActive
-                        ? "bg-blue-600 text-white"
-                        : "text-gray-700 hover:bg-blue-50 hover:text-black"
-                    }`
+                    `px-3.5 py-1.5 rounded-full transition font-medium
+                  ${
+                    isAuthPage
+                      ? isActive
+                        ? "text-white bg-white/30"
+                        : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                      : !isActive
+                      ? "text-gray-700 hover:bg-gray-50 hover:text-black"
+                      : ""
+                  }`
                   }
                 >
                   Signup
