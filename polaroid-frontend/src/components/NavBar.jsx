@@ -187,7 +187,13 @@ export const NavBar = () => {
             )}
           </div>
         </div>
-        <div className="mx-auto h-px mt-6 bg-[linear-gradient(to_right,black_50%,white_50%)] opacity-20" />
+        <div
+          className={`mx-auto h-px mt-6 ${
+            isAuthPage
+              ? "bg-[linear-gradient(to_right,black_50%,white_50%)] opacity-20"
+              : "bg-black/20"
+          }`}
+        />
       </div>
     </nav>
   );
