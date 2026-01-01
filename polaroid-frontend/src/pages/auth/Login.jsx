@@ -84,6 +84,7 @@ import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../api/axios";
 import toast from "react-hot-toast";
 import { AnimatedCircles } from "../../components/AnimatedCircles";
+import { Aperture, Lock, User } from "lucide-react";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -113,6 +114,7 @@ export const Login = () => {
       navigate("/");
       toast.success("Signed in successfully");
     } catch (error) {
+      console.log("Login Error:", error.response?.data || error.message);
       setErrors(error.response?.data || { non_field_errors: ["Login failed"] });
     }
   };
@@ -120,10 +122,73 @@ export const Login = () => {
   return (
     <div className="min-h-screen grid md:grid-cols-2">
       {/* Login Form */}
-      <div className="flex items-center justify-center px-6">
-        <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-sm">
-          <h1 className="text-2xl font-semibold mb-6 text-gray-900">
-            Welcome back
+      <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col w-full text-center items-center justify-center mb-5">
+          {/* Logo */}
+          <div className="size-14 rounded-xl flex items-center justify-center bg-blue-400/30 mb-4 group hover:bg-blue-400/35">
+            <Aperture className="size-7 text-blue-600 group-hover:text-blue-700" />
+          </div>
+          <h1 className="text-2xl capitalize font-medium text-black tracking-wider mb-1">
+            login to your account
+          </h1>
+          <p className="font-light text-black/60">
+            Fill in the form to sign in to your profile
+          </p>
+        </div>
+
+        {/* Login form */}
+        <div>
+          <form onSubmit={handleSubmit} className="min-w-[400px]">
+            {/* Username Input */}
+            <div className="mb-3">
+              <label htmlFor="username">
+                <span className="text-xs font-medium ">Username</span>
+              </label>
+              <div className="flex items-center relative">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter username"
+                  value={signInData.username}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                />
+                <User className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div className="mb-3">
+              <label htmlFor="password">
+                <span className="text-xs font-medium">Password</span>
+              </label>
+              <div className="flex items-center relative">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="••••••••••••"
+                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                  value={signInData.password}
+                  onChange={handleChange}
+                />
+                <Lock className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="text-center mt-8">
+              <button className="flex items-center justify-center text-white w-full h-10 rounded-[4px] cursor-pointer font-medium tracking-wider bg-blue-600/75 hover:bg-blue-600/85 transition">Sign In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* <div className="flex items-center justify-center px-6">
+        <div className="w-full max-w-sm bg-gray-100 rounded-lg shadow-lg p-8">
+          <h1 className="text-2xl font-normal mb-6 text-gray-900 text-center capitalize">
+            welcome back
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -173,7 +238,7 @@ export const Login = () => {
             </button>
           </form>
         </div>
-      </div>
+      </div> */}
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
@@ -186,7 +251,9 @@ export const Login = () => {
         {/* Center Text */}
         <div className="relative text-white text-center px-8 pointer-events-none">
           <h2 className="text-3xl font-semibold mb-3">Polaroid</h2>
-          <p className="text-gray-300">Capture moments. Share stories.</p>
+          <p className="text-gray-300 font-light">
+            Capture moments. Share stories.
+          </p>
         </div>
       </div>
     </div>

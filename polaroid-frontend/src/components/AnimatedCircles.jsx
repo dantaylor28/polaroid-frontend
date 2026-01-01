@@ -15,7 +15,7 @@ export const AnimatedCircles = ({ className }) => {
   return (
     <div
       style={style}
-      className={`absolute rounded-full animate-float-random blur-xl transition-transform duration-500 hover:scale-130 ${className}`}
+      className={`absolute rounded-full animate-float-random blur-xl transition-transform duration-500 hover:scale-130 hover:blur-2xl ${className}`}
     />
   );
 };
