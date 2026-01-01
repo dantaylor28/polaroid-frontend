@@ -95,6 +95,7 @@ export const Login = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [sendingData, setSendingData] = useState(false);
 
   const handleChange = (e) => {
     setSignInData({ ...signInData, [e.target.name]: e.target.value });
@@ -103,6 +104,7 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
+    setSendingData(true);
 
     try {
       const { data } = await axiosInstance.post(
@@ -116,6 +118,8 @@ export const Login = () => {
     } catch (error) {
       console.log("Login Error:", error.response?.data || error.message);
       setErrors(error.response?.data || { non_field_errors: ["Login failed"] });
+    } finally {
+      setSendingData(false);
     }
   };
 
@@ -179,7 +183,16 @@ export const Login = () => {
 
             {/* Submit Button */}
             <div className="text-center mt-8">
-              <button className="flex items-center justify-center text-white w-full h-10 rounded-[4px] cursor-pointer font-medium tracking-wider bg-blue-600/75 hover:bg-blue-600/85 transition">Sign In</button>
+              <button
+                className="flex items-center justify-center text-white w-full h-10 rounded-[4px] cursor-pointer font-medium tracking-wider bg-blue-600/75 hover:bg-blue-600/85 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-blue-600/75 transition"
+                disabled={sendingData}
+              >
+                {sendingData ? (
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                ) : (
+                  "Sign In"
+                )}
+              </button>
             </div>
           </form>
         </div>
