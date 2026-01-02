@@ -95,7 +95,6 @@ export const Login = () => {
     username: "",
     password: "",
   });
-  const [errors, setErrors] = useState({});
   const [sendingData, setSendingData] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
 
@@ -105,7 +104,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
+    if (sendingData) return;
     setSendingData(true);
 
     try {
@@ -118,8 +117,22 @@ export const Login = () => {
       navigate("/");
       toast.success("Signed in successfully");
     } catch (error) {
-      console.log("Login Error:", error.response?.data || error.message);
-      setErrors(error.response?.data || { non_field_errors: ["Login failed"] });
+      const data = error.response?.data;
+
+      if (!data) {
+        toast.error("Login failed. Please try again.");
+        return;
+      }
+
+      Object.entries(data).forEach(([field, messages]) => {
+        messages.forEach((message) => {
+          if (field === "non_field_errors") {
+            toast.error(message);
+          } else {
+            toast.error(`${field}: ${message}`);
+          }
+        });
+      });
     } finally {
       setSendingData(false);
     }
@@ -215,61 +228,6 @@ export const Login = () => {
           </form>
         </div>
       </div>
-
-      {/* <div className="flex items-center justify-center px-6">
-        <div className="w-full max-w-sm bg-gray-100 rounded-lg shadow-lg p-8">
-          <h1 className="text-2xl font-normal mb-6 text-gray-900 text-center capitalize">
-            welcome back
-          </h1>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={signInData.username}
-                onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              {errors.username?.map((msg, i) => (
-                <p key={i} className="text-sm text-red-500 mt-1">
-                  {msg}
-                </p>
-              ))}
-            </div>
-
-            <div>
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={signInData.password}
-                onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-              />
-              {errors.password?.map((msg, i) => (
-                <p key={i} className="text-sm text-red-500 mt-1">
-                  {msg}
-                </p>
-              ))}
-            </div>
-
-            {errors.non_field_errors?.map((msg, i) => (
-              <p key={i} className="text-sm text-red-500">
-                {msg}
-              </p>
-            ))}
-
-            <button
-              type="submit"
-              className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-900 transition"
-            >
-              Sign in
-            </button>
-          </form>
-        </div>
-      </div> */}
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
