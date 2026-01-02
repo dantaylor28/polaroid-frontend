@@ -79,7 +79,7 @@
 // };
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../api/axios";
 import toast from "react-hot-toast";
@@ -193,6 +193,18 @@ export const Login = () => {
                   "Sign In"
                 )}
               </button>
+            </div>
+
+            <div className="flex items-center justify-center text-xs mt-3 gap-1">
+              <p className="font-light text-black/70 ">
+                Don't have an account?
+              </p>
+              <Link
+                to={"/signup"}
+                className="cursor-pointer text-blue-700/80 hover:text-blue-700 hover:underline transition"
+              >
+                Sign up here
+              </Link>
             </div>
           </form>
         </div>
