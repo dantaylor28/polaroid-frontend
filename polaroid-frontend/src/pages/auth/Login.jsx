@@ -85,6 +85,7 @@ import axiosInstance from "../../api/axios";
 import toast from "react-hot-toast";
 import { AnimatedCircles } from "../../components/AnimatedCircles";
 import { Aperture, Lock, User } from "lucide-react";
+import { DisplayPasswordBtn } from "../../components/DisplayPasswordBtn";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -96,6 +97,7 @@ export const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [sendingData, setSendingData] = useState(false);
+  const [displayPassword, setDisplayPassword] = useState(false);
 
   const handleChange = (e) => {
     setSignInData({ ...signInData, [e.target.name]: e.target.value });
@@ -169,7 +171,7 @@ export const Login = () => {
               </label>
               <div className="flex items-center relative">
                 <input
-                  type="password"
+                  type={displayPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   placeholder="••••••••••••"
@@ -178,6 +180,10 @@ export const Login = () => {
                   onChange={handleChange}
                 />
                 <Lock className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
+                <DisplayPasswordBtn
+                  displayPassword={displayPassword}
+                  setDisplayPassword={setDisplayPassword}
+                />
               </div>
             </div>
 
