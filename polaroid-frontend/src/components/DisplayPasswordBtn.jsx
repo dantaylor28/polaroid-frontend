@@ -1,5 +1,4 @@
 import { Eye, EyeOff } from "lucide-react";
-import React from "react";
 
 export const DisplayPasswordBtn = ({ displayPassword, setDisplayPassword }) => {
   return (

@@ -121,72 +121,6 @@ export const Signup = () => {
     }
   };
   return (
-    // <div>
-    //   <h1 className="text-red-500">Create Account</h1>
-    //   <div>
-    //     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-    //       <input
-    //         type="text"
-    //         name="username"
-    //         placeholder="username"
-    //         value={signUpData.username}
-    //         onChange={handleChange}
-    //         className="border p-2"
-    //       />
-    //       {errors.username?.map((msg, idx) => (
-    //         <p key={idx} className="text-red-500 text-sm">
-    //           {msg}
-    //         </p>
-    //       ))}
-    //       <input
-    //         type="email"
-    //         name="email"
-    //         placeholder="email address"
-    //         value={signUpData.email}
-    //         onChange={handleChange}
-    //         className="border p-2"
-    //       />
-    //       {errors.email?.map((msg, idx) => (
-    //         <p key={idx} className="text-red-500 text-sm">
-    //           {msg}
-    //         </p>
-    //       ))}
-    //       <input
-    //         type="password"
-    //         name="password1"
-    //         placeholder="password"
-    //         value={signUpData.password1}
-    //         onChange={handleChange}
-    //         className="border p-2"
-    //       />
-    //       {errors.password1?.map((msg, idx) => (
-    //         <p key={idx} className="text-red-500 text-sm">
-    //           {msg}
-    //         </p>
-    //       ))}
-    //       <input
-    //         type="password"
-    //         name="password2"
-    //         placeholder="confirm password"
-    //         value={signUpData.password2}
-    //         onChange={handleChange}
-    //         className="border p-2"
-    //       />
-    //       {errors.password2?.map((msg, idx) => (
-    //         <p key={idx} className="text-red-500 text-sm">
-    //           {msg}
-    //         </p>
-    //       ))}
-    //       {errors.non_field_errors?.map((msg, idx) => (
-    //         <p key={idx} className="text-red-500 text-sm">
-    //           {msg}
-    //         </p>
-    //       ))}
-    //       <button type="submit">Signup</button>
-    //     </form>
-    //   </div>
-    // </div>
-
     <div className="min-h-screen grid md:grid-cols-2">
       <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col w-full text-center items-center justify-center mb-5">
@@ -320,12 +254,6 @@ export const Signup = () => {
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
-        {/* <AnimatedCircles className="w-62 h-62 bg-purple-500/40 top-20 left-20 hover:bg-purple-500/50" />
-        <AnimatedCircles className="w-62 h-62 bg-pink-500/30 bottom-70 right-50 hover:bg-pink-500/40" />
-        <AnimatedCircles className="w-54 h-54 bg-blue-500/40 top-40 -right-1 hover:bg-blue-500/50" />
-        <AnimatedCircles className="w-54 h-54 bg-green-500/30 bottom-50 left-10 hover:bg-green-500/40" />
-        <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" /> */}
-
         <AnimatedCircles className="w-64 h-64 bg-indigo-500/35 top-16 left-16 hover:bg-indigo-500/45" />
         <AnimatedCircles className="w-56 h-56 bg-cyan-400/30 top-28 right-24 hover:bg-cyan-400/40" />
         <AnimatedCircles className="w-72 h-72 bg-purple-500/30 top-1/2 -translate-y-1/2 right-10 hover:bg-purple-500/40" />

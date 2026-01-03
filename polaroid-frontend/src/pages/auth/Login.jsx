@@ -1,83 +1,3 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../context/AuthContext";
-// import axiosInstance from "../../api/axios";
-// import toast from "react-hot-toast";
-
-// export const Login = () => {
-//   const navigate = useNavigate();
-//   const { login } = useAuth();
-
-//   const [signInData, setSignInData] = useState({ username: "", password: "" });
-//   const [errors, setErrors] = useState({});
-
-//   const handleChange = (e) => {
-//     setSignInData({ ...signInData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     // console.log("➡️ handleSubmit triggered");
-//     setErrors({});
-
-//     try {
-//       //   console.log("Submitting login request with data:", signInData);
-//       const { data } = await axiosInstance.post(
-//         "/dj-rest-auth/login/",
-//         signInData
-//       );
-//       //   console.log("Login Response:", data);
-//       //   console.log("Tokens received:", data.access, data.refresh);
-
-//       await login(data.access, data.refresh);
-
-//       //   Redirect user
-//       navigate("/");
-//       toast.success("Signed in successfully");
-//     } catch (error) {
-//       console.log("Login Error:", error.response?.data || error.message);
-//       setErrors(error.response?.data || { non_field_errors: ["Login Failed"] });
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h1 className="text-red-500">Login Page</h1>
-//       <div>
-//         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-//           <input
-//             type="text"
-//             name="username"
-//             placeholder="username"
-//             value={signInData.username}
-//             onChange={handleChange}
-//             className="border p-2"
-//           />
-//           {errors.username?.map((msg, idx) => (
-//             <p key={idx} className="text-red-500 text-sm">
-//               {msg}
-//             </p>
-//           ))}
-//           <input
-//             type="password"
-//             name="password"
-//             placeholder="password"
-//             value={signInData.password}
-//             onChange={handleChange}
-//             className="border p-2"
-//           />
-//           {errors.password?.map((msg, idx) => (
-//             <p key={idx} className="text-red-500 text-sm">
-//               {msg}
-//             </p>
-//           ))}
-//           <button type="submit">Login</button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -241,12 +161,6 @@ export const Login = () => {
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
-        {/* <AnimatedCircles className="w-62 h-62 bg-purple-500/40 top-20 left-20 hover:bg-purple-500/50" />
-        <AnimatedCircles className="w-62 h-62 bg-pink-500/30 bottom-70 right-50 hover:bg-pink-500/40" />
-        <AnimatedCircles className="w-54 h-54 bg-blue-500/40 top-40 -right-1 hover:bg-blue-500/50" />
-        <AnimatedCircles className="w-54 h-54 bg-green-500/30 bottom-50 left-10 hover:bg-green-500/40" />
-        <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" /> */}
-
         <AnimatedCircles className="w-64 h-64 bg-sky-500/30 top-16 left-16 hover:bg-sky-500/40" />
         <AnimatedCircles className=" w-56 h-56 bg-teal-400/30 top-28 right-24 hover:bg-teal-400/40" />
         <AnimatedCircles className="w-72 h-72 bg-violet-500/25 top-1/2 -translate-y-1/2 right-10 hover:bg-violet-500/35" />
