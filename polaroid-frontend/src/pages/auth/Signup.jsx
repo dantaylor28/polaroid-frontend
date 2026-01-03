@@ -5,7 +5,10 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { AnimatedCircles } from "../../components/AnimatedCircles";
 import { Aperture, Lock, Mail, ShieldCheck, User } from "lucide-react";
-import { DisplayPasswordBtn } from "../../components/DisplayPasswordBtn";
+import {
+  DisplayConfirmPasswordBtn,
+  DisplayPasswordBtn,
+} from "../../components/DisplayPasswordBtn";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -19,6 +22,7 @@ export const Signup = () => {
   });
   const [sendingData, setSendingData] = useState(false);
   const [displayPassword, setDisplayPassword] = useState(false);
+  const [displayConfirmPassword, setDisplayConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     setSignUpData({
@@ -269,7 +273,7 @@ export const Signup = () => {
               </label>
               <div className="flex items-center relative">
                 <input
-                  type={displayPassword ? "text" : "password"}
+                  type={displayConfirmPassword ? "text" : "password"}
                   id="password2"
                   name="password2"
                   placeholder="••••••••••••"
@@ -278,9 +282,9 @@ export const Signup = () => {
                   onChange={handleChange}
                 />
                 <ShieldCheck className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
-                <DisplayPasswordBtn
-                  displayPassword={displayPassword}
-                  setDisplayPassword={setDisplayPassword}
+                <DisplayConfirmPasswordBtn
+                  displayConfirmPassword={displayConfirmPassword}
+                  setDisplayConfirmPassword={setDisplayConfirmPassword}
                 />
               </div>
             </div>
