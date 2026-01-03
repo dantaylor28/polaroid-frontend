@@ -104,7 +104,18 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (sendingData) return;
+
+    // Client-side validation
+    if (!signInData.username) {
+      toast.error("Username is required");
+      return;
+    }
+    if (!signInData.password) {
+      toast.error("Password is required");
+      return;
+    }
     setSendingData(true);
 
     try {
@@ -140,7 +151,6 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen grid md:grid-cols-2">
-      {/* Login Form */}
       <div className="flex flex-col justify-center items-center">
         <div className="flex flex-col w-full text-center items-center justify-center mb-5">
           {/* Logo */}
