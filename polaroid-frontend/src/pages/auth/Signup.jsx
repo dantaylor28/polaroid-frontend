@@ -30,6 +30,19 @@ export const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (sendingData) return;
+
+    // Client-side validation
+    if (
+      !signUpData.username ||
+      !signUpData.email ||
+      !signUpData.password1 ||
+      !signUpData.password2
+    ) {
+      toast.error("Please fill in all fields");
+      setSendingData(false);
+      return;
+    }
+
     setSendingData(true);
 
     try {
@@ -63,15 +76,42 @@ export const Signup = () => {
         return;
       }
 
-      Object.entries(data).forEach(([field, messages]) => {
-        messages.forEach((message) => {
+      const fieldLabels = {
+        username: "Username",
+        email: "Email",
+        password1: "Password",
+        password2: "Confirm password",
+        non_field_errors: null,
+      };
+
+      const messages = [];
+
+      Object.entries(data).forEach(([field, errors]) => {
+        errors.forEach((errorMsg) => {
           if (field === "non_field_errors") {
-            toast.error(message);
+            messages.push(errorMsg);
           } else {
-            toast.error(`${field}: ${message}`);
+            const label = fieldLabels[field] || field;
+            messages.push(`${label}: ${errorMsg}`);
           }
         });
       });
+
+      if (messages.length === 1) {
+        toast.error(messages[0]);
+      } else {
+        toast.error(
+          <div>
+            <p className="font-semibold mb-1">Signup failed</p>
+            <ul className="list-disc list-inside text-sm space-y-1">
+              {messages.map((msg, i) => (
+                <li key={i}>{msg}</li>
+              ))}
+            </ul>
+          </div>,
+          { duration: 6000 }
+        );
+      }
     } finally {
       setSendingData(false);
     }
