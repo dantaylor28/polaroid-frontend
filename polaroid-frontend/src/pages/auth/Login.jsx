@@ -241,11 +241,17 @@ export const Login = () => {
 
       {/* Animation */}
       <div className="relative hidden md:flex items-center justify-center overflow-hidden bg-black">
-        <AnimatedCircles className="w-62 h-62 bg-purple-500/40 top-20 left-20 hover:bg-purple-500/50" />
+        {/* <AnimatedCircles className="w-62 h-62 bg-purple-500/40 top-20 left-20 hover:bg-purple-500/50" />
         <AnimatedCircles className="w-62 h-62 bg-pink-500/30 bottom-70 right-50 hover:bg-pink-500/40" />
         <AnimatedCircles className="w-54 h-54 bg-blue-500/40 top-40 -right-1 hover:bg-blue-500/50" />
         <AnimatedCircles className="w-54 h-54 bg-green-500/30 bottom-50 left-10 hover:bg-green-500/40" />
-        <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" />
+        <AnimatedCircles className="w-54 h-54 bg-yellow-500/40 bottom-10 right-10 hover:bg-yellow-500/50" /> */}
+
+        <AnimatedCircles className="w-64 h-64 bg-sky-500/30 top-16 left-16 hover:bg-sky-500/40" />
+        <AnimatedCircles className=" w-56 h-56 bg-teal-400/30 top-28 right-24 hover:bg-teal-400/40" />
+        <AnimatedCircles className="w-72 h-72 bg-violet-500/25 top-1/2 -translate-y-1/2 right-10 hover:bg-violet-500/35" />
+        <AnimatedCircles className="w-60 h-60 bg-orange-400/25 bottom-24 left-20 hover:bg-orange-400/35" />
+        <AnimatedCircles className="w-52 h-52 bg-emerald-400/30 bottom-12 right-16 hover:bg-emerald-400/40" />
 
         {/* Center Text */}
         <div className="relative text-white text-center px-8 pointer-events-none">
