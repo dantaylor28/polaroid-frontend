@@ -138,7 +138,7 @@ export const Signup = () => {
 
         {/* Signup form */}
         <div>
-          <form onSubmit={handleSubmit} className="min-w-[400px]">
+          <form onSubmit={handleSubmit} className="min-w-100">
             {/* Username Input */}
             <div className="mb-3">
               <label htmlFor="username">
@@ -152,7 +152,7 @@ export const Signup = () => {
                   placeholder="Enter username"
                   value={signUpData.username}
                   onChange={handleChange}
-                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                  className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
                 />
                 <User className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
               </div>
@@ -171,7 +171,7 @@ export const Signup = () => {
                   placeholder="Enter Email Address"
                   value={signUpData.email}
                   onChange={handleChange}
-                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                  className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
                 />
                 <Mail className="absolute pointer-events-none left-0 ml-2 size-5 text-black/45 peer-focus:text-black/70" />
               </div>
@@ -188,7 +188,7 @@ export const Signup = () => {
                   id="password1"
                   name="password1"
                   placeholder="••••••••••••"
-                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                  className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
                   value={signUpData.password1}
                   onChange={handleChange}
                 />
@@ -211,7 +211,7 @@ export const Signup = () => {
                   id="password2"
                   name="password2"
                   placeholder="••••••••••••"
-                  className="w-full bg-slate-50 border border-black/25 rounded-[4px] h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+                  className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-10 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
                   value={signUpData.password2}
                   onChange={handleChange}
                 />
@@ -226,7 +226,7 @@ export const Signup = () => {
             {/* Submit Button */}
             <div className="text-center mt-8">
               <button
-                className="flex items-center justify-center text-white w-full h-10 rounded-[4px] cursor-pointer font-medium tracking-wider bg-blue-600/75 hover:bg-blue-600/85 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-blue-600/75 transition"
+                className="flex items-center justify-center text-white w-full h-10 rounded-sm cursor-pointer font-medium tracking-wider bg-blue-600/75 hover:bg-blue-600/85 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-blue-600/75 transition"
                 disabled={sendingData}
               >
                 {sendingData ? (

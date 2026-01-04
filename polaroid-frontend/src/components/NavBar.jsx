@@ -98,7 +98,7 @@ export const NavBar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-transparent">
       {/* Centered container */}
-      <div className="max-w-[1280px] mx-auto px-8 p-[2rem]">
+      <div className="max-w-7xl mx-auto px-8 p-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-blue-700 px-3.5">
