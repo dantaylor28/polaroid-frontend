@@ -11,7 +11,7 @@ export const ProfileProvider = ({ children }) => {
     const fetchProfiles = async () => {
       try {
         const { data } = await axiosInstance.get("/profiles/");
-        setProfiles(data);
+        setProfiles(data.results);
       } catch (error) {
         console.error("Failed to fetch profiles", error);
       } finally {
