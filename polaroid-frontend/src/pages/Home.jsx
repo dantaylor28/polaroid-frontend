@@ -1,3 +1,4 @@
+import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 
@@ -16,13 +17,16 @@ export const Home = () => {
             .map((profile) => (
               <li
                 key={profile.id}
-                className="flex items-center gap-3 px-4 py-2 hover:bg-black/5 cursor-pointer"
+                className="relative group flex items-center gap-3 px-4 py-2 hover:bg-black/5 cursor-pointer"
               >
                 <img
                   src={profile.profile_image || "/avatar-placeholder.png"}
                   className="w-8 h-8 rounded-full object-cover"
                 />
                 <span className="text-sm">{profile.owner}</span>
+                
+                {/* Hover Card */}
+                <ProfileHoverCard profile={profile} />
               </li>
             ))}
         </ul>
