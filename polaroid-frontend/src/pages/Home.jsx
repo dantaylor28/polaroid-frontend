@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
@@ -5,6 +6,8 @@ import { useProfiles } from "../context/ProfileContext";
 export const Home = () => {
   const { currentUser } = useAuth();
   const { profiles, loading } = useProfiles();
+  const [openProfileCard, setOpenProfileCard] = useState(null);
+  const [anchorRect, setAnchorRect] = useState(null);
 
   return (
     <div className="mt-30 flex">
@@ -18,18 +21,31 @@ export const Home = () => {
               <li
                 key={profile.id}
                 className="relative group flex items-center gap-3 px-4 py-2 hover:bg-black/5 cursor-pointer"
+                onMouseEnter={(e) => {
+                  setOpenProfileCard(profile);
+                  setAnchorRect(e.currentTarget.getBoundingClientRect());
+                }}
               >
                 <img
                   src={profile.profile_image || "/avatar-placeholder.png"}
                   className="w-8 h-8 rounded-full object-cover"
                 />
                 <span className="text-sm">{profile.owner}</span>
-                
-                {/* Hover Card */}
-                <ProfileHoverCard profile={profile} />
               </li>
             ))}
         </ul>
+        {/* Profile Hover Card */}
+        {openProfileCard && anchorRect && (
+          <ProfileHoverCard
+            profile={openProfileCard}
+            anchorRect={anchorRect}
+            onMouseEnter={() => setIsCardHovered(true)}
+            onClose={() => {
+              setOpenProfileCard(null);
+              setAnchorRect(null);
+            }}
+          />
+        )}
       </aside>
       <div>
         {!currentUser ? (
