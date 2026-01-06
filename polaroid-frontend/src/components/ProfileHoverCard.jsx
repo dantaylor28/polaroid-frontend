@@ -1,8 +1,6 @@
-export const ProfileHoverCard = ({
-  profile,
-  anchorRect,
-  onClose
-}) => {
+import { SquareArrowOutUpRight } from "lucide-react";
+
+export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
   return (
     <div
       className="fixed z-50"
@@ -24,6 +22,18 @@ export const ProfileHoverCard = ({
               <p className="text-xs text-black/60">
                 {profile.location || "No location"}
               </p>
+            </div>
+            <div className="relative group ml-auto">
+              <SquareArrowOutUpRight className="size-4 text-black/70 hover:text-black transition cursor-pointer" />
+              {/* Tooltip */}
+              <div
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[110%] ml-2 whitespace-nowrap rounded-md
+                bg-black/70 px-2 py-1 text-xs text-white opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100
+                pointer-events-none transition-all duration-150"
+              >
+                <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-black/70 rotate-45" />
+                View full profile
+              </div>
             </div>
           </div>
 
