@@ -37,6 +37,7 @@ function App() {
               </GuestRoute>
             }
           />
+          <Route path="/profile/:username" element={<Profile />} />
 
           {/* Protected Routes */}
           <Route

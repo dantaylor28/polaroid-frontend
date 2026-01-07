@@ -1,4 +1,5 @@
 import { SquareArrowOutUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
   return (
@@ -24,7 +25,12 @@ export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
               </p>
             </div>
             <div className="relative group ml-auto">
-              <SquareArrowOutUpRight className="size-4 text-black/70 hover:text-black transition cursor-pointer" />
+              <Link
+                to={`/profile/${profile.owner}`}
+                aria-label="View full profile"
+              >
+                <SquareArrowOutUpRight className="size-4 text-black/70 hover:text-black transition cursor-pointer" />
+              </Link>
               {/* Tooltip */}
               <div
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[110%] ml-2 whitespace-nowrap rounded-md
