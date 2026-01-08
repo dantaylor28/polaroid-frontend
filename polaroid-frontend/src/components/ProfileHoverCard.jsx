@@ -7,7 +7,7 @@ export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
       className="fixed z-50"
       style={{
         top: anchorRect.top,
-        left: anchorRect.right + 12,
+        left: anchorRect.right + 24,
       }}
       onMouseLeave={onClose}
     >
