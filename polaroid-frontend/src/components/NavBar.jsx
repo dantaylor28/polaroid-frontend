@@ -128,6 +128,7 @@ export const NavBar = () => {
               <>
                 <NavLink
                   to="/profile"
+                  end
                   className={({ isActive }) =>
                     `flex items-center gap-2 px-3 py-1 rounded-full transition font-medium ${
                       isActive
