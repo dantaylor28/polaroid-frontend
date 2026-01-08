@@ -11,7 +11,13 @@ export const SideBar = () => {
   return (
     <aside className="w-56 border-r border-black/10">
       <h2 className="px-4 py-3 font-semibold">Users</h2>
-      {loading ? <p className="px-4 text-sm">Loading users…</p> : ""}
+      <div className="flex items-center justify-center">
+        {loading ? (
+          <div className="h-7 w-7 animate-spin rounded-full border-3 border-black/40 border-t-black" />
+        ) : (
+          ""
+        )}
+      </div>
       <ul>
         {profiles
           .filter((profile) => profile.owner !== currentUser?.username)
