@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState } from "react";
 
 const SearchBar = () => {
-  return (
-    <div>SearchBar</div>
-  )
-}
+  const [query, setQuery] = useState("");
+  return <div>SearchBar</div>;
+};
 
-export default SearchBar
+export default SearchBar;

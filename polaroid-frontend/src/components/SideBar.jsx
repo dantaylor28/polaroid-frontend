@@ -9,11 +9,29 @@ export const SideBar = () => {
   const { profiles, loading } = useProfiles();
   const [openProfileCard, setOpenProfileCard] = useState(null);
   const [anchorRect, setAnchorRect] = useState(null);
+  const [query, setQuery] = useState("");
+
+  const filteredProfiles = profiles
+    .filter((p) => p.owner !== currentUser?.username)
+    .filter((p) => p.owner.toLowerCase().includes(query.toLowerCase()));
+
   return (
     <aside className="w-64 border-r border-black/5">
       <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
         Suggested Users
       </h2>
+      {/* SearchBar */}
+      <div className="px-3 pb-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search users"
+          className="w-full rounded-lg border border-black/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 
+          focus:ring-blue-500/30 placeholder:text-black/40"
+        />
+      </div>
+
       <div className="flex items-center justify-center">
         {loading && (
           <div className="flex items-center gap-2 px-4 py-2 text-sm text-black/50">
@@ -23,7 +41,7 @@ export const SideBar = () => {
         )}
       </div>
       <ul>
-        {profiles
+        {filteredProfiles
           .filter((profile) => profile.owner !== currentUser?.username)
           .map((profile) => (
             <li
