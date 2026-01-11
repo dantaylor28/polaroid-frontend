@@ -3,6 +3,7 @@ import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 import { ChevronRight } from "lucide-react";
+import SearchBar from "./SearchBar";
 
 export const SideBar = () => {
   const { currentUser } = useAuth();
@@ -21,16 +22,7 @@ export const SideBar = () => {
         Suggested Users
       </h2>
       {/* SearchBar */}
-      <div className="px-3 pb-2">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search users"
-          className="w-full rounded-lg border border-black/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 
-          focus:ring-blue-500/30 placeholder:text-black/40"
-        />
-      </div>
+      <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
 
       <div className="flex items-center justify-center">
         {loading && (
