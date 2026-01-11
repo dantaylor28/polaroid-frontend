@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 import { ChevronRight } from "lucide-react";
 import SearchBar from "./SearchBar";
+import { UseDebounce } from "../hooks/UseDebounce";
 
 export const SideBar = () => {
   const { currentUser } = useAuth();
@@ -12,9 +13,11 @@ export const SideBar = () => {
   const [anchorRect, setAnchorRect] = useState(null);
   const [query, setQuery] = useState("");
 
+  const debouncedQuery = UseDebounce(query, 300);
+
   const filteredProfiles = profiles
     .filter((p) => p.owner !== currentUser?.username)
-    .filter((p) => p.owner.toLowerCase().includes(query.toLowerCase()));
+    .filter((p) => p.owner.toLowerCase().includes(debouncedQuery.toLowerCase()));
 
   return (
     <aside className="w-64 border-r border-black/5">
