@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 import { ChevronRight } from "lucide-react";
 import SearchBar from "./SearchBar";
-import { UseDebounce } from "../hooks/UseDebounce";
+import { useDebounce } from "../hooks/UseDebounce";
 import axiosInstance from "../api/axios";
 
 export const SideBar = () => {
@@ -16,7 +16,7 @@ export const SideBar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
 
-  const debouncedQuery = UseDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
     if (!debouncedQuery) {
