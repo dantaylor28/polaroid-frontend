@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 import { ChevronRight } from "lucide-react";
 import SearchBar from "./SearchBar";
-import { useDebounce } from "../hooks/UseDebounce";
+import { useDebounce } from "../hooks/useDebounce";
 import axiosInstance from "../api/axios";
 
 export const SideBar = () => {
