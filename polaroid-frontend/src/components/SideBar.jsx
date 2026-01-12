@@ -17,7 +17,9 @@ export const SideBar = () => {
 
   const filteredProfiles = profiles
     .filter((p) => p.owner !== currentUser?.username)
-    .filter((p) => p.owner.toLowerCase().includes(debouncedQuery.toLowerCase()));
+    .filter((p) =>
+      p.owner.toLowerCase().includes(debouncedQuery.toLowerCase())
+    );
 
   return (
     <aside className="w-64 border-r border-black/5">
@@ -36,29 +38,34 @@ export const SideBar = () => {
         )}
       </div>
       <ul>
-        {filteredProfiles
-          .filter((profile) => profile.owner !== currentUser?.username)
-          .map((profile) => (
-            <li
-              key={profile.id}
-              className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
-              onMouseEnter={(e) => {
-                setOpenProfileCard(profile);
-                setAnchorRect(e.currentTarget.getBoundingClientRect());
-              }}
-            >
-              <img
-                src={profile.profile_image || "/avatar-placeholder.png"}
-                className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
-              />
-              <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
-                {profile.owner}
-              </span>
-              <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
-                <ChevronRight />
-              </div>
-            </li>
-          ))}
+        {filteredProfiles.length === 0 && debouncedQuery && !loading && (
+          <li className="px-4 py-6 text-center text-sm text-black/50">
+            No users found for “
+            <span className="font-medium">{debouncedQuery}</span>”
+          </li>
+        )}
+
+        {filteredProfiles.map((profile) => (
+          <li
+            key={profile.id}
+            className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
+            onMouseEnter={(e) => {
+              setOpenProfileCard(profile);
+              setAnchorRect(e.currentTarget.getBoundingClientRect());
+            }}
+          >
+            <img
+              src={profile.profile_image || "/avatar-placeholder.png"}
+              className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
+            />
+            <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
+              {profile.owner}
+            </span>
+            <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
+              <ChevronRight />
+            </div>
+          </li>
+        ))}
       </ul>
       {/* Profile Hover Card */}
       {openProfileCard && anchorRect && (
