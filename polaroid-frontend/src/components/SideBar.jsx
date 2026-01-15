@@ -6,6 +6,7 @@ import { ChevronRight } from "lucide-react";
 import SearchBar from "./SearchBar";
 import { useDebounce } from "../hooks/useDebounce";
 import axiosInstance from "../api/axios";
+import { Link } from "react-router-dom";
 
 export const SideBar = () => {
   const { currentUser } = useAuth();
@@ -69,25 +70,26 @@ export const SideBar = () => {
         )}
 
         {profilesToShow.map((profile) => (
-          <li
-            key={profile.id}
-            className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
-            onMouseEnter={(e) => {
-              setOpenProfileCard(profile);
-              setAnchorRect(e.currentTarget.getBoundingClientRect());
-            }}
-          >
-            <img
-              src={profile.profile_image || "/avatar-placeholder.png"}
-              className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
-            />
-            <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
-              {profile.owner}
-            </span>
-            <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
-              <ChevronRight />
-            </div>
-          </li>
+          <Link to={`/profile/${profile.owner}`} key={profile.id}>
+            <li
+              className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
+              onMouseEnter={(e) => {
+                setOpenProfileCard(profile);
+                setAnchorRect(e.currentTarget.getBoundingClientRect());
+              }}
+            >
+              <img
+                src={profile.profile_image || "/avatar-placeholder.png"}
+                className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
+              />
+              <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
+                {profile.owner}
+              </span>
+              <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
+                <ChevronRight />
+              </div>
+            </li>
+          </Link>
         ))}
       </ul>
       {/* Profile Hover Card */}
