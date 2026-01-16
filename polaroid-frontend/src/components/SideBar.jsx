@@ -7,6 +7,7 @@ import SearchBar from "./SearchBar";
 import { useDebounce } from "../hooks/useDebounce";
 import axiosInstance from "../api/axios";
 import { Link } from "react-router-dom";
+import { SidebarSkeleton } from "./SidebarSkeleton";
 
 export const SideBar = () => {
   const { currentUser } = useAuth();
@@ -41,9 +42,12 @@ export const SideBar = () => {
     fetchSearchResults();
   }, [debouncedQuery]);
 
-  const profilesToShow = (debouncedQuery ? searchResults : profiles).filter(
-    (p) => p.owner !== currentUser?.username
-  );
+  const profilesToShow =
+    loading || searching
+      ? []
+      : (debouncedQuery ? searchResults : profiles).filter(
+          (p) => p.owner !== currentUser?.username
+        );
 
   return (
     <aside className="w-64 border-r border-black/5">
@@ -54,12 +58,7 @@ export const SideBar = () => {
       <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
 
       <div className="flex items-center justify-center">
-        {(loading || searching) && (
-          <div className="flex items-center gap-2 px-4 py-2 text-sm text-black/50">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
-            Loading users…
-          </div>
-        )}
+        {(loading || searching) && <SidebarSkeleton rows={6} />}
       </div>
       <ul>
         {profilesToShow.length === 0 && debouncedQuery && !searching && (
