@@ -2,7 +2,7 @@ import React from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
-import { House } from "lucide-react";
+import { House, SquarePlus } from "lucide-react";
 
 // export const NavBar = () => {
 //   const { currentUser } = useAuth();
@@ -116,8 +116,8 @@ export const NavBar = () => {
                       ? "text-white bg-white/30"
                       : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
                     : isActive
-                    ? "bg-gray-100 text-black"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-black"
+                      ? "bg-gray-100 text-black"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-black"
                 }`
               }
             >
@@ -126,6 +126,21 @@ export const NavBar = () => {
 
             {currentUser ? (
               <>
+                <NavLink
+                  to="/new/post"
+                  end
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-3 py-1 rounded-full transition font-medium ${
+                      isActive
+                        ? "bg-gray-100 text-black"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-black"
+                    }`
+                  }
+                >
+                  <SquarePlus />
+                  New
+                </NavLink>
+
                 <NavLink
                   to="/profile"
                   end
@@ -159,8 +174,8 @@ export const NavBar = () => {
                           ? "text-white bg-white/30"
                           : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
                         : !isActive
-                        ? "text-gray-700 hover:bg-gray-50 hover:text-black"
-                        : ""
+                          ? "text-gray-700 hover:bg-gray-50 hover:text-black"
+                          : ""
                     }`
                   }
                 >
@@ -177,8 +192,8 @@ export const NavBar = () => {
                         ? "text-white bg-white/30"
                         : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
                       : !isActive
-                      ? "text-gray-700 hover:bg-gray-50 hover:text-black"
-                      : ""
+                        ? "text-gray-700 hover:bg-gray-50 hover:text-black"
+                        : ""
                   }`
                   }
                 >
