@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
+import { ProfileSkeleton } from "../components/ProfileSkeleton";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -34,11 +35,11 @@ export const Profile = () => {
   }, [profileUsername]);
 
   if (loading) {
-    return <p className="px-6 py-4 text-sm">Loading Profile...</p>;
+    return <ProfileSkeleton />
   }
 
   if (!profile) {
-    return <p className="px-6 py-4 text-sm">Profile not found</p>;
+    return <p className="flex justify-center mx-auto mt-32 px-6 py-4 text-sm">Profile not found</p>;
   }
   return (
     <div className="max-w-3xl mx-auto mt-32 px-6">
