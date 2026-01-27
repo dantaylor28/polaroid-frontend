@@ -1,3 +1,4 @@
+import { CreatePostBtn } from "../components/CreatePostBtn";
 import { SideBar } from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
 
@@ -16,6 +17,7 @@ export const Home = () => {
           </div>
         )}
       </div>
+      <CreatePostBtn />
     </div>
   );
 };
