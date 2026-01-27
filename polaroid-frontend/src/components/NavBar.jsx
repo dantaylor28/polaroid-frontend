@@ -127,21 +127,6 @@ export const NavBar = () => {
             {currentUser ? (
               <>
                 <NavLink
-                  to="/new/post"
-                  end
-                  className={({ isActive }) =>
-                    `flex items-center gap-2 px-3 py-1 rounded-full transition font-medium ${
-                      isActive
-                        ? "bg-gray-100 text-black"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-black"
-                    }`
-                  }
-                >
-                  <SquarePlus />
-                  New
-                </NavLink>
-
-                <NavLink
                   to="/profile"
                   end
                   className={({ isActive }) =>

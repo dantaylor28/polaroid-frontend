@@ -14,10 +14,10 @@ export const Home = () => {
         ) : (
           <div>
             <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
+            <CreatePostBtn />
           </div>
         )}
       </div>
-      <CreatePostBtn />
     </div>
   );
 };
