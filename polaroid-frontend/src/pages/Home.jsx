@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { CreatePostBtn } from "../components/CreatePostBtn";
 import { SideBar } from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
 
 export const Home = () => {
   const { currentUser } = useAuth();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   return (
     <div className="mt-30 flex">
@@ -12,9 +14,15 @@ export const Home = () => {
         {!currentUser ? (
           <p>Not logged in</p>
         ) : (
-          <div>
+          <div className="pb-28">
             <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
-            <CreatePostBtn />
+            <CreatePostBtn
+            onClick={() => {setIsCreateModalOpen(true)}} />
+
+            {/* Modal */}
+          {isCreateModalOpen && (
+            {}
+          )}
           </div>
         )}
       </div>
