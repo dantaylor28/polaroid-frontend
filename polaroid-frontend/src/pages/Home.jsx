@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CreatePostBtn } from "../components/CreatePostBtn";
 import { SideBar } from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
+import { CreatePostModal } from "../components/CreatePostModal";
 
 export const Home = () => {
   const { currentUser } = useAuth();
@@ -17,12 +18,15 @@ export const Home = () => {
           <div className="pb-28">
             <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
             <CreatePostBtn
-            onClick={() => {setIsCreateModalOpen(true)}} />
+              onClick={() => {
+                setIsCreateModalOpen(true);
+              }}
+            />
 
             {/* Modal */}
-          {isCreateModalOpen && (
-            {}
-          )}
+            {isCreateModalOpen && (
+              <CreatePostModal onClose={() => setIsCreateModalOpen(false)} />
+            )}
           </div>
         )}
       </div>
