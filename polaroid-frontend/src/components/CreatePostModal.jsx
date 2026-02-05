@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { Image } from "lucide-react";
 
 export const CreatePostModal = ({ onClose }) => {
   // Close on ESC
@@ -32,15 +33,30 @@ export const CreatePostModal = ({ onClose }) => {
       {/* Modal */}
       <div className="relative w-full max-w-lg mx-4 bg-white rounded-xl shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b">
-          <h2 className="text-lg font-semibold">Create post</h2>
+        <div className="relative px-5 py-4">
+          {/* Close button */}
           <button
             onClick={onClose}
-            className="text-black/50 hover:text-black text-xl leading-none"
+            className="absolute right-5 top-4 text-black/50 hover:text-black text-xl leading-none hover:cursor-pointer"
             aria-label="Close modal"
           >
             ×
           </button>
+          <div className="flex w-full items-center justify-center mb-5 gap-3">
+            {/* Logo */}
+            <div className="size-10 rounded-xl flex items-center justify-center bg-blue-400/30 mb-2 mt-2 group hover:bg-blue-400/35">
+              <Image className="size-6 text-blue-600 group-hover:text-blue-700" />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-md capitalize font-medium text-black tracking-wider">
+                Upload a post
+              </h1>
+
+              <p className="font-light text-black/70 text-sm">
+                Fill in the form to create a post
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Body */}
