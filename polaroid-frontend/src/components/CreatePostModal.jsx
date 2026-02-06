@@ -37,12 +37,13 @@ export const CreatePostModal = ({ onClose }) => {
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute right-5 top-4 text-black/50 hover:text-black text-xl leading-none hover:cursor-pointer"
+            className="absolute right-5 top-4 size-8 rounded-full flex items-center justify-center
+           text-black/50 hover:text-black hover:bg-black/5 transition hover:cursor-pointer"
             aria-label="Close modal"
           >
             ×
           </button>
-          <div className="flex w-full items-center justify-center mb-5 gap-3">
+          <div className="flex w-full items-center justify-center gap-3">
             {/* Logo */}
             <div className="size-10 rounded-xl flex items-center justify-center bg-blue-400/30 mb-2 mt-2 group hover:bg-blue-400/35">
               <Image className="size-6 text-blue-600 group-hover:text-blue-700" />
@@ -65,7 +66,7 @@ export const CreatePostModal = ({ onClose }) => {
           <textarea
             placeholder="What's on your mind?"
             rows={4}
-            className="w-full resize-none rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full resize-none border border-black/35 rounded-sm placeholder:text-black/40 px-3 py-2 text-sm focus:outline-none focus:border-black/60"
           />
 
           {/* Image upload (placeholder UI) */}
