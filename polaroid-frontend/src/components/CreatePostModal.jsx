@@ -140,7 +140,7 @@ export const CreatePostModal = ({ onClose }) => {
         <div className="flex items-center justify-between px-5 py-4 mx-5 border-t border-black/15">
           <button
             onClick={onClose}
-            className="text-sm text-black/60 hover:text-black transition"
+            className="text-sm text-black/60 hover:text-black hover:cursor-pointer transition"
           >
             Cancel
           </button>
@@ -149,7 +149,7 @@ export const CreatePostModal = ({ onClose }) => {
             disabled={!imagePreview}
             className="px-5 py-2 text-sm font-medium rounded-full
             bg-blue-600 text-white
-            hover:bg-blue-700
+            hover:bg-blue-700 hover:cursor-pointer
             disabled:opacity-40 disabled:cursor-not-allowed
             transition"
           >
