@@ -4,6 +4,7 @@ import { Image } from "lucide-react";
 export const CreatePostModal = ({ onClose }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [caption, setCaption] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -116,6 +117,8 @@ export const CreatePostModal = ({ onClose }) => {
           <textarea
             placeholder="Write a caption..."
             rows={3}
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
             className="w-full resize-none rounded-xl bg-gray-800/5 px-4 py-3 text-sm
             placeholder:text-black/60
             focus:outline-none focus:ring-2 focus:ring-blue-500/20"
