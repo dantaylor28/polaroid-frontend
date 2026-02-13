@@ -14,6 +14,19 @@ export const CreatePostModal = ({ onClose }) => {
     setImagePreview(URL.createObjectURL(file));
   };
 
+  // Confirm modal close while data exists in form
+  const hasUnsavedData = Boolean(imagePreview) || caption;
+  const handleCloseAttempt = () => {
+    if (!hasUnsavedData) {
+      onClose();
+    } else {
+      const confirmClose = window.confirm(
+        "You have unsaved changes. Discard this post?",
+      );
+      if (confirmClose) onClose();
+    }
+  };
+
   // Image preview clean up
   useEffect(() => {
     return () => {
@@ -26,7 +39,7 @@ export const CreatePostModal = ({ onClose }) => {
   // Close on ESC
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleCloseAttempt();
     };
 
     document.addEventListener("keydown", handleEsc);
@@ -36,7 +49,7 @@ export const CreatePostModal = ({ onClose }) => {
       document.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "auto";
     };
-  }, [onClose]);
+  }, [handleCloseAttempt]);
 
   return (
     <div
@@ -47,7 +60,7 @@ export const CreatePostModal = ({ onClose }) => {
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleCloseAttempt}
       />
 
       {/* Modal */}
@@ -55,7 +68,7 @@ export const CreatePostModal = ({ onClose }) => {
         {/* Header */}
         <div className="relative px-5 py-4">
           <button
-            onClick={onClose}
+            onClick={handleCloseAttempt}
             className="absolute right-5 top-4 size-8 rounded-full flex items-center justify-center
            text-black/50 hover:text-black hover:bg-black/5 transition hover:cursor-pointer"
             aria-label="Close modal"
@@ -142,7 +155,7 @@ export const CreatePostModal = ({ onClose }) => {
         {/* Footer */}
         <div className="flex items-center justify-between px-5 py-4 mx-5 border-t border-black/15">
           <button
-            onClick={onClose}
+            onClick={handleCloseAttempt}
             className="text-sm text-black/60 hover:text-black hover:cursor-pointer transition"
           >
             Cancel
