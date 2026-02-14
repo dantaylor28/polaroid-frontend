@@ -8,7 +8,7 @@ import { LogOut } from "lucide-react";
 export const LogoutBtn = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openLogoutConfirm, setOpenLogoutConfirm] = useState(false);
 
   const confirmLogout = () => {
     logout();
@@ -16,25 +16,24 @@ export const LogoutBtn = () => {
       icon: "👋",
     });
     navigate("/login");
-    setOpen(false);
+    setOpenLogoutConfirm(false);
   };
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenLogoutConfirm(true)}
         className="px-3.5 py-1.5 rounded-full transition text-black hover:bg-red-500 hover:text-white hover:cursor-pointer"
       >
         <LogOut />
       </button>
 
       <ConfirmModal
-        open={open}
+        open={openLogoutConfirm}
         title="Are you sure you want to log out?"
         description="You'll need to log back in to access your account."
         confirmText="Logout"
-        cancelText="Cancel"
         onConfirm={confirmLogout}
-        onCancel={() => setOpen(false)}
+        onCancel={() => setOpenLogoutConfirm(false)}
         variant="danger"
       />
     </>
