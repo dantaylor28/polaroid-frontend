@@ -17,14 +17,14 @@ export const ConfirmModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl p-6 w-full max-w-s shadow-2xl">
+      <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl">
         <h2 className="text-lg font-semibold text-black mb-2">{title}</h2>
 
         {description && (
           <p className="text-sm text-black/60 mb-5">{description}</p>
         )}
 
-        <div className="flex justify-end gap-3">
+        <div className="flex justify-center gap-3">
           <button
             onClick={onCancel}
             className="px-4 py-2 rounded-lg text-sm bg-gray-100 hover:bg-gray-200 hover:cursor-pointer transition"

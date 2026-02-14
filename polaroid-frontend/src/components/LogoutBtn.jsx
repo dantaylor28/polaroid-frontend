@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { ConfirmLogoutModal } from "../utils/ConfirmModal";
+import { ConfirmModal } from "../utils/ConfirmModal";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
@@ -27,10 +27,15 @@ export const LogoutBtn = () => {
         <LogOut />
       </button>
 
-      <ConfirmLogoutModal
+      <ConfirmModal
         open={open}
+        title="Are you sure you want to log out?"
+        description="You'll need to log back in to access your account."
+        confirmText="Logout"
+        cancelText="Cancel"
         onConfirm={confirmLogout}
         onCancel={() => setOpen(false)}
+        variant="danger"
       />
     </>
   );
