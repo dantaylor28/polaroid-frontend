@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "lucide-react";
+import { ConfirmModal } from "../utils/ConfirmModal";
 
 export const CreatePostModal = ({ onClose }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [caption, setCaption] = useState("");
+  const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -20,10 +22,7 @@ export const CreatePostModal = ({ onClose }) => {
     if (!hasUnsavedData) {
       onClose();
     } else {
-      const confirmClose = window.confirm(
-        "You have unsaved changes. Discard this post?",
-      );
-      if (confirmClose) onClose();
+      setOpenDiscardPostConfirm(true);
     }
   };
 
@@ -173,6 +172,19 @@ export const CreatePostModal = ({ onClose }) => {
           </button>
         </div>
       </div>
+      <ConfirmModal 
+      open={openDiscardPostConfirm}
+      title="Discard this post?"
+      description="All of your changes will be lost."
+      confirmText="Discard"
+      cancelText="Keep editing"
+      onConfirm={() => {
+        setOpenDiscardPostConfirm(false)
+        onClose()
+      }}
+      onCancel={() => {setOpenDiscardPostConfirm(false)}}
+      variant="danger"
+      />
     </div>
   );
 };
