@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { ConfirmLogoutModal } from "../utils/ConfirmLogoutModal";
+import { ConfirmLogoutModal } from "../utils/ConfirmModal";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { LogOut } from "lucide-react";
