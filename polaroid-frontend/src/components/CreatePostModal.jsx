@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "lucide-react";
+import { Image, X } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 
 export const CreatePostModal = ({ onClose }) => {
@@ -92,39 +92,55 @@ export const CreatePostModal = ({ onClose }) => {
         {/* Body */}
         <div className="px-5 pb-4 space-y-4">
           {/* Image area */}
-          <label className="block cursor-pointer">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
+          <div className="relative">
+            {imagePreview && (
+              <button
+                type="button"
+                onClick={() => {
+                  URL.revokeObjectURL(imagePreview);
+                  setImagePreview(null);
+                  setImageFile(null);
+                }}
+                className="absolute top-1 right-3 z-50"
+              >
+                ×
+              </button>
+            )}
+            <label className="block cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
 
-            <div className="relative aspect-square bg-gray-800/5 rounded-xl overflow-hidden flex items-center justify-center">
-              {!imagePreview ? (
-                <div className="flex flex-col items-center gap-2">
-                  <Image className="size-8 text-gray-500" />
-                  <span className="text-sm text-black/60">Select an image</span>
-                </div>
-              ) : (
-                <>
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-
-                  {/* Change overlay */}
-                  <div className="absolute top-3 right-3">
-                    <span className="bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-                      Change
+              <div className="relative aspect-square bg-gray-800/5 rounded-xl overflow-hidden flex items-center justify-center">
+                {!imagePreview ? (
+                  <div className="flex flex-col items-center gap-2">
+                    <Image className="size-8 text-gray-500" />
+                    <span className="text-sm text-black/60">
+                      Select an image
                     </span>
                   </div>
-                </>
-              )}
-            </div>
-          </label>
+                ) : (
+                  <>
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
 
+                    {/* Change overlay */}
+                    <div className="absolute bottom-3 right-3">
+                      <span className="bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+                        Change
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+            </label>
+          </div>
           {/* Caption */}
           <textarea
             placeholder="Write a caption..."
@@ -135,20 +151,6 @@ export const CreatePostModal = ({ onClose }) => {
             placeholder:text-black/60
             focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           />
-
-          {imagePreview && (
-            <button
-              type="button"
-              onClick={() => {
-                URL.revokeObjectURL(imagePreview);
-                setImagePreview(null);
-                setImageFile(null);
-              }}
-              className="text-xs text-red-500 hover:underline"
-            >
-              Remove image
-            </button>
-          )}
         </div>
 
         {/* Footer */}
@@ -172,18 +174,20 @@ export const CreatePostModal = ({ onClose }) => {
           </button>
         </div>
       </div>
-      <ConfirmModal 
-      open={openDiscardPostConfirm}
-      title="Discard this post?"
-      description="All of your changes will be lost."
-      confirmText="Discard"
-      cancelText="Keep editing"
-      onConfirm={() => {
-        setOpenDiscardPostConfirm(false)
-        onClose()
-      }}
-      onCancel={() => {setOpenDiscardPostConfirm(false)}}
-      variant="danger"
+      <ConfirmModal
+        open={openDiscardPostConfirm}
+        title="Discard this post?"
+        description="All of your changes will be lost."
+        confirmText="Discard"
+        cancelText="Keep editing"
+        onConfirm={() => {
+          setOpenDiscardPostConfirm(false);
+          onClose();
+        }}
+        onCancel={() => {
+          setOpenDiscardPostConfirm(false);
+        }}
+        variant="danger"
       />
     </div>
   );
