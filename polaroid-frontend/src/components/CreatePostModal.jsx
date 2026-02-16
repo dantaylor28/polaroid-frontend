@@ -101,7 +101,8 @@ export const CreatePostModal = ({ onClose }) => {
                   setImagePreview(null);
                   setImageFile(null);
                 }}
-                className="absolute top-1 right-3 z-50"
+                className="absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
+                text-black/70 hover:text-black hover:bg-black/15 transition hover:cursor-pointer"
               >
                 ×
               </button>
