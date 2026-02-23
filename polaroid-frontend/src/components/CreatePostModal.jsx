@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, X } from "lucide-react";
+import { Image } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 
 export const CreatePostModal = ({ onClose }) => {
@@ -11,8 +11,21 @@ export const CreatePostModal = ({ onClose }) => {
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState("");
   const MAX_TAG_LENGTH = 30;
-  const MAX_TAGS = 8
-  
+  const MAX_TAGS = 8;
+
+  // Tag helper functions
+  const addTag = (value) => {
+    const trimmed = value.trim().replace(/^#/, ""); // Remove whitespace and hashtag from start of tag
+
+    if (!trimmed) return; // Tag is empty
+    if (trimmed.length > MAX_TAG_LENGTH) return; // Longer than max length
+    if (tags.includes(trimmed.toLowerCase())) return; // Tag already exists (in any form react, React, REACT etc)
+    if (tags.length > MAX_TAGS) return; // Too many tags on one post
+
+    setTags((prev) => [...prev, trimmed.toLowerCase()]); // Add new tag to state
+    setTagInput(""); // Clear tag input
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
