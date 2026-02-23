@@ -8,6 +8,11 @@ export const CreatePostModal = ({ onClose }) => {
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
 
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
+  const MAX_TAG_LENGTH = 30;
+  const MAX_TAGS = 8
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
