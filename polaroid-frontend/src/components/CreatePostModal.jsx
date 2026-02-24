@@ -26,6 +26,10 @@ export const CreatePostModal = ({ onClose }) => {
     setTagInput(""); // Clear tag input
   };
 
+  const removeTags = (tagToRemove) => {
+    setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
