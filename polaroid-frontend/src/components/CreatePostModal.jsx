@@ -30,6 +30,19 @@ export const CreatePostModal = ({ onClose }) => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
+  const handleTagKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      addTag(tagInput);
+    }
+
+    // Remove last tag using backspace if input is empty
+    if (e.key === "Backspace" && !tagInput && tags.length) {
+      e.preventDefault();
+      removeTags(tags[tags.length - 1]);
+    }
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
