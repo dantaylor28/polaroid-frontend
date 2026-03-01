@@ -98,7 +98,7 @@ export const CreatePostModal = ({ onClose }) => {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5">
+      <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-screen overflow-y-auto">
         {/* Header */}
         <div className="relative px-5 py-4">
           <button
@@ -150,7 +150,7 @@ export const CreatePostModal = ({ onClose }) => {
                 className="hidden"
               />
 
-              <div className="relative aspect-square bg-gray-800/5 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 bg-gray-800/5 rounded-xl overflow-hidden flex items-center justify-center">
                 {!imagePreview ? (
                   <div className="flex flex-col items-center gap-2">
                     <Image className="size-8 text-gray-500" />
