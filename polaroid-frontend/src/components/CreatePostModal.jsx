@@ -165,11 +165,20 @@ export const CreatePostModal = ({ onClose }) => {
                   </div>
                 ) : (
                   <>
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
+                    <Cropper
+                      image={imagePreview}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={1}
+                      onCropChange={setCrop}
+                      onZoomChange={setZoom}
+                      onCropComplete={(croppedArea, croppedAreaPixels) => {
+                        setCroppedAreaPixels(croppedAreaPixels);
+                      }}
                     />
+
+                    {/* Zoom slider */}
+                    
 
                     {/* Change overlay */}
                     <div className="absolute bottom-3 right-3">
