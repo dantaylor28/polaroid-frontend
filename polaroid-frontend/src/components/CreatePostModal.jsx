@@ -26,7 +26,7 @@ export const CreatePostModal = ({ onClose }) => {
     setTagInput(""); // Clear tag input
   };
 
-  const removeTags = (tagToRemove) => {
+  const removeTag = (tagToRemove) => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
@@ -39,7 +39,7 @@ export const CreatePostModal = ({ onClose }) => {
     // Remove last tag using backspace if input is empty
     if (e.key === "Backspace" && !tagInput && tags.length) {
       e.preventDefault();
-      removeTags(tags[tags.length - 1]);
+      removeTag(tags[tags.length - 1]);
     }
   };
 
@@ -187,6 +187,55 @@ export const CreatePostModal = ({ onClose }) => {
             placeholder:text-black/60
             focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           />
+
+          {/* Tags */}
+          <div className="space-y-2">
+            <label className="text-sm text-black/70">Tags</label>
+
+            <div
+              className="flex flex-wrap items-center gap-2 rounded-xl bg-gray-800/5 px-3 py-2
+            focus-within:ring-2 focus-within:ring-blue-500/20"
+            >
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="flex items-center gap-1 bg-blue-100 text-blue-700
+                text-xs px-3 py-1 rounded-full"
+                >
+                  #{tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="hover:text-blue-900"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => {
+                  if (e.target.value.length <= MAX_TAG_LENGTH) {
+                    setTagInput(e.target.value);
+                  }
+                }}
+                onKeyDown={handleTagKeyDown}
+                placeholder={
+                  tags.length >= MAX_TAGS ? "Max tags reached" : "Add a tag.."
+                }
+                disabled={tags.length >= MAX_TAGS}
+                className="flex-1 min-w-30 bg-transparent text-sm
+                focus:outline-none placeholder:text-black/50"
+              />
+            </div>
+
+            <p className="text-sm text-black/50">
+              Press Enter or Comma to add a tag (Max {MAX_TAG_LENGTH}{" "}
+              characters)
+            </p>
+          </div>
         </div>
 
         {/* Footer */}
