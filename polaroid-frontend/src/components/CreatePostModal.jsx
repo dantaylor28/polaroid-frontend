@@ -155,7 +155,7 @@ export const CreatePostModal = ({ onClose }) => {
                 className="hidden"
               />
 
-              <div className="relative w-full h-64 sm:h-72 md:h-80 lg:h-96 bg-gray-800/5 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="relative w-full h-96 bg-gray-800/5 rounded-xl overflow-hidden">
                 {!imagePreview ? (
                   <div className="flex flex-col items-center gap-2">
                     <Image className="size-8 text-gray-500" />
@@ -178,7 +178,17 @@ export const CreatePostModal = ({ onClose }) => {
                     />
 
                     {/* Zoom slider */}
-                    
+                    <div className="absolute bottom-3 left-3 right-3">
+                      <input
+                        type="range"
+                        min={1}
+                        max={3}
+                        step={0.1}
+                        value={zoom}
+                        onChange={(e) => setZoom(Number(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
 
                     {/* Change overlay */}
                     <div className="absolute bottom-3 right-3">
