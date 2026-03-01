@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
+import Cropper from "react-easy-crop";
 
 export const CreatePostModal = ({ onClose }) => {
   const [imageFile, setImageFile] = useState(null);
@@ -12,6 +13,10 @@ export const CreatePostModal = ({ onClose }) => {
   const [tagInput, setTagInput] = useState("");
   const MAX_TAG_LENGTH = 30;
   const MAX_TAGS = 8;
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   // Tag helper functions
   const addTag = (value) => {
