@@ -17,6 +17,8 @@ export const CreatePostModal = ({ onClose }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [aspect, setAspect] = useState(1); // Default 1:1
+  const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
 
   // Tag helper functions
   const addTag = (value) => {
@@ -54,6 +56,7 @@ export const CreatePostModal = ({ onClose }) => {
 
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
+    setIsEditing(true);
   };
 
   // Confirm modal close while data exists in form
@@ -174,7 +177,7 @@ export const CreatePostModal = ({ onClose }) => {
                     </span>
                   </div>
                 </label>
-              ) : (
+              ) : isEditing ? (
                 <>
                   <Cropper
                     image={imagePreview}
@@ -209,6 +212,12 @@ export const CreatePostModal = ({ onClose }) => {
                     Change
                   </label>
                 </>
+              ) : (
+                <img
+                  src={imagePreview}
+                  alt="Image Preview"
+                  className="w-full h-full object-cover"
+                />
               )}
             </div>
           </div>
