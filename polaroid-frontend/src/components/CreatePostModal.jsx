@@ -150,60 +150,69 @@ export const CreatePostModal = ({ onClose }) => {
                 ×
               </button>
             )}
-            <label className="block cursor-pointer">
+
+            <div className="relative">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
+                id="post-image-input"
               />
+            </div>
 
-              <div className="relative w-full h-90 bg-gray-800/5 rounded-xl overflow-hidden">
-                {!imagePreview ? (
+            <div className="relative w-full h-90 bg-gray-800/5 rounded-xl overflow-hidden">
+              {!imagePreview ? (
+                <label
+                  htmlFor="post-image-input"
+                  className="flex flex-col items-center justify-center h-full cursor-pointer"
+                >
                   <div className="flex flex-col items-center gap-2">
                     <Image className="size-8 text-gray-500" />
                     <span className="text-sm text-black/60">
                       Select an image
                     </span>
                   </div>
-                ) : (
-                  <>
-                    <Cropper
-                      image={imagePreview}
-                      crop={crop}
-                      zoom={zoom}
-                      aspect={1}
-                      onCropChange={setCrop}
-                      onZoomChange={setZoom}
-                      onCropComplete={(croppedArea, croppedAreaPixels) => {
-                        setCroppedAreaPixels(croppedAreaPixels);
-                      }}
+                </label>
+              ) : (
+                <>
+                  <Cropper
+                    image={imagePreview}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={1}
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={(croppedArea, croppedAreaPixels) => {
+                      setCroppedAreaPixels(croppedAreaPixels);
+                    }}
+                  />
+
+                  {/* zoom slider */}
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <input
+                      type="range"
+                      min={1}
+                      max={3}
+                      step={0.1}
+                      value={zoom}
+                      onChange={(e) => setZoom(Number(e.target.value))}
+                      className="w-full"
                     />
+                  </div>
 
-                    {/* Zoom slider */}
-                    <div className="absolute bottom-3 left-3 right-3">
-                      <input
-                        type="range"
-                        min={1}
-                        max={3}
-                        step={0.1}
-                        value={zoom}
-                        onChange={(e) => setZoom(Number(e.target.value))}
-                        className="w-full"
-                      />
-                    </div>
-
-                    {/* Change overlay */}
-                    <div className="absolute bottom-3 right-3">
-                      <span className="bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-                        Change
-                      </span>
-                    </div>
-                  </>
-                )}
-              </div>
-            </label>
+                  {/* Change overlay */}
+                  <label
+                    htmlFor="post-image-input"
+                    className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full cursor-pointer"
+                  >
+                    Change
+                  </label>
+                </>
+              )}
+            </div>
           </div>
+
           {/* Caption */}
           <textarea
             placeholder="Write a caption..."
