@@ -25,7 +25,7 @@ export const CreatePostModal = ({ onClose }) => {
     if (!trimmed) return; // Tag is empty
     if (trimmed.length > MAX_TAG_LENGTH) return; // Longer than max length
     if (tags.includes(trimmed.toLowerCase())) return; // Tag already exists (in any form react, React, REACT etc)
-    if (tags.length > MAX_TAGS) return; // Too many tags on one post
+    if (tags.length >= MAX_TAGS) return; // Too many tags on one post
 
     setTags((prev) => [...prev, trimmed.toLowerCase()]); // Add new tag to state
     setTagInput(""); // Clear tag input
@@ -57,7 +57,7 @@ export const CreatePostModal = ({ onClose }) => {
   };
 
   // Confirm modal close while data exists in form
-  const hasUnsavedData = Boolean(imagePreview) || caption;
+  const hasUnsavedData = Boolean(imagePreview) || caption || tags.length > 0;
   const handleCloseAttempt = () => {
     if (!hasUnsavedData) {
       onClose();
@@ -103,7 +103,7 @@ export const CreatePostModal = ({ onClose }) => {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-screen overflow-y-auto">
+      <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-[95vh] overflow-y-auto">
         {/* Header */}
         <div className="relative px-5 py-4">
           <button
@@ -140,6 +140,9 @@ export const CreatePostModal = ({ onClose }) => {
                   URL.revokeObjectURL(imagePreview);
                   setImagePreview(null);
                   setImageFile(null);
+                  setZoom(1);
+                  setCrop({ x: 0, y: 0 });
+                  setCroppedAreaPixels(null);
                 }}
                 className="absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
                 text-black/70 hover:text-black hover:bg-black/15 transition hover:cursor-pointer"
@@ -155,7 +158,7 @@ export const CreatePostModal = ({ onClose }) => {
                 className="hidden"
               />
 
-              <div className="relative w-full h-96 bg-gray-800/5 rounded-xl overflow-hidden">
+              <div className="relative w-full h-90 bg-gray-800/5 rounded-xl overflow-hidden">
                 {!imagePreview ? (
                   <div className="flex flex-col items-center gap-2">
                     <Image className="size-8 text-gray-500" />
@@ -300,4 +303,40 @@ export const CreatePostModal = ({ onClose }) => {
       />
     </div>
   );
+};
+
+const createImage = (url) =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("error", (error) => reject(error));
+    image.setAttribute("crossOrigin", "anonymous");
+    image.src = url;
+  });
+
+const getCroppedImg = async (imageSrc, cropPixels) => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = cropPixels.width;
+  canvas.height = cropPixels.height;
+
+  ctx.drawImage(
+    image,
+    cropPixels.x,
+    cropPixels.y,
+    cropPixels.width,
+    cropPixels.height,
+    0,
+    0,
+    cropPixels.width,
+    cropPixels.height,
+  );
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob);
+    }, "image/jpeg");
+  });
 };
