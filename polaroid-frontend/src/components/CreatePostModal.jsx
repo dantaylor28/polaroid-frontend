@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "lucide-react";
+import { Image as ImageIcon } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import Cropper from "react-easy-crop";
 
@@ -19,6 +19,7 @@ export const CreatePostModal = ({ onClose }) => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [aspect, setAspect] = useState(1); // Default 1:1
   const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
+  const [croppedPreview, setCroppedPreview] = useState(null);
 
   // Tag helper functions
   const addTag = (value) => {
@@ -56,6 +57,7 @@ export const CreatePostModal = ({ onClose }) => {
 
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
+    setCroppedPreview(null);
     setIsEditing(true);
   };
 
@@ -119,7 +121,7 @@ export const CreatePostModal = ({ onClose }) => {
           </button>
           <div className="flex w-full items-center justify-center gap-3">
             <div className="size-10 rounded-xl flex items-center justify-center bg-blue-400/30 mb-2 mt-2 group hover:bg-blue-400/35">
-              <Image className="size-6 text-blue-600 group-hover:text-blue-700" />
+              <ImageIcon className="size-6 text-blue-600 group-hover:text-blue-700" />
             </div>
             <div className="flex flex-col">
               <h1 className="text-md capitalize font-medium text-black tracking-wider">
@@ -140,12 +142,17 @@ export const CreatePostModal = ({ onClose }) => {
               <button
                 type="button"
                 onClick={() => {
+                  if (croppedPreview) {
+                    URL.revokeObjectURL(croppedPreview);
+                  }
                   URL.revokeObjectURL(imagePreview);
                   setImagePreview(null);
                   setImageFile(null);
+                  setCroppedPreview(null);
                   setZoom(1);
                   setCrop({ x: 0, y: 0 });
                   setCroppedAreaPixels(null);
+                  setIsEditing(true); 
                 }}
                 className="absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
                 text-black/70 hover:text-black hover:bg-black/15 transition hover:cursor-pointer"
@@ -171,7 +178,7 @@ export const CreatePostModal = ({ onClose }) => {
                   className="flex flex-col items-center justify-center h-full cursor-pointer"
                 >
                   <div className="flex flex-col items-center gap-2">
-                    <Image className="size-8 text-gray-500" />
+                    <ImageIcon className="size-8 text-gray-500" />
                     <span className="text-sm text-black/60">
                       Select an image
                     </span>
@@ -195,7 +202,11 @@ export const CreatePostModal = ({ onClose }) => {
                   {isEditing && (
                     <div className="absolute bottom-10 right-3 left-3 flex gap-2">
                       <button
-                        onClick={() => setAspect(1)}
+                        onClick={() => {
+                          setAspect(1);
+                          setCrop({ x: 0, y: 0 });
+                          setZoom(1);
+                        }}
                         className={`px-2 py-1 text-xs rounded ${
                           aspect === 1
                             ? "bg-blue-600 text-white"
@@ -206,7 +217,11 @@ export const CreatePostModal = ({ onClose }) => {
                       </button>
 
                       <button
-                        onClick={() => setAspect(4 / 5)}
+                        onClick={() => {
+                          setAspect(4 / 5);
+                          setCrop({ x: 0, y: 0 });
+                          setZoom(1);
+                        }}
                         className={`px-2 py-1 text-xs rounded ${
                           aspect === 4 / 5
                             ? "bg-blue-600 text-white"
@@ -217,7 +232,11 @@ export const CreatePostModal = ({ onClose }) => {
                       </button>
 
                       <button
-                        onClick={() => setAspect(16 / 9)}
+                        onClick={() => {
+                          setAspect(16 / 9);
+                          setCrop({ x: 0, y: 0 });
+                          setZoom(1);
+                        }}
                         className={`px-2 py-1 text-xs rounded ${
                           aspect === 16 / 9
                             ? "bg-blue-600 text-white"
@@ -254,7 +273,19 @@ export const CreatePostModal = ({ onClose }) => {
                   {imagePreview && (
                     <button
                       type="button"
-                      onClick={() => setIsEditing((prev) => !prev)}
+                      onClick={async () => {
+                        if (isEditing && croppedAreaPixels) {
+                          const croppedBlob = await getCroppedImg(
+                            imagePreview,
+                            croppedAreaPixels,
+                          );
+
+                          const previewUrl = URL.createObjectURL(croppedBlob);
+                          setCroppedPreview(previewUrl);
+                        }
+
+                        setIsEditing((prev) => !prev);
+                      }}
                       className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
                     >
                       {isEditing ? "Done" : "Edit"}
@@ -263,7 +294,7 @@ export const CreatePostModal = ({ onClose }) => {
                 </>
               ) : (
                 <img
-                  src={imagePreview}
+                  src={croppedPreview || imagePreview}
                   alt="Image Preview"
                   className="w-full h-full object-cover"
                 />
