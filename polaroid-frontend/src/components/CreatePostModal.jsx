@@ -152,7 +152,7 @@ export const CreatePostModal = ({ onClose }) => {
                   setZoom(1);
                   setCrop({ x: 0, y: 0 });
                   setCroppedAreaPixels(null);
-                  setIsEditing(true); 
+                  setIsEditing(true);
                 }}
                 className="absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
                 text-black/70 hover:text-black hover:bg-black/15 transition hover:cursor-pointer"
@@ -268,29 +268,6 @@ export const CreatePostModal = ({ onClose }) => {
                   >
                     Change
                   </label>
-
-                  {/* Edit toggle button */}
-                  {imagePreview && (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        if (isEditing && croppedAreaPixels) {
-                          const croppedBlob = await getCroppedImg(
-                            imagePreview,
-                            croppedAreaPixels,
-                          );
-
-                          const previewUrl = URL.createObjectURL(croppedBlob);
-                          setCroppedPreview(previewUrl);
-                        }
-
-                        setIsEditing((prev) => !prev);
-                      }}
-                      className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
-                    >
-                      {isEditing ? "Done" : "Edit"}
-                    </button>
-                  )}
                 </>
               ) : (
                 <img
@@ -298,6 +275,28 @@ export const CreatePostModal = ({ onClose }) => {
                   alt="Image Preview"
                   className="w-full h-full object-cover"
                 />
+              )}
+              {/* Edit toggle button */}
+              {imagePreview && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (isEditing && croppedAreaPixels) {
+                      const croppedBlob = await getCroppedImg(
+                        imagePreview,
+                        croppedAreaPixels,
+                      );
+
+                      const previewUrl = URL.createObjectURL(croppedBlob);
+                      setCroppedPreview(previewUrl);
+                    }
+
+                    setIsEditing((prev) => !prev);
+                  }}
+                  className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
+                >
+                  {isEditing ? "Done" : "Edit"}
+                </button>
               )}
             </div>
           </div>
