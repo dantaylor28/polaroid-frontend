@@ -183,13 +183,51 @@ export const CreatePostModal = ({ onClose }) => {
                     image={imagePreview}
                     crop={crop}
                     zoom={zoom}
-                    aspect={1}
+                    aspect={aspect}
                     onCropChange={setCrop}
                     onZoomChange={setZoom}
                     onCropComplete={(croppedArea, croppedAreaPixels) => {
                       setCroppedAreaPixels(croppedAreaPixels);
                     }}
                   />
+
+                  {/* Aspect ratio toggle buttons */}
+                  {isEditing && (
+                    <div className="absolute bottom-10 right-3 left-3 flex gap-2">
+                      <button
+                        onClick={() => setAspect(1)}
+                        className={`px-2 py-1 text-xs rounded ${
+                          aspect === 1
+                            ? "bg-blue-600 text-white"
+                            : "bg-black/60 text-white"
+                        }`}
+                      >
+                        1:1
+                      </button>
+
+                      <button
+                        onClick={() => setAspect(4 / 5)}
+                        className={`px-2 py-1 text-xs rounded ${
+                          aspect === 4 / 5
+                            ? "bg-blue-600 text-white"
+                            : "bg-black/60 text-white"
+                        }`}
+                      >
+                        4:5
+                      </button>
+
+                      <button
+                        onClick={() => setAspect(16 / 9)}
+                        className={`px-2 py-1 text-xs rounded ${
+                          aspect === 16 / 9
+                            ? "bg-blue-600 text-white"
+                            : "bg-black/60 text-white"
+                        }`}
+                      >
+                        16:9
+                      </button>
+                    </div>
+                  )}
 
                   {/* zoom slider */}
                   <div className="absolute bottom-3 left-3 right-3">
@@ -211,6 +249,17 @@ export const CreatePostModal = ({ onClose }) => {
                   >
                     Change
                   </label>
+
+                  {/* Edit toggle button */}
+                  {imagePreview && (
+                    <button
+                      type="button"
+                      onClick={() => setIsEditing((prev) => !prev)}
+                      className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
+                    >
+                      {isEditing ? "Done" : "Edit"}
+                    </button>
+                  )}
                 </>
               ) : (
                 <img
