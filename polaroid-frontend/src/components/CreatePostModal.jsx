@@ -196,6 +196,11 @@ export const CreatePostModal = ({ onClose }) => {
                     onCropComplete={(croppedArea, croppedAreaPixels) => {
                       setCroppedAreaPixels(croppedAreaPixels);
                     }}
+                    style={{
+                      containerStyle: {
+                        backgroundColor: "rgba(0,0,0,0.45)",
+                      },
+                    }}
                   />
 
                   {/* Aspect ratio toggle buttons */}
@@ -248,7 +253,7 @@ export const CreatePostModal = ({ onClose }) => {
                     </div>
                   )}
 
-                  {/* zoom slider */}
+                  {/* Zoom slider */}
                   <div className="absolute bottom-3 left-3 right-3">
                     <input
                       type="range"
