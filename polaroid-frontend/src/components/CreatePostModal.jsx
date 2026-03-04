@@ -154,8 +154,8 @@ export const CreatePostModal = ({ onClose }) => {
                   setCroppedAreaPixels(null);
                   setIsEditing(true);
                 }}
-                className="absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
-                text-black/70 hover:text-black hover:bg-black/15 transition hover:cursor-pointer"
+                className={`absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
+              text-white px-3 py-1 cursor-pointer transition ${isEditing ? "hover:bg-black/35" : "hover:bg-white/25"}`}
               >
                 ×
               </button>
@@ -207,7 +207,7 @@ export const CreatePostModal = ({ onClose }) => {
                           setCrop({ x: 0, y: 0 });
                           setZoom(1);
                         }}
-                        className={`px-2 py-1 text-xs rounded ${
+                        className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 1
                             ? "bg-blue-600 text-white"
                             : "bg-black/60 text-white"
@@ -222,7 +222,7 @@ export const CreatePostModal = ({ onClose }) => {
                           setCrop({ x: 0, y: 0 });
                           setZoom(1);
                         }}
-                        className={`px-2 py-1 text-xs rounded ${
+                        className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 4 / 5
                             ? "bg-blue-600 text-white"
                             : "bg-black/60 text-white"
@@ -237,7 +237,7 @@ export const CreatePostModal = ({ onClose }) => {
                           setCrop({ x: 0, y: 0 });
                           setZoom(1);
                         }}
-                        className={`px-2 py-1 text-xs rounded ${
+                        className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 16 / 9
                             ? "bg-blue-600 text-white"
                             : "bg-black/60 text-white"
@@ -257,7 +257,7 @@ export const CreatePostModal = ({ onClose }) => {
                       step={0.1}
                       value={zoom}
                       onChange={(e) => setZoom(Number(e.target.value))}
-                      className="w-full"
+                      className="w-full cursor-pointer"
                     />
                   </div>
 
@@ -293,7 +293,7 @@ export const CreatePostModal = ({ onClose }) => {
 
                     setIsEditing((prev) => !prev);
                   }}
-                  className="absolute top-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full"
+                  className={`absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full cursor-pointer transition ${isEditing ? "bg-black/60" : "hover:bg-white/25"}`}
                 >
                   {isEditing ? "Done" : "Edit"}
                 </button>
