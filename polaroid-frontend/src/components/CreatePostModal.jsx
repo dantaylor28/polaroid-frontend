@@ -273,7 +273,7 @@ export const CreatePostModal = ({ onClose }) => {
                 <img
                   src={croppedPreview || imagePreview}
                   alt="Image Preview"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain bg-black"
                 />
               )}
               {/* Edit toggle button */}
