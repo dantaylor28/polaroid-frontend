@@ -155,7 +155,7 @@ export const CreatePostModal = ({ onClose }) => {
                   setIsEditing(true);
                 }}
                 className={`absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
-              text-white px-3 py-1 cursor-pointer transition ${isEditing ? "hover:bg-black/35" : "hover:bg-white/25"}`}
+              text-white px-3 py-1 cursor-pointer transition ${isEditing ? "hover:bg-black/40" : "hover:bg-white/25"}`}
               >
                 ×
               </button>
@@ -210,7 +210,7 @@ export const CreatePostModal = ({ onClose }) => {
                         className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 1
                             ? "bg-blue-600 text-white"
-                            : "bg-black/60 text-white"
+                            : "bg-black/60 text-white hover:bg-black/75"
                         }`}
                       >
                         1:1
@@ -225,7 +225,7 @@ export const CreatePostModal = ({ onClose }) => {
                         className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 4 / 5
                             ? "bg-blue-600 text-white"
-                            : "bg-black/60 text-white"
+                            : "bg-black/60 text-white hover:bg-black/75"
                         }`}
                       >
                         4:5
@@ -240,7 +240,7 @@ export const CreatePostModal = ({ onClose }) => {
                         className={`px-2 py-1 text-xs rounded cursor-pointer ${
                           aspect === 16 / 9
                             ? "bg-blue-600 text-white"
-                            : "bg-black/60 text-white"
+                            : "bg-black/60 text-white hover:bg-black/75"
                         }`}
                       >
                         16:9
@@ -264,7 +264,7 @@ export const CreatePostModal = ({ onClose }) => {
                   {/* Change overlay */}
                   <label
                     htmlFor="post-image-input"
-                    className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full cursor-pointer"
+                    className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/75 text-white text-xs px-3 py-1 rounded-full cursor-pointer"
                   >
                     Change
                   </label>
@@ -293,7 +293,7 @@ export const CreatePostModal = ({ onClose }) => {
 
                     setIsEditing((prev) => !prev);
                   }}
-                  className={`absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full cursor-pointer transition ${isEditing ? "bg-black/60" : "hover:bg-white/25"}`}
+                  className={`absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full cursor-pointer transition ${isEditing ? "bg-black/60 hover:bg-black/75" : "bg-white/25 hover:bg-white/35"}`}
                 >
                   {isEditing ? "Done" : "Edit"}
                 </button>
@@ -372,7 +372,7 @@ export const CreatePostModal = ({ onClose }) => {
           </button>
 
           <button
-            disabled={!imagePreview}
+            disabled={!imagePreview || isEditing}
             className="px-5 py-2 text-sm font-medium rounded-full
             bg-blue-600 text-white
             hover:bg-blue-700 hover:cursor-pointer
