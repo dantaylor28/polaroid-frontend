@@ -2,17 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import Cropper from "react-easy-crop";
+import { useTags } from "../hooks/useTags";
 
 export const CreatePostModal = ({ onClose }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
-
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
-  const MAX_TAG_LENGTH = 30;
-  const MAX_TAGS = 8;
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -21,35 +17,8 @@ export const CreatePostModal = ({ onClose }) => {
   const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
   const [croppedPreview, setCroppedPreview] = useState(null);
 
-  // Tag helper functions
-  const addTag = (value) => {
-    const trimmed = value.trim().replace(/^#/, ""); // Remove whitespace and hashtag from start of tag
-
-    if (!trimmed) return; // Tag is empty
-    if (trimmed.length > MAX_TAG_LENGTH) return; // Longer than max length
-    if (tags.includes(trimmed.toLowerCase())) return; // Tag already exists (in any form react, React, REACT etc)
-    if (tags.length >= MAX_TAGS) return; // Too many tags on one post
-
-    setTags((prev) => [...prev, trimmed.toLowerCase()]); // Add new tag to state
-    setTagInput(""); // Clear tag input
-  };
-
-  const removeTag = (tagToRemove) => {
-    setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
-  };
-
-  const handleTagKeyDown = (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault();
-      addTag(tagInput);
-    }
-
-    // Remove last tag using backspace if input is empty
-    if (e.key === "Backspace" && !tagInput && tags.length) {
-      e.preventDefault();
-      removeTag(tags[tags.length - 1]);
-    }
-  };
+  const { tags, tagInput, setTagInput, removeTag, handleTagKeyDown, maxTags, maxLength } =
+    useTags(8, 30);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -346,22 +315,22 @@ export const CreatePostModal = ({ onClose }) => {
                 type="text"
                 value={tagInput}
                 onChange={(e) => {
-                  if (e.target.value.length <= MAX_TAG_LENGTH) {
+                  if (e.target.value.length <= maxLength) {
                     setTagInput(e.target.value);
                   }
                 }}
                 onKeyDown={handleTagKeyDown}
                 placeholder={
-                  tags.length >= MAX_TAGS ? "Max tags reached" : "Add a tag.."
+                  tags.length >= maxTags ? "Max tags reached" : "Add a tag.."
                 }
-                disabled={tags.length >= MAX_TAGS}
+                disabled={tags.length >= maxTags}
                 className="flex-1 min-w-30 bg-transparent text-sm
                 focus:outline-none placeholder:text-black/50"
               />
             </div>
 
             <p className="text-sm text-black/50">
-              Press Enter or Comma to add a tag (Max {MAX_TAG_LENGTH}{" "}
+              Press Enter or Comma to add a tag (Max {maxLength}{" "}
               characters)
             </p>
           </div>
