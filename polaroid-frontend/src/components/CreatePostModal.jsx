@@ -3,32 +3,38 @@ import { Image as ImageIcon } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import Cropper from "react-easy-crop";
 import { useTags } from "../hooks/useTags";
+import { useImageCropper } from "../hooks/useImageCropper";
 
 export const CreatePostModal = ({ onClose }) => {
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [aspect, setAspect] = useState(1); // Default 1:1
-  const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
-  const [croppedPreview, setCroppedPreview] = useState(null);
+  const {
+    tags,
+    tagInput,
+    setTagInput,
+    removeTag,
+    handleTagKeyDown,
+    maxTags,
+    maxLength,
+  } = useTags(8, 30);
 
-  const { tags, tagInput, setTagInput, removeTag, handleTagKeyDown, maxTags, maxLength } =
-    useTags(8, 30);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
-    setCroppedPreview(null);
-    setIsEditing(true);
-  };
+  const {
+    imageFile,
+    imagePreview,
+    croppedPreview,
+    crop,
+    zoom,
+    aspect,
+    isEditing,
+    setCrop,
+    setZoom,
+    setAspect,
+    setCroppedAreaPixels,
+    handleImageChange,
+    resetImage,
+    toggleEdit,
+  } = useImageCropper();
 
   // Confirm modal close while data exists in form
   const hasUnsavedData = Boolean(imagePreview) || caption || tags.length > 0;
@@ -39,15 +45,6 @@ export const CreatePostModal = ({ onClose }) => {
       setOpenDiscardPostConfirm(true);
     }
   };
-
-  // Image preview clean up
-  useEffect(() => {
-    return () => {
-      if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
-      }
-    };
-  }, [imagePreview]);
 
   // Close on ESC
   useEffect(() => {
@@ -62,7 +59,7 @@ export const CreatePostModal = ({ onClose }) => {
       document.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "auto";
     };
-  }, [handleCloseAttempt]);
+  }, [caption, tags, imagePreview]);
 
   return (
     <div
@@ -110,19 +107,7 @@ export const CreatePostModal = ({ onClose }) => {
             {imagePreview && (
               <button
                 type="button"
-                onClick={() => {
-                  if (croppedPreview) {
-                    URL.revokeObjectURL(croppedPreview);
-                  }
-                  URL.revokeObjectURL(imagePreview);
-                  setImagePreview(null);
-                  setImageFile(null);
-                  setCroppedPreview(null);
-                  setZoom(1);
-                  setCrop({ x: 0, y: 0 });
-                  setCroppedAreaPixels(null);
-                  setIsEditing(true);
-                }}
+                onClick={resetImage}
                 className={`absolute top-1 right-3 z-50 size-7 rounded-full flex items-center justify-center
               text-white px-3 py-1 cursor-pointer transition ${isEditing ? "hover:bg-black/40" : "hover:bg-white/25"}`}
               >
@@ -134,7 +119,9 @@ export const CreatePostModal = ({ onClose }) => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                onChange={(e) => {
+                  handleImageChange(e.target.files[0]);
+                }}
                 className="hidden"
                 id="post-image-input"
               />
@@ -254,19 +241,7 @@ export const CreatePostModal = ({ onClose }) => {
               {imagePreview && (
                 <button
                   type="button"
-                  onClick={async () => {
-                    if (isEditing && croppedAreaPixels) {
-                      const croppedBlob = await getCroppedImg(
-                        imagePreview,
-                        croppedAreaPixels,
-                      );
-
-                      const previewUrl = URL.createObjectURL(croppedBlob);
-                      setCroppedPreview(previewUrl);
-                    }
-
-                    setIsEditing((prev) => !prev);
-                  }}
+                  onClick={toggleEdit}
                   className={`absolute top-3 left-3 text-white text-xs px-3 py-1 rounded-full cursor-pointer transition ${isEditing ? "bg-black/60 hover:bg-black/75" : "bg-white/25 hover:bg-white/35"}`}
                 >
                   {isEditing ? "Done" : "Edit"}
@@ -330,8 +305,7 @@ export const CreatePostModal = ({ onClose }) => {
             </div>
 
             <p className="text-sm text-black/50">
-              Press Enter or Comma to add a tag (Max {maxLength}{" "}
-              characters)
+              Press Enter or Comma to add a tag (Max {maxLength} characters)
             </p>
           </div>
         </div>
@@ -374,40 +348,4 @@ export const CreatePostModal = ({ onClose }) => {
       />
     </div>
   );
-};
-
-const createImage = (url) =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    image.addEventListener("load", () => resolve(image));
-    image.addEventListener("error", (error) => reject(error));
-    image.setAttribute("crossOrigin", "anonymous");
-    image.src = url;
-  });
-
-const getCroppedImg = async (imageSrc, cropPixels) => {
-  const image = await createImage(imageSrc);
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  canvas.width = cropPixels.width;
-  canvas.height = cropPixels.height;
-
-  ctx.drawImage(
-    image,
-    cropPixels.x,
-    cropPixels.y,
-    cropPixels.width,
-    cropPixels.height,
-    0,
-    0,
-    cropPixels.width,
-    cropPixels.height,
-  );
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve(blob);
-    }, "image/jpeg");
-  });
 };
