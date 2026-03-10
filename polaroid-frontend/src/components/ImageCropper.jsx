@@ -71,50 +71,33 @@ export const ImageCropper = ({
 
             {/* Aspect ratio toggle buttons */}
             <div className="absolute bottom-10 right-3 left-3 flex gap-2">
-              <button
+              <AspectBtn
+                label="1:1"
+                active={aspect == 1}
                 onClick={() => {
                   setAspect(1);
                   setCrop({ x: 0, y: 0 });
                   setZoom(1);
                 }}
-                className={`px-2 py-1 text-xs rounded cursor-pointer ${
-                  aspect === 1
-                    ? "bg-blue-600 text-white"
-                    : "bg-black/60 text-white hover:bg-black/75"
-                }`}
-              >
-                1:1
-              </button>
-
-              <button
+              />
+              <AspectBtn
+                label="4:5"
+                active={aspect === 4 / 5}
                 onClick={() => {
                   setAspect(4 / 5);
                   setCrop({ x: 0, y: 0 });
                   setZoom(1);
                 }}
-                className={`px-2 py-1 text-xs rounded cursor-pointer ${
-                  aspect === 4 / 5
-                    ? "bg-blue-600 text-white"
-                    : "bg-black/60 text-white hover:bg-black/75"
-                }`}
-              >
-                4:5
-              </button>
-
-              <button
+              />
+              <AspectBtn
+                label="16:9"
+                active={aspect == 16 / 9}
                 onClick={() => {
                   setAspect(16 / 9);
                   setCrop({ x: 0, y: 0 });
                   setZoom(1);
                 }}
-                className={`px-2 py-1 text-xs rounded cursor-pointer ${
-                  aspect === 16 / 9
-                    ? "bg-blue-600 text-white"
-                    : "bg-black/60 text-white hover:bg-black/75"
-                }`}
-              >
-                16:9
-              </button>
+              />
             </div>
 
             {/* Zoom slider */}
@@ -159,3 +142,16 @@ export const ImageCropper = ({
     </div>
   );
 };
+
+const AspectBtn = ({ label, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`px-2 py-1 text-xs rounded cursor-pointer ${
+      active
+        ? "bg-blue-600 text-white"
+        : "bg-black/60 text-white hover:bg-black/75"
+    }`}
+  >
+    {label}
+  </button>
+);
