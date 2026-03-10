@@ -133,23 +133,23 @@ export const CreatePostModal = ({ onClose }) => {
 
           {/* Tags */}
           <div className="space-y-2">
-            <label className="text-sm text-black/70">Tags</label>
+            <label className="text-sm text-black/70">Tags (Max {maxLength} characters)</label>
 
             <div
               className="flex flex-wrap items-center gap-2 rounded-xl bg-gray-800/5 px-3 py-2
-            focus-within:ring-2 focus-within:ring-blue-500/20"
+            focus-within:ring-2 focus-within:ring-blue-500/20 mt-0.5"
             >
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="flex items-center gap-1 bg-blue-100 text-blue-700
+                  className="flex items-center gap-1 bg-blue-700 text-white/90
                 text-xs px-3 py-1 rounded-full"
                 >
                   #{tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="hover:text-blue-900"
+                    className="hover:text-white cursor-pointer"
                   >
                     ×
                   </button>
@@ -173,10 +173,6 @@ export const CreatePostModal = ({ onClose }) => {
                 focus:outline-none placeholder:text-black/50"
               />
             </div>
-
-            <p className="text-sm text-black/50">
-              Press Enter or Comma to add a tag (Max {maxLength} characters)
-            </p>
           </div>
         </div>
 
