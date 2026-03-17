@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { CompressImage } from "../utils/CompressImage";
 
 export const useImageCropper = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -12,12 +13,13 @@ export const useImageCropper = () => {
 
   const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
 
-  const handleImageChange = (file) => {
+  const handleImageChange = async (file) => {
     if (!file) return;
 
-    const previewUrl = URL.createObjectURL(file);
+    const compressedFile = await CompressImage(file);
+    const previewUrl = URL.createObjectURL(compressedFile);
 
-    setImageFile(file);
+    setImageFile(compressedFile);
     setImagePreview(previewUrl);
     setCroppedPreview(null);
     setIsEditing(true);
