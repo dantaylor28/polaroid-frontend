@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { CompressImage } from "../utils/CompressImage";
+import toast from "react-hot-toast";
 
 export const useImageCropper = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -15,6 +16,16 @@ export const useImageCropper = () => {
 
   const handleImageChange = async (file) => {
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image");
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      toast.error("Image must be under 15MB");
+      return;
+    }
 
     const compressedFile = await CompressImage(file);
     const previewUrl = URL.createObjectURL(compressedFile);
