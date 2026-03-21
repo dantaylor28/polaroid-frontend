@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ImageIcon } from "lucide-react";
 import Cropper from "react-easy-crop";
+import toast from "react-hot-toast";
 
 export const ImageCropper = ({
   imagePreview,
@@ -17,6 +18,42 @@ export const ImageCropper = ({
   resetImage,
   toggleEdit,
 }) => {
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Drag handlers
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file");
+      return;
+    }
+
+    handleImageChange(file);
+  };
   return (
     <div className="relative">
       {imagePreview && (
@@ -39,7 +76,14 @@ export const ImageCropper = ({
         id="post-image-input"
       />
 
-      <div className="relative w-full h-90 bg-gray-800/5 rounded-xl overflow-hidden">
+      <div
+        className={`relative w-full h-90 rounded-xl overflow-hidden transition
+  ${isDragging ? "bg-blue-50 ring-2 ring-blue-400" : "bg-gray-800/5"}`}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         {!imagePreview ? (
           <label
             htmlFor="post-image-input"
@@ -47,7 +91,7 @@ export const ImageCropper = ({
           >
             <div className="flex flex-col items-center gap-2">
               <ImageIcon className="size-8 text-gray-500" />
-              <span className="text-sm text-black/60">Select an image</span>
+              <span className="text-sm text-black/60">Drag an image or click to upload</span>
             </div>
           </label>
         ) : isEditing ? (
