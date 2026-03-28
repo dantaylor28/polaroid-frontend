@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
-import Cropper from "react-easy-crop";
 import { useTags } from "../hooks/useTags";
 import { useImageCropper } from "../hooks/useImageCropper";
 import { ImageCropper } from "./ImageCropper";
+import axiosInstance from "../api/axios";
 
 export const CreatePostModal = ({ onClose }) => {
   const [caption, setCaption] = useState("");
@@ -61,6 +61,42 @@ export const CreatePostModal = ({ onClose }) => {
       document.body.style.overflow = "auto";
     };
   }, [caption, tags, imagePreview]);
+
+  const handleSubmitPost = async () => {
+    try {
+      if (!imagePreview) return;
+
+      const formData = new FormData();
+      let imageToUpload;
+
+      if (croppedPreview) {
+        // Convert preview to blob
+        const res = await fetch(croppedPreview);
+        const blob = await res.blob();
+        imageToUpload = blob;
+      } else {
+        imageToUpload = imageFile;
+      }
+
+      // Append image
+      formData.append("post_image", imageToUpload, "post.jpg");
+
+      // Append text fields
+      formData.append("caption", caption);
+
+      // Append tags (not JSON)
+      tags.forEach((tag) => {
+        formData.append("tags", tag);
+      });
+
+      // Send request
+      await axiosInstance.post("/posts/", formData);
+
+      onClose();
+    } catch (error) {
+      console.error("Post upload error:", err.response?.data || err);
+    }
+  };
 
   return (
     <div
@@ -133,7 +169,9 @@ export const CreatePostModal = ({ onClose }) => {
 
           {/* Tags */}
           <div className="space-y-2">
-            <label className="text-sm text-black/70">Tags (Max {maxLength} characters)</label>
+            <label className="text-sm text-black/70">
+              Tags (Max {maxLength} characters)
+            </label>
 
             <div
               className="flex flex-wrap items-center gap-2 rounded-xl bg-gray-800/5 px-3 py-2
