@@ -94,7 +94,8 @@ export const CreatePostModal = ({ onClose }) => {
 
       onClose();
     } catch (error) {
-      console.error("Post upload error:", err.response?.data || err);
+      console.error("Post upload error:", error.response?.data || error);
+      console.log("ERROR RESPONSE:", error.response?.data);
     }
   };
 
@@ -224,6 +225,7 @@ export const CreatePostModal = ({ onClose }) => {
           </button>
 
           <button
+            onClick={handleSubmitPost}
             disabled={!imagePreview || isEditing}
             className="px-5 py-2 text-sm font-medium rounded-full
             bg-blue-600 text-white
