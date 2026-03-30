@@ -28,6 +28,7 @@ export const CreatePostModal = ({ onClose }) => {
     zoom,
     aspect,
     isEditing,
+    croppedAreaPixels,
     setCrop,
     setZoom,
     setAspect,
@@ -69,11 +70,8 @@ export const CreatePostModal = ({ onClose }) => {
       const formData = new FormData();
       let imageToUpload;
 
-      if (croppedPreview) {
-        // Convert preview to blob
-        const res = await fetch(croppedPreview);
-        const blob = await res.blob();
-        imageToUpload = blob;
+      if (croppedAreaPixels) {
+        imageToUpload = await getCroppedImg(imagePreview, croppedAreaPixels);
       } else {
         imageToUpload = imageFile;
       }
@@ -90,7 +88,11 @@ export const CreatePostModal = ({ onClose }) => {
       });
 
       // Send request
-      await axiosInstance.post("/posts/", formData);
+      await axiosInstance.post("/posts/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       onClose();
     } catch (error) {
