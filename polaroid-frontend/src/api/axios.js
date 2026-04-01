@@ -5,9 +5,6 @@ const BASE_URL = "https://social-media-api-9cgk.onrender.com";
 // Create Axios instance
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
   withCredentials: true, // required for cross-origin requests if cookies are used
 });
 

@@ -88,11 +88,7 @@ export const CreatePostModal = ({ onClose }) => {
       });
 
       // Send request
-      await axiosInstance.post("/posts/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await axiosInstance.post("/posts/", formData);
 
       onClose();
     } catch (error) {
