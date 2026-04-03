@@ -9,6 +9,7 @@ import axiosInstance from "../api/axios";
 export const CreatePostModal = ({ onClose }) => {
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const {
     tags,
@@ -65,7 +66,9 @@ export const CreatePostModal = ({ onClose }) => {
 
   const handleSubmitPost = async () => {
     try {
-      if (!imagePreview) return;
+      if (!imagePreview || isUploading) return;
+
+      setIsUploading(true);
 
       const formData = new FormData();
       let imageToUpload;
@@ -88,12 +91,16 @@ export const CreatePostModal = ({ onClose }) => {
       });
 
       // Send request
-      await axiosInstance.post("/posts/", formData);
+      const { data } = await axiosInstance.post("/posts/", formData);
+
+      // addPost(data);
 
       onClose();
     } catch (error) {
       console.error("Post upload error:", error.response?.data || error);
       console.log("ERROR RESPONSE:", error.response?.data);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -224,14 +231,14 @@ export const CreatePostModal = ({ onClose }) => {
 
           <button
             onClick={handleSubmitPost}
-            disabled={!imagePreview || isEditing}
+            disabled={!imagePreview || isEditing || isUploading}
             className="px-5 py-2 text-sm font-medium rounded-full
             bg-blue-600 text-white
             hover:bg-blue-700 hover:cursor-pointer
             disabled:opacity-40 disabled:cursor-not-allowed
             transition"
           >
-            Post
+            {isUploading ? "Posting..." : "Post"}
           </button>
         </div>
       </div>
