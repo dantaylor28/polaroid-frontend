@@ -6,7 +6,7 @@ import { useImageCropper } from "../hooks/useImageCropper";
 import { ImageCropper } from "./ImageCropper";
 import axiosInstance from "../api/axios";
 
-export const CreatePostModal = ({ onClose }) => {
+export const CreatePostModal = ({ onClose, addPost }) => {
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -93,7 +93,7 @@ export const CreatePostModal = ({ onClose }) => {
       // Send request
       const { data } = await axiosInstance.post("/posts/", formData);
 
-      // addPost(data);
+      addPost(data);
 
       onClose();
     } catch (error) {
