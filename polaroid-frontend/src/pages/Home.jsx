@@ -7,6 +7,11 @@ import { CreatePostModal } from "../components/CreatePostModal";
 export const Home = () => {
   const { currentUser } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  const addPost = (newPost) => {
+    setPosts((prev) => [newPost, ...prev]);
+  };
 
   return (
     <div className="mt-30 flex">
@@ -25,7 +30,10 @@ export const Home = () => {
 
             {/* Modal */}
             {isCreateModalOpen && (
-              <CreatePostModal onClose={() => setIsCreateModalOpen(false)} />
+              <CreatePostModal
+                onClose={() => setIsCreateModalOpen(false)}
+                addPost={addPost}
+              />
             )}
           </div>
         )}
