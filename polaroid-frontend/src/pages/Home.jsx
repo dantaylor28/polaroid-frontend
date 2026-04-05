@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreatePostBtn } from "../components/CreatePostBtn";
 import { SideBar } from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
 import { CreatePostModal } from "../components/CreatePostModal";
+import axiosInstance from "../api/axios";
 
 export const Home = () => {
   const { currentUser } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const { data } = await axiosInstance.get("/posts/");
+        setPosts(data.results);
+      } catch (error) {
+        console.error("Error fetching posts", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const addPost = (newPost) => {
     setPosts((prev) => [newPost, ...prev]);
