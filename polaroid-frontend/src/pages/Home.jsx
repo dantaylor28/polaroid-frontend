@@ -28,6 +28,30 @@ export const Home = () => {
               }}
             />
 
+            {/* Map posts */}
+            <div className="mt-6 space-y-4">
+              {posts.map((post) => (
+                <div
+                  key={post.id}
+                  className="p-4 bg-white rounded-xl shadow-sm border"
+                >
+                  <img
+                    src={post.post_image}
+                    alt="post"
+                    className="w-full rounded-lg mb-2"
+                  />
+                  <p>{post.caption}</p>
+                  <div className="flex gap-2 mt-2">
+                    {post.tags_display?.map((tag, i) => (
+                      <span key={i} className="text-sm text-blue-500">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
             {/* Modal */}
             {isCreateModalOpen && (
               <CreatePostModal
