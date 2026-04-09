@@ -39,6 +39,13 @@ export const CreatePostModal = ({ onClose, addPost }) => {
     toggleEdit,
   } = useImageCropper();
 
+  const fileFromBlob = async (blob) => {
+    const arrayBuffer = await blob.arrayBuffer();
+    return new File([arrayBuffer], "post.jpg", {
+      type: blob.type || "image/jpeg",
+    });
+  };
+
   // Confirm modal close while data exists in form
   const hasUnsavedData = Boolean(imagePreview) || caption || tags.length > 0;
   const handleCloseAttempt = () => {
@@ -74,10 +81,19 @@ export const CreatePostModal = ({ onClose, addPost }) => {
       let imageToUpload;
 
       if (croppedAreaPixels) {
-        imageToUpload = await getCroppedImg(imagePreview, croppedAreaPixels);
+        const croppedBlob = await getCroppedImg(
+          imagePreview,
+          croppedAreaPixels,
+        );
       } else {
-        imageToUpload = imageFile;
+        if (imageFile instanceof File) {
+          imageToUpload = imageFile;
+        } else {
+          imageToUpload = await fileFromBlob(imageFile);
+        }
       }
+
+      // console.log("IS FILE:", imageToUpload instanceof File);
 
       // Append image
       formData.append("post_image", imageToUpload, "post.jpg");
