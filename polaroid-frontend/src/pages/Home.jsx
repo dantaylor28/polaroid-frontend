@@ -43,7 +43,7 @@ export const Home = () => {
             />
 
             {/* Map posts */}
-            <div className="mt-6 space-y-4">
+            {/* <div className="mt-6 space-y-4">
               {posts.map((post) => (
                 <div
                   key={post.id}
@@ -62,6 +62,19 @@ export const Home = () => {
                       </span>
                     ))}
                   </div>
+                </div>
+              ))}
+            </div> */}
+
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 p-4">
+              {posts.map((post) => (
+                <div key={post.id} className="mb-4 break-inside-avoid">
+                  <img
+                    src={post.post_image}
+                    alt=""
+                    className="w-full rounded-xl"
+                  />
+                  <p className="mt-2 text-sm">{post.caption}</p>
                 </div>
               ))}
             </div>

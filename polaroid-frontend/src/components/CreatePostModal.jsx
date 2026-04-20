@@ -85,6 +85,8 @@ export const CreatePostModal = ({ onClose, addPost }) => {
           imagePreview,
           croppedAreaPixels,
         );
+
+        imageToUpload = await fileFromBlob(croppedBlob);
       } else {
         if (imageFile instanceof File) {
           imageToUpload = imageFile;
