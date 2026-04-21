@@ -98,7 +98,7 @@ export const CreatePostModal = ({ onClose, addPost }) => {
       // console.log("IS FILE:", imageToUpload instanceof File);
 
       // Append image
-      formData.append("post_image", imageToUpload, "post.jpg");
+      formData.append("post_image", imageToUpload);
 
       // Append text fields
       formData.append("caption", caption);
