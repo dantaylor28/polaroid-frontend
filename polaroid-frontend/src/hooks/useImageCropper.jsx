@@ -55,7 +55,13 @@ export const useImageCropper = () => {
     const croppedBlob = await getCroppedImg(imagePreview, croppedAreaPixels);
     const previewUrl = URL.createObjectURL(croppedBlob);
 
+    const croppedFile = new File([croppedBlob], "post.jpg", {
+      type: "image/jpeg",
+    });
+
     setCroppedPreview(previewUrl);
+
+    setImageFile(croppedFile);
   }, [croppedAreaPixels, imagePreview]);
 
   const toggleEdit = async () => {
