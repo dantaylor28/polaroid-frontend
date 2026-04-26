@@ -62,7 +62,7 @@ export const CreatePostModal = ({ onClose, addPost }) => {
       document.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "auto";
     };
-  }, [caption, tags, imagePreview]);
+  }, [caption, tags, imagePreview, handleCloseAttempt]);
 
   const handleSubmitPost = async () => {
     try {

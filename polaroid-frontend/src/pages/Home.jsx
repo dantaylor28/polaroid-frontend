@@ -72,7 +72,7 @@ export const Home = () => {
                   <img
                     src={post.post_image}
                     alt=""
-                    className="w-full rounded-xl"
+                    className="w-full rounded-lg"
                   />
                   <p className="mt-2 text-sm">{post.caption}</p>
                 </div>

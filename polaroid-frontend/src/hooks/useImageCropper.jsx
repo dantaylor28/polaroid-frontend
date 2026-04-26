@@ -59,6 +59,9 @@ export const useImageCropper = () => {
       type: "image/jpeg",
     });
 
+    if (croppedPreview) {
+      URL.revokeObjectURL(croppedPreview);
+    }
     setCroppedPreview(previewUrl);
 
     setImageFile(croppedFile);
