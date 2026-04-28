@@ -28,7 +28,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="mt-30 flex">
+    <div className="pt-32 flex">
       <SideBar />
       <div>
         {!currentUser ? (
