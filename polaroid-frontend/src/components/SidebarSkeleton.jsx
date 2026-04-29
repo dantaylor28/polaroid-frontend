@@ -12,7 +12,7 @@ export const SidebarSkeleton = ({ rows = 6 }) => {
           <div className="w-8 h-8 rounded-full bg-black/10 animate-pulse" />
 
           {/* Username */}
-          <div className="h-3 w-32 rounded-lg bg-black/10 animate-pulse" />
+          <div className="h-3 md:w-32 lg:w-40 xl:w-48 rounded-lg bg-black/10 animate-pulse" />
         </li>
       ))}
     </ul>
