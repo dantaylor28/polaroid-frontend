@@ -50,7 +50,7 @@ export const SideBar = () => {
         );
 
   return (
-    <aside className="w-64 border-r border-black/5">
+    <aside className="hidden md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5">
       <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
         Suggested Users
       </h2>
