@@ -1,3 +1,4 @@
+import { Hamburger, HamburgerIcon, LucideHamburger, Menu, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
 export const MobileSidebar = () => {
@@ -22,5 +23,23 @@ export const MobileSidebar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  return <div>MobileSidebar</div>;
+  return (
+    <>
+      {expanded ? (
+        <button
+          className="md:hidden flex fixed top-5 left-6 z-20 text-2xl"
+          onClick={() => setExpanded(!expanded)}
+        >
+          <X />
+        </button>
+      ) : (
+        <button
+          className="md:hidden flex items-center z-20 text-2xl"
+          onClick={() => setExpanded(!expanded)}
+        >
+            <Menu />
+        </button>
+      )}
+    </>
+  );
 };

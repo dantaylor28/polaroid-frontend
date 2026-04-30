@@ -5,6 +5,7 @@ import { LogoutBtn } from "./LogoutBtn";
 import { House } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import toast from "react-hot-toast";
+import { MobileSidebar } from "./MobileSidebar";
 
 export const NavBar = () => {
   const { currentUser, logout } = useAuth();
@@ -28,6 +29,7 @@ export const NavBar = () => {
         {/* Centered container */}
         <div className="max-w-7xl mx-auto px-8 py-4">
           <div className="flex items-center justify-between">
+            <MobileSidebar />
             {/* Logo */}
             <Link to="/" className="text-2xl font-bold text-blue-700 px-3.5">
               Polaroid
