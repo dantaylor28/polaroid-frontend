@@ -31,7 +31,7 @@ export const NavBar = () => {
           <div className="flex items-center justify-between">
             <MobileSidebar />
             {/* Logo */}
-            <Link to="/" className="text-2xl font-bold text-blue-700 px-3.5">
+            <Link to="/" className="hidden md:flex text-2xl font-bold text-blue-700 px-3.5">
               Polaroid
             </Link>
 
