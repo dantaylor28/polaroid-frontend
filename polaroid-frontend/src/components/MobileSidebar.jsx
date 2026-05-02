@@ -26,33 +26,36 @@ export const MobileSidebar = () => {
   }, []);
   return (
     <>
-      {expanded ? (
-        <button
-          className="md:hidden flex z-20 text-2xl"
-          onClick={() => setExpanded(!expanded)}
-        >
-          <X />
-        </button>
-      ) : (
-        <button
-          className="md:hidden flex items-center z-20 text-2xl"
-          onClick={() => setExpanded(!expanded)}
-        >
-          <Menu />
-        </button>
+      <button
+        className="md:hidden flex items-center z-30 text-2xl"
+        onClick={() => setExpanded((prev) => !prev)}
+      >
+        {expanded ? <X /> : <Menu />}
+      </button>
+
+      {expanded && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-10"
+          onClick={() => setExpanded(false)}
+        />
       )}
+
       <div
         ref={sidebarRef}
-        className={`flex md:hidden top-0 left-0 w-[60vw] fixed h-full bg-red-500 z-10 ease-in-out duration-700 ${
+        className={`fixed top-0 left-0 w-[60vw] h-full bg-white transform transition-transform z-20 ease-in-out duration-700 ${
           expanded ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <Link
-          to="/"
-          className="flex md:hidden text-2xl font-bold text-blue-700 px-3.5"
-        >
-          Polaroid
-        </Link>
+        <div className="flex items-center justify-end p-4">
+          <Link
+            to="/"
+            className="text-2xl font-bold text-blue-700"
+            onClick={() => setExpanded(false)}
+          >
+            Polaroid
+          </Link>
+        </div>
+        {/* Rest of sidebar content here */}
       </div>
     </>
   );
