@@ -27,7 +27,7 @@ export const MobileSidebar = () => {
   return (
     <>
       <button
-        className="md:hidden flex items-center z-30 text-2xl"
+        className="md:hidden flex items-center z-30 text-2xl cursor-pointer"
         onClick={() => setExpanded((prev) => !prev)}
       >
         {expanded ? <X /> : <Menu />}
@@ -46,7 +46,7 @@ export const MobileSidebar = () => {
           expanded ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-end p-4">
+        <div className="flex items-center justify-end p-4 mt-2.75 mr-6">
           <Link
             to="/"
             className="text-2xl font-bold text-blue-700"
