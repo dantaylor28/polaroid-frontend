@@ -1,53 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useAuth } from "../context/AuthContext";
 import { useProfiles } from "../context/ProfileContext";
 import { ChevronRight } from "lucide-react";
 import SearchBar from "./SearchBar";
-import { useDebounce } from "../hooks/useDebounce";
-import axiosInstance from "../api/axios";
 import { Link } from "react-router-dom";
 import { SidebarSkeleton } from "./SidebarSkeleton";
+import { useProfileSearch } from "../hooks/useProfileSearch";
 
 export const SideBar = () => {
   const { currentUser } = useAuth();
   const { profiles, loading } = useProfiles();
   const [openProfileCard, setOpenProfileCard] = useState(null);
   const [anchorRect, setAnchorRect] = useState(null);
-  const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [searching, setSearching] = useState(false);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const { query, setQuery, debouncedQuery, searching, profilesToShow } =
+    useProfileSearch(profiles, currentUser);
 
-  useEffect(() => {
-    if (!debouncedQuery) {
-      setSearchResults([]);
-      return;
-    }
-
-    const fetchSearchResults = async () => {
-      setSearching(true);
-      try {
-        const { data } = await axiosInstance.get(
-          `/profiles/?search=${debouncedQuery}`
-        );
-        setSearchResults(data.results ?? []);
-      } catch (error) {
-        console.log("Search Failed:", error);
-      } finally {
-        setSearching(false);
-      }
-    };
-    fetchSearchResults();
-  }, [debouncedQuery]);
-
-  const profilesToShow =
-    loading || searching
-      ? []
-      : (debouncedQuery ? searchResults : profiles).filter(
-          (p) => p.owner !== currentUser?.username
-        );
+  const displayProfiles = loading || searching ? [] : profilesToShow;
 
   return (
     <aside className="hidden md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5">
@@ -61,14 +31,17 @@ export const SideBar = () => {
         {(loading || searching) && <SidebarSkeleton rows={6} />}
       </div>
       <ul>
-        {profilesToShow.length === 0 && debouncedQuery && !searching && (
-          <li className="px-4 py-6 text-center text-sm text-black/50">
-            No users found for “
-            <span className="font-medium">{debouncedQuery}</span>”
-          </li>
-        )}
+        {displayProfiles.length === 0 &&
+          debouncedQuery &&
+          !searching &&
+          !loading && (
+            <li className="px-4 py-6 text-center text-sm text-black/50">
+              No users found for “
+              <span className="font-medium">{debouncedQuery}</span>”
+            </li>
+          )}
 
-        {profilesToShow.map((profile) => (
+        {displayProfiles.map((profile) => (
           <Link to={`/profile/${profile.owner}`} key={profile.id}>
             <li
               className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
