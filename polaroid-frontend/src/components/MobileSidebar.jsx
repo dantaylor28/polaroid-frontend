@@ -1,10 +1,21 @@
 import { Menu, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useProfileSearch } from "../hooks/useProfileSearch";
+import { useProfiles } from "../context/ProfileContext";
+import { useAuth } from "../context/AuthContext";
+import SearchBar from "./SearchBar";
 
 export const MobileSidebar = () => {
   const [expanded, setExpanded] = useState(false);
   const sidebarRef = useRef(null);
+  const { profiles } = useProfiles();
+  const { currentUser } = useAuth();
+
+  const { query, setQuery, searching, profilesToShow } = useProfileSearch(
+    profiles,
+    currentUser,
+  );
 
   //   Close sidebar when a profile is clicked
   const handleSidebarClick = () => {
@@ -56,6 +67,14 @@ export const MobileSidebar = () => {
           </Link>
         </div>
         {/* Rest of sidebar content here */}
+        <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
+          Suggested Users
+        </h2>
+        <SearchBar
+          value={query}
+          onChange={setQuery}
+          placeholder="Search Users"
+        />
       </div>
     </>
   );
