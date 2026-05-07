@@ -27,43 +27,46 @@ export const SideBar = () => {
       {/* SearchBar */}
       <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
 
-      <div className="flex items-center justify-center">
-        {(loading || searching) && <SidebarSkeleton rows={6} />}
-      </div>
-      <ul>
-        {displayProfiles.length === 0 &&
-          debouncedQuery &&
-          !searching &&
-          !loading && (
-            <li className="px-4 py-6 text-center text-sm text-black/50">
-              No users found for “
-              <span className="font-medium">{debouncedQuery}</span>”
-            </li>
-          )}
+      {loading || searching ? (
+        <div className="flex items-center justify-center">
+          <SidebarSkeleton rows={6} />
+        </div>
+      ) : (
+        <ul>
+          {displayProfiles.length === 0 &&
+            debouncedQuery &&
+            !searching &&
+            !loading && (
+              <li className="px-4 py-6 text-center text-sm text-black/50">
+                No users found for “
+                <span className="font-medium">{debouncedQuery}</span>”
+              </li>
+            )}
 
-        {displayProfiles.map((profile) => (
-          <Link to={`/profile/${profile.owner}`} key={profile.id}>
-            <li
-              className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
-              onMouseEnter={(e) => {
-                setOpenProfileCard(profile);
-                setAnchorRect(e.currentTarget.getBoundingClientRect());
-              }}
-            >
-              <img
-                src={profile.profile_image || "/avatar-placeholder.png"}
-                className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
-              />
-              <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
-                {profile.owner}
-              </span>
-              <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
-                <ChevronRight />
-              </div>
-            </li>
-          </Link>
-        ))}
-      </ul>
+          {displayProfiles.map((profile) => (
+            <Link to={`/profile/${profile.owner}`} key={profile.id}>
+              <li
+                className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
+                onMouseEnter={(e) => {
+                  setOpenProfileCard(profile);
+                  setAnchorRect(e.currentTarget.getBoundingClientRect());
+                }}
+              >
+                <img
+                  src={profile.profile_image || "/avatar-placeholder.png"}
+                  className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
+                />
+                <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
+                  {profile.owner}
+                </span>
+                <div className="absolute right-2 text-black/15 group-hover:text-black/30 transition">
+                  <ChevronRight />
+                </div>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      )}
       {/* Profile Hover Card */}
       {openProfileCard && anchorRect && (
         <ProfileHoverCard
