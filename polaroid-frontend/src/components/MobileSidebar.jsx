@@ -78,6 +78,7 @@ export const MobileSidebar = () => {
           searching={searching}
           profilesToShow={profilesToShow}
           debouncedQuery={debouncedQuery}
+          onProfileClick={handleSidebarClick}
         />
       </div>
     </>

@@ -5,7 +5,12 @@ import { ChevronRight } from "lucide-react";
 import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useProfiles } from "../context/ProfileContext";
 
-export const ProfileList = ({debouncedQuery, searching, profilesToShow}) => {
+export const ProfileList = ({
+  debouncedQuery,
+  searching,
+  profilesToShow,
+  onProfileClick,
+}) => {
   const [openProfileCard, setOpenProfileCard] = useState(null);
   const [anchorRect, setAnchorRect] = useState(null);
   const { loading } = useProfiles();
@@ -30,7 +35,11 @@ export const ProfileList = ({debouncedQuery, searching, profilesToShow}) => {
             )}
 
           {displayProfiles.map((profile) => (
-            <Link to={`/profile/${profile.owner}`} key={profile.id}>
+            <Link
+              to={`/profile/${profile.owner}`}
+              key={profile.id}
+              onClick={onProfileClick}
+            >
               <li
                 className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
                 onMouseEnter={(e) => {
