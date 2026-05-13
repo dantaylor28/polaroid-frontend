@@ -5,6 +5,7 @@ import { useProfileSearch } from "../hooks/useProfileSearch";
 import { useProfiles } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
 import SearchBar from "./SearchBar";
+import { ProfileList } from "./ProfileList";
 
 export const MobileSidebar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -12,10 +13,8 @@ export const MobileSidebar = () => {
   const { profiles } = useProfiles();
   const { currentUser } = useAuth();
 
-  const { query, setQuery, searching, profilesToShow } = useProfileSearch(
-    profiles,
-    currentUser,
-  );
+  const { query, setQuery, debouncedQuery, searching, profilesToShow } =
+    useProfileSearch(profiles, currentUser);
 
   //   Close sidebar when a profile is clicked
   const handleSidebarClick = () => {
@@ -74,6 +73,11 @@ export const MobileSidebar = () => {
           value={query}
           onChange={setQuery}
           placeholder="Search Users"
+        />
+        <ProfileList
+          searching={searching}
+          profilesToShow={profilesToShow}
+          debouncedQuery={debouncedQuery}
         />
       </div>
     </>
