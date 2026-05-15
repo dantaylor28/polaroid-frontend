@@ -52,7 +52,7 @@ export const MobileSidebar = () => {
 
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 w-[60vw] h-full bg-white transform transition-transform z-20 ease-in-out duration-700 ${
+        className={`fixed top-0 left-0 w-[80vw] max-w-sm h-full overflow-y-auto bg-white transform transition-transform z-20 ease-in-out duration-700 ${
           expanded ? "translate-x-0" : "-translate-x-full"
         }`}
       >
