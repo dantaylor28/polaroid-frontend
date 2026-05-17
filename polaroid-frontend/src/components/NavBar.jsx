@@ -45,8 +45,8 @@ export const NavBar = () => {
                   `px-3.5 py-1.5 rounded-full transition ${
                     isAuthPage
                       ? isActive
-                        ? "text-white bg-white/30"
-                        : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                        ? "md:text-white md:bg-white/30 bg-gray-100 text-black"
+                        : "md:text-white/50 md:bg-white/10 md:hover:text-white md:hover:bg-white/20"
                       : isActive
                         ? "bg-gray-100 text-black shadow-sm"
                         : "text-gray-700 hover:bg-gray-100 hover:text-black"
@@ -88,11 +88,11 @@ export const NavBar = () => {
                     ${
                       isAuthPage
                         ? isActive
-                          ? "text-white bg-white/30"
-                          : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                          ? "md:text-white md:bg-white/30 bg-gray-100 text-black"
+                          : "md:text-white/50 md:bg-white/10 md:hover:text-white md:hover:bg-white/20"
                         : isActive
-                          ? "bg-white text-black shadow-sm"
-                          : "text-gray-700 hover:bg-gray-50 hover:text-black"
+                          ? "md:bg-white md:text-black shadow-sm"
+                          : "text-gray-700 md:hover:bg-gray-50 hover:text-black hover:bg-gray-100"
                     }`
                     }
                   >
@@ -106,11 +106,11 @@ export const NavBar = () => {
                   ${
                     isAuthPage
                       ? isActive
-                        ? "text-white bg-white/30"
-                        : "text-white/50 bg-white/10 hover:text-white hover:bg-white/20"
+                        ? "md:text-white md:bg-white/30 bg-gray-100 text-black"
+                        : "md:text-white/50 md:*:bg-white/10 md:hover:text-white md:hover:bg-white/20"
                       : isActive
-                        ? "bg-white text-black shadow-sm"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-black"
+                        ? "md:bg-white md:text-black shadow-sm"
+                        : "text-gray-700 md:hover:bg-gray-50 hover:text-black hover:bg-gray-100"
                   }`
                     }
                   >
@@ -122,7 +122,7 @@ export const NavBar = () => {
           </div>
 
           {isAuthPage && (
-            <div className="mx-auto h-px mt-5 bg-[linear-gradient(to_right,black_50%,white_50%)] opacity-20" />
+            <div className="hidden md:block mx-auto h-px mt-5 bg-[linear-gradient(to_right,black_50%,white_50%)] opacity-20" />
           )}
         </div>
       </nav>
