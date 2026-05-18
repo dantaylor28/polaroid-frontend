@@ -37,7 +37,7 @@ export const MobileSidebar = () => {
   return (
     <>
       <button
-        className="md:hidden flex items-center z-30 text-2xl cursor-pointer"
+        className={`md:hidden ${!currentUser && "hidden"} flex items-center z-30 text-2xl cursor-pointer`}
         onClick={() => setExpanded((prev) => !prev)}
       >
         {expanded ? <X /> : <Menu />}
