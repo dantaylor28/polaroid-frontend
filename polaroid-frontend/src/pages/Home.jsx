@@ -4,10 +4,12 @@ import { SideBar } from "../components/SideBar";
 import { useAuth } from "../context/AuthContext";
 import { CreatePostModal } from "../components/CreatePostModal";
 import axiosInstance from "../api/axios";
+import { PostDetailsModal } from "../components/PostDetailsModal";
 
 export const Home = () => {
   const { currentUser } = useAuth();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -42,39 +44,17 @@ export const Home = () => {
               }}
             />
 
-            {/* Map posts */}
-            {/* <div className="mt-6 space-y-4">
-              {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="p-4 bg-white rounded-xl shadow-sm border"
-                >
-                  <img
-                    src={post.post_image}
-                    alt="post"
-                    className="w-full rounded-lg mb-2"
-                  />
-                  <p>{post.caption}</p>
-                  <div className="flex gap-2 mt-2">
-                    {post.tags_display?.map((tag, i) => (
-                      <span key={i} className="text-sm text-blue-500">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div> */}
-
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 p-4">
               {posts.map((post) => (
                 <div key={post.id} className="mb-4 break-inside-avoid">
                   <img
                     src={post.post_image}
-                    alt=""
-                    className="w-full rounded-lg"
+                    alt="Post image"
+                    className="w-full rounded-lg cursor-pointer"
+                    onClick={() => {
+                      setSelectedPost(post);
+                    }}
                   />
-                  <p className="mt-2 text-sm">{post.caption}</p>
                 </div>
               ))}
             </div>
@@ -84,6 +64,13 @@ export const Home = () => {
               <CreatePostModal
                 onClose={() => setIsCreateModalOpen(false)}
                 addPost={addPost}
+              />
+            )}
+
+            {selectedPost && (
+              <PostDetailsModal
+                post={selectedPost}
+                onClose={() => setSelectedPost(null)}
               />
             )}
           </div>
