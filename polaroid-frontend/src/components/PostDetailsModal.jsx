@@ -29,7 +29,10 @@ export const PostDetailsModal = ({ post, onClose }) => {
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-[95vh] overflow-y-auto">
+      <div
+        className="relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-[95vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="relative px-5 py-4">
           <button
@@ -53,6 +56,11 @@ export const PostDetailsModal = ({ post, onClose }) => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Left side */}
+        <div className="flex-1 bg-black flex items-center justify-center">
+            <img src={post.post_image} alt="post" className="max-h-[80vh] object-contain" />
         </div>
       </div>
     </div>
