@@ -30,11 +30,11 @@ export const PostDetailsModal = ({ post, onClose }) => {
 
       {/* Modal */}
       <div
-        className="relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/5 max-h-[95vh] overflow-y-auto"
+        className="flex relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] ring-1 ring-black/10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="relative px-5 py-4">
+        {/* <div className="relative px-5 py-4">
           <button
             onClick={onClose}
             className="absolute right-5 top-4 size-8 rounded-full flex items-center justify-center
@@ -56,11 +56,49 @@ export const PostDetailsModal = ({ post, onClose }) => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Left side */}
         <div className="flex-1 bg-black flex items-center justify-center">
-            <img src={post.post_image} alt="post" className="max-h-[80vh] object-contain" />
+          <img
+            src={post.post_image}
+            alt="post"
+            className="max-h-[80vh] object-contain"
+          />
+        </div>
+
+        {/* Right side */}
+        <div className="w-100 flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b">
+            <span className="font-medium">{post.owner}</span>
+            <button
+              onClick={onClose}
+              className="size-8 rounded-full flex items-center justify-center
+            text-black/50 hover:text-black hover:bg-black/5 transition hover:cursor-pointer"
+              aria-label="Close modal"
+            >
+              ×
+            </button>
+          </div>
+
+          {/* Caption/Tags */}
+          <div className="px-4 py-3 space-y-2 border-b">
+            <p className="text-sm">{post.caption}</p>
+
+            <div className="flex flex-wrap gap-2">
+              {post.tags_display.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs bg-gray-200 px-2 py-1 rounded-full"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Comments */}
         </div>
       </div>
     </div>
