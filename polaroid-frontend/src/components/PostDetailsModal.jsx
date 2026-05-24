@@ -99,6 +99,26 @@ export const PostDetailsModal = ({ post, onClose }) => {
           </div>
 
           {/* Comments */}
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+            {/* Replace with actual comments later */}
+            <p className="text-sm text-gray-500">No comments yet..</p>
+          </div>
+
+          {/* Actions */}
+          <div className="border-t px-4 py-3 space-y-2">
+            {/* Like button */}
+            <button className="text-xl">❤️</button>
+
+            {/* Add comment */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Add a comment..."
+                className="flex-1 text-sm border rounded-full px-3 py-1"
+              />
+              <button className="text-blue-500 text-sm">Post</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
