@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Image as ImageIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const PostDetailsModal = ({ post, onClose }) => {
   // Close on ESC
@@ -59,7 +60,7 @@ export const PostDetailsModal = ({ post, onClose }) => {
         </div> */}
 
         {/* Left side */}
-        <div className="flex-1 bg-black flex items-center justify-center">
+        <div className="w-full h-full object-contain max-h-[95vh] flex-1 bg-black flex items-center justify-center">
           <img
             src={post.post_image}
             alt="post"
@@ -71,7 +72,15 @@ export const PostDetailsModal = ({ post, onClose }) => {
         <div className="w-100 flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b">
-            <span className="font-medium">{post.owner}</span>
+            <Link to={`/profile/${post.owner}`} className="flex items-center gap-2">
+              <img
+                src={post.profile_image || "/avatar-placeholder.png"}
+                className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
+              />
+              <span className="text-sm font-medium text-black/70 capitalize group-hover:text-black">
+                {post.owner}
+              </span>
+            </Link>
             <button
               onClick={onClose}
               className="size-8 rounded-full flex items-center justify-center
