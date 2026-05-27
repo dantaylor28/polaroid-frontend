@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Image as ImageIcon } from "lucide-react";
+import { Image as ImageIcon, Heart, Pin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const PostDetailsModal = ({ post, onClose }) => {
@@ -71,8 +71,11 @@ export const PostDetailsModal = ({ post, onClose }) => {
         {/* Right side */}
         <div className="w-100 flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b">
-            <Link to={`/profile/${post.owner}`} className="flex items-center gap-2">
+          <div className="flex items-center justify-between px-4 py-4">
+            <Link
+              to={`/profile/${post.owner}`}
+              className="flex items-center gap-2"
+            >
               <img
                 src={post.profile_image || "/avatar-placeholder.png"}
                 className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
@@ -89,6 +92,23 @@ export const PostDetailsModal = ({ post, onClose }) => {
             >
               ×
             </button>
+          </div>
+          <div className="border-b mx-5 border-black/10" />
+          <div className="flex items-center px-4 py-4 gap-4">
+            {/* Like button */}
+            <div className="flex items-center gap-1">
+              <button className="text-gray-300">
+                <Heart className="size-6.5" />
+              </button>
+              <span className="text-sm">0</span>
+            </div>
+            {/* Pin button */}
+            <div className="flex items-center gap-1 text-sm">
+              <button className="text-gray-300">
+                <Pin className="size-6.5" />
+              </button>
+              <span className="text-sm">{post.num_of_pins}</span>
+            </div>
           </div>
 
           {/* Caption/Tags */}
@@ -115,9 +135,6 @@ export const PostDetailsModal = ({ post, onClose }) => {
 
           {/* Actions */}
           <div className="border-t px-4 py-3 space-y-2">
-            {/* Like button */}
-            <button className="text-xl">❤️</button>
-
             {/* Add comment */}
             <div className="flex gap-2">
               <input
