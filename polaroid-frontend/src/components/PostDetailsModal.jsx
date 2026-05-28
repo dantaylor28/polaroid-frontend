@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image as ImageIcon, Heart, Pin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const PostDetailsModal = ({ post, onClose }) => {
+  const [liked, setLiked] = useState(false);
+  const [pinned, setPinned] = useState(false);
   // Close on ESC
   useEffect(() => {
     const handleEsc = (e) => {
@@ -97,15 +99,27 @@ export const PostDetailsModal = ({ post, onClose }) => {
           <div className="flex items-center px-4 py-4 gap-4">
             {/* Like button */}
             <div className="flex items-center gap-1">
-              <button className="text-gray-300">
-                <Heart className="size-6.5" />
+              <button
+                className={`${liked ? "text-red-500" : "text-gray-300"} cursor-pointer ${!liked ? "hover:text-red-500/80" : ""} transition`}
+                onClick={() => setLiked((prev) => !prev)}
+              >
+                <Heart
+                  className="size-6.5"
+                  fill={liked ? "currentColor" : "none"}
+                />
               </button>
               <span className="text-sm">0</span>
             </div>
             {/* Pin button */}
             <div className="flex items-center gap-1 text-sm">
-              <button className="text-gray-300">
-                <Pin className="size-6.5" />
+              <button
+                className={`${pinned ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!pinned ? "hover:text-blue-600/80" : ""} transition`}
+                onClick={() => setPinned((prev) => !prev)}
+              >
+                <Pin
+                  className="size-6.5"
+                  fill={pinned ? "currentColor" : "none"}
+                />
               </button>
               <span className="text-sm">{post.num_of_pins}</span>
             </div>
