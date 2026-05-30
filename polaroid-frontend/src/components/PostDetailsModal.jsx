@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Image as ImageIcon, Heart, Pin } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Heart,
+  Pin,
+  SendHorizonal,
+  MessageCircle,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const PostDetailsModal = ({ post, onClose }) => {
@@ -36,31 +42,6 @@ export const PostDetailsModal = ({ post, onClose }) => {
         className="flex relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] ring-1 ring-black/10"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        {/* <div className="relative px-5 py-4">
-          <button
-            onClick={onClose}
-            className="absolute right-5 top-4 size-8 rounded-full flex items-center justify-center
-           text-black/50 hover:text-black hover:bg-black/5 transition hover:cursor-pointer"
-            aria-label="Close modal"
-          >
-            ×
-          </button>
-          <div className="flex w-full items-center justify-center gap-3">
-            <div className="size-10 rounded-xl flex items-center justify-center bg-blue-400/30 mb-2 mt-2 group hover:bg-blue-400/35">
-              <ImageIcon className="size-6 text-blue-600 group-hover:text-blue-700" />
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-md capitalize font-medium text-black tracking-wider">
-                Share a post
-              </h1>
-              <p className="font-light text-black/70 text-sm">
-                Fill in the form to create a post
-              </p>
-            </div>
-          </div>
-        </div> */}
-
         {/* Left side */}
         <div className="w-full h-full object-contain max-h-[95vh] flex-1 bg-black flex items-center justify-center">
           <img
@@ -126,7 +107,7 @@ export const PostDetailsModal = ({ post, onClose }) => {
           </div>
 
           {/* Caption/Tags */}
-          <div className="px-4 py-1 space-y-1.5">
+          <div className="px-4 pt-1 pb-4 space-y-1.5">
             <p className="flex gap-2 text-sm">
               <Link to={`/profile/${post.owner}`}>
                 <span className="font-semibold">{post.owner}</span>
@@ -152,24 +133,31 @@ export const PostDetailsModal = ({ post, onClose }) => {
               </p>
             </div>
           </div>
+          <div className="border-b mx-5 border-black/10" />
 
           {/* Comments */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+          <div className="flex-1 flex items-center justify-center overflow-y-auto px-4 py-3 space-y-2">
             {/* Replace with actual comments later */}
-            <p className="text-sm text-gray-500">No comments yet..</p>
+            <div className="flex flex-col items-center text-center">
+              <MessageCircle className="size-12 text-black/40 mb-3" />
+              <p className="items-center text-xs text-black/70 font-medium">
+                Nothing to show...
+              </p>
+              <p className="items-center text-xs text-black/40 mt-1">
+                Be the first to comment
+              </p>
+            </div>
           </div>
 
-          {/* Actions */}
-          <div className="border-t px-4 py-3 space-y-2">
-            {/* Add comment */}
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Add a comment..."
-                className="flex-1 text-sm border rounded-full px-3 py-1"
-              />
-              <button className="text-blue-500 text-sm">Post</button>
-            </div>
+          <div className="flex items-center relative my-2 mx-3">
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              placeholder="Add a comment..."
+              className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-2 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+            />
+            <SendHorizonal className="absolute pointer-events-none right-0 mr-2 size-5 text-black/45 peer-focus:text-black/70" />
           </div>
         </div>
       </div>
