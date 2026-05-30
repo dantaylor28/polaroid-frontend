@@ -96,7 +96,7 @@ export const PostDetailsModal = ({ post, onClose }) => {
             </button>
           </div>
           <div className="border-b mx-5 border-black/10" />
-          <div className="flex items-center px-4 py-4 gap-4">
+          <div className="flex items-center px-4 pt-4 pb-2 gap-4">
             {/* Like button */}
             <div className="flex items-center gap-1">
               <button
@@ -126,18 +126,30 @@ export const PostDetailsModal = ({ post, onClose }) => {
           </div>
 
           {/* Caption/Tags */}
-          <div className="px-4 py-3 space-y-2 border-b">
-            <p className="text-sm">{post.caption}</p>
+          <div className="px-4 py-1 space-y-1.5">
+            <p className="flex gap-2 text-sm">
+              <Link to={`/profile/${post.owner}`}>
+                <span className="font-semibold">{post.owner}</span>
+              </Link>
+              <span>{post.caption}</span>
+            </p>
 
-            <div className="flex flex-wrap gap-2">
-              {post.tags_display.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs bg-gray-200 px-2 py-1 rounded-full"
-                >
-                  #{tag}
-                </span>
-              ))}
+            {post.tags_display?.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {post.tags_display.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs bg-blue-600/90 hover:bg-blue-600 text-white px-2 py-1 rounded-full cursor-pointer"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            <div>
+              <p className="text-[10px] font-semibold text-black/50">
+                {post.uploaded_at}
+              </p>
             </div>
           </div>
 
