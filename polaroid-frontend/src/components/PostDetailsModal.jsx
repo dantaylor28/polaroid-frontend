@@ -107,7 +107,9 @@ export const PostDetailsModal = ({ post, onClose }) => {
           </div>
 
           {/* Caption/Tags */}
-          <div className="px-4 pt-1 pb-4 space-y-1.5">
+          <div
+            className={`px-4 pt-1 pb-4 ${post.tags_display?.length > 0 ? "space-y-1.5" : ""}`}
+          >
             <p className="flex gap-2 text-sm">
               <Link to={`/profile/${post.owner}`}>
                 <span className="font-semibold">{post.owner}</span>
@@ -139,7 +141,7 @@ export const PostDetailsModal = ({ post, onClose }) => {
           <div className="flex-1 flex items-center justify-center overflow-y-auto px-4 py-3 space-y-2">
             {/* Replace with actual comments later */}
             <div className="flex flex-col items-center text-center">
-              <MessageCircle className="size-12 text-black/40 mb-3" />
+              <MessageCircle className="size-12 text-black/40 mb-3 animate-pulse" />
               <p className="items-center text-xs text-black/70 font-medium">
                 Nothing to show...
               </p>
