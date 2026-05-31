@@ -39,15 +39,15 @@ export const PostDetailsModal = ({ post, onClose }) => {
 
       {/* Modal */}
       <div
-        className="flex relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] ring-1 ring-black/10"
+        className="flex relative w-full max-w-5xl mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh] ring-1 ring-black/10 p-3"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Left side */}
-        <div className="w-full h-full object-contain max-h-[95vh] flex-1 bg-black flex items-center justify-center">
+        <div className="w-full h-full object-contain max-h-[95vh] rounded-2xl overflow-hidden flex-1 bg-black flex items-center justify-center">
           <img
             src={post.post_image}
             alt="post"
-            className="max-h-[80vh] object-contain"
+            className="min-h-150 max-h-[80vh] object-contain"
           />
         </div>
 
@@ -151,15 +151,15 @@ export const PostDetailsModal = ({ post, onClose }) => {
             </div>
           </div>
 
-          <div className="flex items-center relative my-2 mx-3">
+          <div className="flex items-center relative mt-2 mb-3 mx-3">
             <input
               type="text"
               id="comment"
               name="comment"
               placeholder="Add a comment..."
-              className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-2 placeholder:text-black/40 peer focus:outline-none focus:border-black/40"
+              className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-2 placeholder:text-black/40 focus:outline-none focus:border-black/40"
             />
-            <SendHorizonal className="absolute pointer-events-none right-0 mr-2 size-5 text-black/45 peer-focus:text-black/70" />
+            <SendHorizonal className="absolute right-0 mr-2 size-5 text-blue-600 hover:text-blue-700 cursor-pointer hover:translate-x-0.75 transition duration-200" />
           </div>
         </div>
       </div>
