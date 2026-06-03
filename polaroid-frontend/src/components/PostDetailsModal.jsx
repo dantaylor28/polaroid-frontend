@@ -7,10 +7,38 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../api/axios";
 
 export const PostDetailsModal = ({ post, onClose }) => {
   const [liked, setLiked] = useState(false);
-  const [pinned, setPinned] = useState(false);
+
+  const [pinned, setPinned] = useState(Boolean(post.pinned_id));
+  const [pinId, setPinId] = useState(post.pinned_id);
+  const [pinCount, setPinCount] = useState(post.num_of_pins);
+
+  //   Pin Handler
+  const handlePin = async () => {
+    try {
+      if (pinned) {
+        await axiosInstance.delete(`/pins/${pinId}`);
+
+        setPinned(false);
+        setPinId(null);
+        setPinCount((prev) => prev - 1);
+      } else {
+        const { data } = await axiosInstance.post("/pins/", {
+          post: post.id,
+        });
+
+        setPinned(true);
+        setPinId(data.id);
+        setPinCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.error("Error updating pin", error);
+    }
+  };
+
   // Close on ESC
   useEffect(() => {
     const handleEsc = (e) => {
@@ -95,14 +123,14 @@ export const PostDetailsModal = ({ post, onClose }) => {
             <div className="flex items-center gap-1 text-sm">
               <button
                 className={`${pinned ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!pinned ? "hover:text-blue-600/80" : ""} transition`}
-                onClick={() => setPinned((prev) => !prev)}
+                onClick={handlePin}
               >
                 <Pin
                   className="size-6.5"
                   fill={pinned ? "currentColor" : "none"}
                 />
               </button>
-              <span className="text-sm">{post.num_of_pins}</span>
+              <span className="text-sm">{pinCount}</span>
             </div>
           </div>
 
