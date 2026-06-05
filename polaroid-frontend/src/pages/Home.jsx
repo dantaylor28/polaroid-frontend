@@ -30,6 +30,13 @@ export const Home = () => {
     setPosts((prev) => [newPost, ...prev]);
   };
 
+  const handlePostUpdate = (updatedPost) => {
+    setPosts((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+    setSelectedPost(updatedPost);
+  };
+
   return (
     <div className="pt-32 flex">
       <SideBar />
@@ -67,7 +74,7 @@ export const Home = () => {
                     </div>
                     <div className="flex gap-1.5 ml-8">
                       <Pin className="size-5" />
-                      <span className="text-sm">0</span>
+                      <span className="text-sm">{post.num_of_pins}</span>
                     </div>
                   </div>
                 </div>
@@ -86,6 +93,7 @@ export const Home = () => {
               <PostDetailsModal
                 post={selectedPost}
                 onClose={() => setSelectedPost(null)}
+                onPostUpdate={handlePostUpdate}
               />
             )}
           </div>

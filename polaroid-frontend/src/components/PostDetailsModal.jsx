@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
 
-export const PostDetailsModal = ({ post, onClose }) => {
+export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   const [liked, setLiked] = useState(false);
 
   const [pinned, setPinned] = useState(Boolean(post.pinned_id));
@@ -22,17 +22,33 @@ export const PostDetailsModal = ({ post, onClose }) => {
       if (pinned) {
         await axiosInstance.delete(`/pins/${pinId}`);
 
+        const newPinCount = pinCount - 1;
+
         setPinned(false);
         setPinId(null);
-        setPinCount((prev) => prev - 1);
+        setPinCount(newPinCount);
+
+        onPostUpdate({
+          ...post,
+          pinned_id: null,
+          num_of_pins: newPinCount,
+        });
       } else {
         const { data } = await axiosInstance.post("/pins/", {
           post: post.id,
         });
 
+        const newPinCount = pinCount + 1;
+
+        onPostUpdate({
+          ...post,
+          pinned_id: data.id,
+          num_of_pins: newPinCount,
+        })
+
         setPinned(true);
         setPinId(data.id);
-        setPinCount((prev) => prev + 1);
+        setPinCount(newPinCount);
       }
     } catch (error) {
       console.error("Error updating pin", error);
