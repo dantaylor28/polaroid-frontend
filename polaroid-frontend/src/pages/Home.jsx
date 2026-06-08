@@ -70,7 +70,7 @@ export const Home = () => {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-end justify-center text-white/90 pb-2">
                     <div className="flex gap-1.5">
                       <Heart className="size-5" />
-                      <span className="text-sm">0</span>
+                      <span className="text-sm">{post.num_of_likes}</span>
                     </div>
                     <div className="flex gap-1.5 ml-8">
                       <Pin className="size-5" />

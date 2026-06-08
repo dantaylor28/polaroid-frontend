@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
 
 export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(Boolean(post.liked_id));
+  const [likeId, setLikeId] = useState(post.liked_id);
+  const [likeCount, setLikeCount] = useState(post.num_of_likes);
 
   const [pinned, setPinned] = useState(Boolean(post.pinned_id));
   const [pinId, setPinId] = useState(post.pinned_id);
@@ -52,6 +54,45 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
       }
     } catch (error) {
       console.error("Error updating pin", error);
+    }
+  };
+
+  //   Like Handler
+  const handleLike = async () => {
+    try {
+      if (liked) {
+        await axiosInstance.delete(`/likes/${likeId}`);
+
+        const newLikeCount = likeCount - 1;
+
+        setLiked(false);
+        setLikeId(null);
+        setLikeCount(newLikeCount);
+
+        onPostUpdate({
+          ...post,
+          liked_id: null,
+          num_of_likes: newLikeCount,
+        });
+      } else {
+        const { data } = await axiosInstance.post("/likes/", {
+          post: post.id,
+        });
+
+        const newLikeCount = likeCount + 1;
+
+        onPostUpdate({
+          ...post,
+          liked_id: data.id,
+          num_of_likes: newLikeCount,
+        })
+
+        setLiked(true);
+        setLikeId(data.id);
+        setLikeCount(newLikeCount);
+      }
+    } catch (error) {
+      console.error("Error updating like", error);
     }
   };
 
@@ -126,14 +167,14 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             <div className="flex items-center gap-1">
               <button
                 className={`${liked ? "text-red-500" : "text-gray-300"} cursor-pointer ${!liked ? "hover:text-red-500/80" : ""} transition`}
-                onClick={() => setLiked((prev) => !prev)}
+                onClick={handleLike}
               >
                 <Heart
                   className="size-6.5"
                   fill={liked ? "currentColor" : "none"}
                 />
               </button>
-              <span className="text-sm">0</span>
+              <span className="text-sm">{likeCount}</span>
             </div>
             {/* Pin button */}
             <div className="flex items-center gap-1 text-sm">
