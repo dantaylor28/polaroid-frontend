@@ -91,7 +91,9 @@ export const Home = () => {
 
             {selectedPost && (
               <PostDetailsModal
-                post={selectedPost}
+                post={
+                  posts.find((p) => p.id === selectedPost.id) || selectedPost
+                }
                 onClose={() => setSelectedPost(null)}
                 onPostUpdate={handlePostUpdate}
               />
