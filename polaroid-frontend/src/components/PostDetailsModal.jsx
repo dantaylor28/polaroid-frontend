@@ -8,54 +8,14 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
+import { usePin } from "../hooks/usePin";
 
 export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   const [liked, setLiked] = useState(Boolean(post.liked_id));
   const [likeId, setLikeId] = useState(post.liked_id);
   const [likeCount, setLikeCount] = useState(post.num_of_likes);
 
-  const [pinned, setPinned] = useState(Boolean(post.pinned_id));
-  const [pinId, setPinId] = useState(post.pinned_id);
-  const [pinCount, setPinCount] = useState(post.num_of_pins);
-
-  //   Pin Handler
-  const handlePin = async () => {
-    try {
-      if (pinned) {
-        await axiosInstance.delete(`/pins/${pinId}`);
-
-        const newPinCount = pinCount - 1;
-
-        setPinned(false);
-        setPinId(null);
-        setPinCount(newPinCount);
-
-        onPostUpdate({
-          ...post,
-          pinned_id: null,
-          num_of_pins: newPinCount,
-        });
-      } else {
-        const { data } = await axiosInstance.post("/pins/", {
-          post: post.id,
-        });
-
-        const newPinCount = pinCount + 1;
-
-        onPostUpdate({
-          ...post,
-          pinned_id: data.id,
-          num_of_pins: newPinCount,
-        })
-
-        setPinned(true);
-        setPinId(data.id);
-        setPinCount(newPinCount);
-      }
-    } catch (error) {
-      console.error("Error updating pin", error);
-    }
-  };
+  const { togglePin } = usePin(onPostUpdate);
 
   //   Like Handler
   const handleLike = async () => {
@@ -85,7 +45,7 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
           ...post,
           liked_id: data.id,
           num_of_likes: newLikeCount,
-        })
+        });
 
         setLiked(true);
         setLikeId(data.id);
@@ -179,15 +139,15 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             {/* Pin button */}
             <div className="flex items-center gap-1 text-sm">
               <button
-                className={`${pinned ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!pinned ? "hover:text-blue-600/80" : ""} transition`}
-                onClick={handlePin}
+                className={`${post.pinned_id ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!post.pinned_id ? "hover:text-blue-600/80" : ""} transition`}
+                onClick={() => togglePin(post)}
               >
                 <Pin
                   className="size-6.5"
-                  fill={pinned ? "currentColor" : "none"}
+                  fill={post.pinned_id ? "currentColor" : "none"}
                 />
               </button>
-              <span className="text-sm">{pinCount}</span>
+              <span className="text-sm">{post.num_of_pins}</span>
             </div>
           </div>
 
