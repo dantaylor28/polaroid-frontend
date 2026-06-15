@@ -8,53 +8,53 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axios";
-import { usePin } from "../hooks/usePin";
+import { useToggleAction } from "../hooks/useToggleAction";
 
 export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
-  const [liked, setLiked] = useState(Boolean(post.liked_id));
-  const [likeId, setLikeId] = useState(post.liked_id);
-  const [likeCount, setLikeCount] = useState(post.num_of_likes);
+  // const [liked, setLiked] = useState(Boolean(post.liked_id));
+  // const [likeId, setLikeId] = useState(post.liked_id);
+  // const [likeCount, setLikeCount] = useState(post.num_of_likes);
 
-  const { togglePin } = usePin(onPostUpdate);
+  const { toggleAction } = useToggleAction(onPostUpdate);
 
-  //   Like Handler
-  const handleLike = async () => {
-    try {
-      if (liked) {
-        await axiosInstance.delete(`/likes/${likeId}`);
+  // //   Like Handler
+  // const handleLike = async () => {
+  //   try {
+  //     if (liked) {
+  //       await axiosInstance.delete(`/likes/${likeId}`);
 
-        const newLikeCount = likeCount - 1;
+  //       const newLikeCount = likeCount - 1;
 
-        setLiked(false);
-        setLikeId(null);
-        setLikeCount(newLikeCount);
+  //       setLiked(false);
+  //       setLikeId(null);
+  //       setLikeCount(newLikeCount);
 
-        onPostUpdate({
-          ...post,
-          liked_id: null,
-          num_of_likes: newLikeCount,
-        });
-      } else {
-        const { data } = await axiosInstance.post("/likes/", {
-          post: post.id,
-        });
+  //       onPostUpdate({
+  //         ...post,
+  //         liked_id: null,
+  //         num_of_likes: newLikeCount,
+  //       });
+  //     } else {
+  //       const { data } = await axiosInstance.post("/likes/", {
+  //         post: post.id,
+  //       });
 
-        const newLikeCount = likeCount + 1;
+  //       const newLikeCount = likeCount + 1;
 
-        onPostUpdate({
-          ...post,
-          liked_id: data.id,
-          num_of_likes: newLikeCount,
-        });
+  //       onPostUpdate({
+  //         ...post,
+  //         liked_id: data.id,
+  //         num_of_likes: newLikeCount,
+  //       });
 
-        setLiked(true);
-        setLikeId(data.id);
-        setLikeCount(newLikeCount);
-      }
-    } catch (error) {
-      console.error("Error updating like", error);
-    }
-  };
+  //       setLiked(true);
+  //       setLikeId(data.id);
+  //       setLikeCount(newLikeCount);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating like", error);
+  //   }
+  // };
 
   // Close on ESC
   useEffect(() => {
@@ -126,21 +126,31 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             {/* Like button */}
             <div className="flex items-center gap-1">
               <button
-                className={`${liked ? "text-red-500" : "text-gray-300"} cursor-pointer ${!liked ? "hover:text-red-500/80" : ""} transition`}
-                onClick={handleLike}
+                className={`${post.liked_id ? "text-red-500" : "text-gray-300"} cursor-pointer ${!post.liked_id ? "hover:text-red-500/80" : ""} transition`}
+                onClick={() => toggleAction({
+                  post,
+                  endpoint: "likes",
+                  idField: "liked_id",
+                  countField: "num_of_likes",
+                })}
               >
                 <Heart
                   className="size-6.5"
-                  fill={liked ? "currentColor" : "none"}
+                  fill={post.liked_id ? "currentColor" : "none"}
                 />
               </button>
-              <span className="text-sm">{likeCount}</span>
+              <span className="text-sm">{post.num_of_likes}</span>
             </div>
             {/* Pin button */}
             <div className="flex items-center gap-1 text-sm">
               <button
                 className={`${post.pinned_id ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!post.pinned_id ? "hover:text-blue-600/80" : ""} transition`}
-                onClick={() => togglePin(post)}
+                onClick={() => toggleAction({
+                  post,
+                  endpoint: "pins",
+                  idField: "pinned_id",
+                  countField: "num_of_pins",
+                })}
               >
                 <Pin
                   className="size-6.5"
