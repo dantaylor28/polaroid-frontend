@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Image as ImageIcon,
   Heart,
@@ -8,9 +8,15 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToggleAction } from "../hooks/useToggleAction";
+import axiosInstance from "../api/axios";
 
 export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   const { toggleAction } = useToggleAction(onPostUpdate);
+
+  // Comments state
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState("");
+  const [loadingComments, setLoadingComments] = useState(true);
 
   // Close on ESC
   useEffect(() => {
@@ -26,6 +32,21 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
       document.body.style.overflow = "auto";
     };
   }, [onClose]);
+
+  // Fetch comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/comments/?post=${post.id}`);
+        setComments(data.results);
+        setLoadingComments(false);
+      } catch (error) {
+        console.error("Error fetching comments", error);
+      }
+    };
+
+    fetchComments();
+  }, [post.id]);
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
