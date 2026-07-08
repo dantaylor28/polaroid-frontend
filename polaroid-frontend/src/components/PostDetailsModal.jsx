@@ -47,6 +47,25 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
 
     fetchComments();
   }, [post.id]);
+
+  // Comment submit handler
+  const handleCommentSubmit = async () => {
+    const trimmedContent = commentText.trim();
+
+    if (!trimmedContent) return;
+
+    try {
+      const { data } = await axiosInstance.post("comments/", {
+        post: post.id,
+        text: trimmedContent,
+      });
+
+      setComments((prev) => [data, ...prev]);
+      setCommentText("")
+    } catch (error) {
+      console.error("Error creating comment", error)
+    }
+  };
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -190,6 +209,8 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
           <div className="flex items-center relative mt-2 mb-3 mx-3">
             <input
               type="text"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
               id="comment"
               name="comment"
               placeholder="Add a comment..."
