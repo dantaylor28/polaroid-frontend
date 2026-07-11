@@ -61,9 +61,9 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
       });
 
       setComments((prev) => [data, ...prev]);
-      setCommentText("")
+      setCommentText("");
     } catch (error) {
-      console.error("Error creating comment", error)
+      console.error("Error creating comment", error);
     }
   };
   return (
@@ -211,12 +211,20 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
               type="text"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleCommentSubmit();
+                }
+              }}
               id="comment"
               name="comment"
               placeholder="Add a comment..."
               className="w-full bg-slate-50 border border-black/25 rounded-sm h-10 pl-2 placeholder:text-black/40 focus:outline-none focus:border-black/40"
             />
-            <SendHorizonal className="absolute right-0 mr-2 size-5 text-blue-600 hover:text-blue-700 cursor-pointer hover:translate-x-0.75 transition duration-200" />
+            <SendHorizonal
+              onClick={handleCommentSubmit}
+              className="absolute right-0 mr-2 size-5 text-blue-600 hover:text-blue-700 cursor-pointer hover:translate-x-0.75 transition duration-200"
+            />
           </div>
         </div>
       </div>
