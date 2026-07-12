@@ -193,17 +193,47 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
           <div className="border-b mx-5 border-black/10" />
 
           {/* Comments */}
-          <div className="flex-1 flex items-center justify-center overflow-y-auto px-4 py-3 space-y-2">
-            {/* Replace with actual comments later */}
-            <div className="flex flex-col items-center text-center">
-              <MessageCircle className="size-12 text-black/40 mb-3 animate-pulse" />
-              <p className="items-center text-xs text-black/70 font-medium">
-                Nothing to show...
-              </p>
-              <p className="items-center text-xs text-black/40 mt-1">
-                Be the first to comment
-              </p>
-            </div>
+          <div className="flex-1 overflow-y-auto px-4 py-3">
+            {comments.length === 0 ? (
+              <div className="flex flex-col items-center text-center">
+                <MessageCircle className="size-12 text-black/40 mb-3 animate-pulse" />
+                <p className="text-xs text-black/70 font-medium">
+                  Nothing to show...
+                </p>
+                <p className="text-xs text-black/40 mt-1">
+                  Be the first to comment
+                </p>
+              </div>
+            ) : (
+              comments.map((comment) => (
+                <div key={comment.id} className="flex gap-2 mb-4">
+                  <Link to={`/profile/${comment.owner}`}>
+                    <img
+                      src={comment.profile_image}
+                      alt={comment.owner}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  </Link>
+
+                  <div>
+                    <p className="text-sm">
+                      <Link
+                        to={`/profile/${comment.owner}`}
+                        className="font-semibold mr-1"
+                      >
+                        {comment.owner}
+                      </Link>
+
+                      <span>{comment.text}</span>
+                    </p>
+
+                    <p className="text-[10px] font-semibold text-black/40 mt-0.5">
+                      {comment.timestamp}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           <div className="flex items-center relative mt-2 mb-3 mx-3">
