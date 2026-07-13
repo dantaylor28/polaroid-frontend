@@ -6,6 +6,7 @@ import {
   SendHorizonal,
   MessageCircle,
   LoaderCircle,
+  ThumbsUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToggleAction } from "../hooks/useToggleAction";
@@ -69,6 +70,48 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
       console.error("Error creating comment", error);
     }
   };
+
+  // Toggle comment like function
+  const toggleCommentLike = async (comment) => {
+    try {
+      if (comment.comment_liked_id) {
+        await axiosInstance.delete(
+          `/comments/likes/${comment.comment_liked_id}`,
+        );
+
+        setComments((prev) =>
+          prev.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...c,
+                  comment_liked_id: null,
+                  num_of_comment_likes: c.num_of_comment_likes - 1,
+                }
+              : c,
+          ),
+        );
+      } else {
+        const { data } = await axiosInstance.post("/comments/likes/", {
+          comment: comment.id,
+        });
+
+        setComments((prev) =>
+          prev.map((c) =>
+            c.id === comment.id
+              ? {
+                  ...c,
+                  comment_liked_id: data.id,
+                  num_of_comment_likes: c.num_of_comment_likes + 1,
+                }
+              : c,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error("Error creating comment like", error)
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -240,12 +283,12 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
                   </div>
 
                   {/* Comment like btn */}
-                  <div className="flex ml-auto items-center gap-3">
+                  <div className="flex ml-auto items-center gap-1">
                     <button
                       onClick={() => toggleCommentLike(comment)}
-                      className={`${comment.comment_liked_id ? "text-red-500" : "text-gray-300 hover:text-red-500"} transition`}
+                      className={`${comment.comment_liked_id ? "text-blue-600 hover:cursor-pointer" : "text-gray-300 hover:text-blue-600 hover:cursor-pointer"} transition`}
                     >
-                      <Heart
+                      <ThumbsUp
                         size={14}
                         fill={
                           comment.comment_liked_id ? "currentColor" : "none"
