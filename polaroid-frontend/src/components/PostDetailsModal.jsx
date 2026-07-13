@@ -5,6 +5,7 @@ import {
   Pin,
   SendHorizonal,
   MessageCircle,
+  LoaderCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToggleAction } from "../hooks/useToggleAction";
@@ -36,12 +37,14 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   // Fetch comments
   useEffect(() => {
     const fetchComments = async () => {
+      setLoadingComments(true);
       try {
         const { data } = await axiosInstance.get(`/comments/?post=${post.id}`);
         setComments(data.results);
-        setLoadingComments(false);
       } catch (error) {
         console.error("Error fetching comments", error);
+      } finally {
+        setLoadingComments(false);
       }
     };
 
@@ -194,7 +197,11 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
 
           {/* Comments */}
           <div className="flex-1 overflow-y-auto px-4 py-3">
-            {comments.length === 0 ? (
+            {loadingComments ? (
+              <div className="flex items-center justify-center h-full">
+                <LoaderCircle className="size-6 animate-spin text-blue-600" />
+              </div>
+            ) : comments.length === 0 ? (
               <div className="flex flex-col items-center text-center">
                 <MessageCircle className="size-12 text-black/40 mb-3 animate-pulse" />
                 <p className="text-xs text-black/70 font-medium">
@@ -230,6 +237,25 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
                     <p className="text-[10px] font-semibold text-black/40 mt-0.5">
                       {comment.timestamp}
                     </p>
+                  </div>
+
+                  {/* Comment like btn */}
+                  <div className="flex ml-auto items-center gap-3">
+                    <button
+                      onClick={() => toggleCommentLike(comment)}
+                      className={`${comment.comment_liked_id ? "text-red-500" : "text-gray-300 hover:text-red-500"} transition`}
+                    >
+                      <Heart
+                        size={14}
+                        fill={
+                          comment.comment_liked_id ? "currentColor" : "none"
+                        }
+                      />
+                    </button>
+
+                    <span className="text-xs">
+                      {comment.num_of_comment_likes}
+                    </span>
                   </div>
                 </div>
               ))
