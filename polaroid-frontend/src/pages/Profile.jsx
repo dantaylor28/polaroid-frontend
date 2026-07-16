@@ -11,6 +11,10 @@ export const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [activeTab, setActiveTab] = useState("posts");
+  const [posts, setPosts] = useState([]);
+  const [pinnedPosts, setPinnedPosts] = useState([]);
+
   // Determine whose profile is being viewed
   const profileUsername = username || currentUser?.username;
   const isSelf = profileUsername === currentUser?.username;
@@ -19,7 +23,7 @@ export const Profile = () => {
     const fetchProfile = async () => {
       try {
         const { data } = await axiosInstance.get(
-          `/profiles/${profileUsername}/`
+          `/profiles/${profileUsername}/`,
         );
         setProfile(data);
       } catch (error) {
@@ -35,11 +39,15 @@ export const Profile = () => {
   }, [profileUsername]);
 
   if (loading) {
-    return <ProfileSkeleton />
+    return <ProfileSkeleton />;
   }
 
   if (!profile) {
-    return <p className="flex justify-center mx-auto mt-32 px-6 py-4 text-sm">Profile not found</p>;
+    return (
+      <p className="flex justify-center mx-auto mt-32 px-6 py-4 text-sm">
+        Profile not found
+      </p>
+    );
   }
   return (
     <div className="max-w-3xl mx-auto mt-32 px-6">
