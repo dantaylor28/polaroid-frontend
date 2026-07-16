@@ -1,14 +1,14 @@
 import React from "react";
 import { Heart, Pin } from "lucide-react";
 
-export const PostGrid = ({posts, onPostClick}) => {
+export const PostGrid = ({posts, onSelectPost}) => {
   return (
     <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 p-4">
       {posts.map((post) => (
         <div
           key={post.id}
           className="cursor-pointer mb-4 break-inside-avoid relative group"
-          onClick={() => onPostClick(post)}
+          onClick={() => onSelectPost(post)}
         >
           <img
             src={post.post_image}

@@ -52,7 +52,7 @@ export const Home = () => {
               }}
             />
 
-            <PostGrid posts={posts} onPostClick={setSelectedPost} />
+            <PostGrid posts={posts} onSelectPost={setSelectedPost} />
 
             {/* Modal */}
             {isCreateModalOpen && (
