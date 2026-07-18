@@ -15,6 +15,7 @@ export const Profile = () => {
   const [activeTab, setActiveTab] = useState("posts");
   const [posts, setPosts] = useState([]);
   const [pinnedPosts, setPinnedPosts] = useState([]);
+  const [hasFetchedPinnedPosts, setHasFetchedPinnedPosts] = useState(false);
 
   // Determine whose profile is being viewed
   const profileUsername = username || currentUser?.username;
@@ -52,9 +53,20 @@ export const Profile = () => {
         console.error("Error fetching posts", error);
       }
     };
-    
+
     fetchPosts();
   }, [profile?.id]);
+
+  const fetchPinnedPosts = async () => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/posts/?pins__owner__profile=${profile.id}`,
+      );
+      setPinnedPosts(data.results);
+    } catch (error) {
+      console.error("Error fetching pinned posts", error);
+    }
+  };
 
   if (loading) {
     return <ProfileSkeleton />;
