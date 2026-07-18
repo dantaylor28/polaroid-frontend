@@ -68,6 +68,15 @@ export const Profile = () => {
     }
   };
 
+  const handleTabChange = async (tab) => {
+    setActiveTab(tab);
+
+    if (tab === "pinned" && !hasFetchedPinnedPosts && profile) {
+      await fetchPinnedPosts(profile.id);
+      setHasFetchedPinnedPosts(true);
+    }
+  };
+
   if (loading) {
     return <ProfileSkeleton />;
   }
@@ -122,7 +131,10 @@ export const Profile = () => {
           {profile.bio || "This user hasn’t written a bio yet."}
         </p>
       </div>
-      <PostGrid posts={posts} />
+      <button onClick={() => handleTabChange("posts")}>Posts</button>
+
+      <button onClick={() => handleTabChange("pinned")}>Pinned</button>
+      <PostGrid posts={activeTab === "posts" ? posts : pinnedPosts}/>
     </div>
   );
 };
