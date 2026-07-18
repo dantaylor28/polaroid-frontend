@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
 import { ProfileSkeleton } from "../components/ProfileSkeleton";
+import { PostGrid } from "../components/PostGrid";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -37,6 +38,23 @@ export const Profile = () => {
       fetchProfile();
     }
   }, [profileUsername]);
+
+  useEffect(() => {
+    if (!profile) return;
+
+    const fetchPosts = async () => {
+      try {
+        const { data } = await axiosInstance.get(
+          `/posts/?owner__profile=${profile.id}`,
+        );
+        setPosts(data.results);
+      } catch (error) {
+        console.error("Error fetching posts", error);
+      }
+    };
+    
+    fetchPosts();
+  }, [profile?.id]);
 
   if (loading) {
     return <ProfileSkeleton />;
@@ -92,6 +110,7 @@ export const Profile = () => {
           {profile.bio || "This user hasn’t written a bio yet."}
         </p>
       </div>
+      <PostGrid posts={posts} />
     </div>
   );
 };
