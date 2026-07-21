@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
 import { ProfileSkeleton } from "../components/ProfileSkeleton";
 import { PostGrid } from "../components/PostGrid";
+import { PostDetailsModal } from "../components/PostDetailsModal";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -16,6 +17,19 @@ export const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [pinnedPosts, setPinnedPosts] = useState([]);
   const [hasFetchedPinnedPosts, setHasFetchedPinnedPosts] = useState(false);
+
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handlePostUpdate = (updatedPost) => {
+    setPosts((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+
+    setPinnedPosts((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+    setSelectedPost(updatedPost);
+  };
 
   // Determine whose profile is being viewed
   const profileUsername = username || currentUser?.username;
@@ -134,7 +148,18 @@ export const Profile = () => {
       <button onClick={() => handleTabChange("posts")}>Posts</button>
 
       <button onClick={() => handleTabChange("pinned")}>Pinned</button>
-      <PostGrid posts={activeTab === "posts" ? posts : pinnedPosts}/>
+      <PostGrid
+        posts={activeTab === "posts" ? posts : pinnedPosts}
+        onSelectPost={setSelectedPost}
+      />
+
+      {selectedPost && (
+        <PostDetailsModal
+          post={selectedPost}
+          onClose={() => setSelectedPost(null)}
+          onPostUpdate={handlePostUpdate}
+        />
+      )}
     </div>
   );
 };
