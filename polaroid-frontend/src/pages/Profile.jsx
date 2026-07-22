@@ -5,6 +5,7 @@ import axiosInstance from "../api/axios";
 import { ProfileSkeleton } from "../components/ProfileSkeleton";
 import { PostGrid } from "../components/PostGrid";
 import { PostDetailsModal } from "../components/PostDetailsModal";
+import { LayoutDashboard, Pin } from "lucide-react";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -145,9 +146,21 @@ export const Profile = () => {
           {profile.bio || "This user hasn’t written a bio yet."}
         </p>
       </div>
-      <button onClick={() => handleTabChange("posts")}>Posts</button>
+      <div className="flex items-center justify-center gap-32 mt-8">
+        <button
+          onClick={() => handleTabChange("posts")}
+          className={`cursor-pointer transition ${activeTab === "posts" ? "text-black border-b border-black" : "text-black/40 hover:text-black/70"}`}
+        >
+          <LayoutDashboard />
+        </button>
 
-      <button onClick={() => handleTabChange("pinned")}>Pinned</button>
+        <button
+          onClick={() => handleTabChange("pinned")}
+          className={`cursor-pointer transition ${activeTab === "pinned" ? "text-black border-b border-black" : "text-black/40 hover:text-black/70"}`}
+        >
+          <Pin />
+        </button>
+      </div>
       <PostGrid
         posts={activeTab === "posts" ? posts : pinnedPosts}
         onSelectPost={setSelectedPost}
