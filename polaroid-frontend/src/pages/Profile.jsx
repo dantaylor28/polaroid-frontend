@@ -146,20 +146,24 @@ export const Profile = () => {
           {profile.bio || "This user hasn’t written a bio yet."}
         </p>
       </div>
-      <div className="flex items-center justify-center gap-32 mt-8">
+      <div className="relative flex items-center justify-center mt-8">
         <button
           onClick={() => handleTabChange("posts")}
-          className={`cursor-pointer transition ${activeTab === "posts" ? "text-black border-b border-black" : "text-black/40 hover:text-black/70"}`}
+          className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
         >
-          <LayoutDashboard />
+          <LayoutDashboard className="hover:text-black/70" />
         </button>
 
         <button
           onClick={() => handleTabChange("pinned")}
-          className={`cursor-pointer transition ${activeTab === "pinned" ? "text-black border-b border-black" : "text-black/40 hover:text-black/70"}`}
+          className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "pinned" ? "text-black" : "text-black/40"}`}
         >
-          <Pin />
+          <Pin className="hover:text-black/70" />
         </button>
+
+        <span
+          className={`absolute bottom-0 h-px w-1/2 transition-all bg-black/30 duration-400 ${activeTab === "posts" ? "left-0" : "left-1/2"}`}
+        />
       </div>
       <PostGrid
         posts={activeTab === "posts" ? posts : pinnedPosts}
