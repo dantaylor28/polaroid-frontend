@@ -20,7 +20,10 @@ export const Profile = () => {
   const [hasFetchedPinnedPosts, setHasFetchedPinnedPosts] = useState(false);
 
   const [selectedPost, setSelectedPost] = useState(null);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [loadingPinnedPosts, setLoadingPinnedPosts] = useState(false);
   const displayedPosts = activeTab === "posts" ? posts : pinnedPosts;
+  const isLoading = activeTab === "posts" ? loadingPosts : loadingPinnedPosts;
 
   const handlePostUpdate = (updatedPost) => {
     setPosts((prev) =>
@@ -60,6 +63,7 @@ export const Profile = () => {
     if (!profile) return;
 
     const fetchPosts = async () => {
+      setLoadingPosts(true);
       try {
         const { data } = await axiosInstance.get(
           `/posts/?owner__profile=${profile.id}`,
@@ -67,6 +71,8 @@ export const Profile = () => {
         setPosts(data.results);
       } catch (error) {
         console.error("Error fetching posts", error);
+      } finally {
+        setLoadingPosts(false);
       }
     };
 
@@ -74,6 +80,7 @@ export const Profile = () => {
   }, [profile?.id]);
 
   const fetchPinnedPosts = async () => {
+    setLoadingPinnedPosts(true);
     try {
       const { data } = await axiosInstance.get(
         `/posts/?pins__owner__profile=${profile.id}`,
@@ -81,6 +88,8 @@ export const Profile = () => {
       setPinnedPosts(data.results);
     } catch (error) {
       console.error("Error fetching pinned posts", error);
+    } finally {
+      setLoadingPinnedPosts(false);
     }
   };
 
@@ -88,7 +97,7 @@ export const Profile = () => {
     setActiveTab(tab);
 
     if (tab === "pinned" && !hasFetchedPinnedPosts && profile) {
-      await fetchPinnedPosts(profile.id);
+      await fetchPinnedPosts();
       setHasFetchedPinnedPosts(true);
     }
   };
@@ -166,7 +175,12 @@ export const Profile = () => {
           className={`absolute bottom-0 h-px w-1/2 transition-all bg-black/30 duration-400 ${activeTab === "posts" ? "left-0" : "left-1/2"}`}
         />
       </div>
-      {displayedPosts.length === 0 ? (
+
+      {isLoading ? (
+        <div className="flex justify-center py-16">
+          <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+        </div>
+      ) : displayedPosts.length === 0 ? (
         <div className="py-12 text-center text-sm text-black/70">
           {activeTab === "posts" ? (
             <div className="flex flex-col items-center justify-center gap-4">
