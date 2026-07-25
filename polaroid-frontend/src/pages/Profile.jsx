@@ -5,7 +5,7 @@ import axiosInstance from "../api/axios";
 import { ProfileSkeleton } from "../components/ProfileSkeleton";
 import { PostGrid } from "../components/PostGrid";
 import { PostDetailsModal } from "../components/PostDetailsModal";
-import { LayoutDashboard, Pin } from "lucide-react";
+import { LayoutDashboard, Pin, Images } from "lucide-react";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -20,6 +20,7 @@ export const Profile = () => {
   const [hasFetchedPinnedPosts, setHasFetchedPinnedPosts] = useState(false);
 
   const [selectedPost, setSelectedPost] = useState(null);
+  const displayedPosts = activeTab === "posts" ? posts : pinnedPosts;
 
   const handlePostUpdate = (updatedPost) => {
     setPosts((prev) =>
@@ -165,10 +166,29 @@ export const Profile = () => {
           className={`absolute bottom-0 h-px w-1/2 transition-all bg-black/30 duration-400 ${activeTab === "posts" ? "left-0" : "left-1/2"}`}
         />
       </div>
-      <PostGrid
-        posts={activeTab === "posts" ? posts : pinnedPosts}
-        onSelectPost={setSelectedPost}
-      />
+      {displayedPosts.length === 0 ? (
+        <div className="py-12 text-center text-sm text-black/70">
+          {activeTab === "posts" ? (
+            <div className="flex flex-col items-center justify-center gap-4">
+              <Images className="size-12 text-gray-400" />
+              <p>
+                <span className="capitalize">{profile.owner}</span> doesn't have
+                any posts yet.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-4">
+              <Images className="size-12 text-gray-400" />
+              <p>
+                <span className="capitalize">{profile.owner}</span> doesn't have
+                any pinned posts yet.
+              </p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <PostGrid posts={displayedPosts} onSelectPost={setSelectedPost} />
+      )}
 
       {selectedPost && (
         <PostDetailsModal
