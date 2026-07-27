@@ -16,10 +16,10 @@ export const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const { data } = await axiosInstance.get("/posts/");
+        const { data } = await axiosInstance.get("/posts/?exclude_self=true");
         setPosts(data.results);
       } catch (error) {
-        console.error("Error fetching posts", error);
+        console.error("Error fetching posts", error); 
       }
     };
 
