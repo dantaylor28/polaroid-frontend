@@ -9,6 +9,7 @@ import { GuestRoute } from "./routes/GuestRoute";
 import { Signup } from "./pages/auth/Signup";
 import { Toaster } from "react-hot-toast";
 import { NavBar } from "./components/NavBar";
+import { Search } from "./pages/Search";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
 
           {/* Guest Routes */}
           <Route
@@ -37,7 +40,6 @@ function App() {
               </GuestRoute>
             }
           />
-          <Route path="/profile/:username" element={<Profile />} />
 
           {/* Protected Routes */}
           <Route
