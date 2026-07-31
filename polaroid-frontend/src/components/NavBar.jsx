@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { LogoutBtn } from "./LogoutBtn";
-import { House } from "lucide-react";
+import { House, Search } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import toast from "react-hot-toast";
 import { MobileSidebar } from "./MobileSidebar";
@@ -57,6 +57,23 @@ export const NavBar = () => {
                 }
               >
                 <House />
+              </NavLink>
+
+              <NavLink
+                to="/search"
+                className={({ isActive }) =>
+                  `px-3.5 py-1.5 rounded-full transition ${
+                    isAuthPage
+                      ? isActive
+                        ? "md:text-white md:bg-white/30 bg-gray-100 text-black"
+                        : "md:text-white/50 md:bg-white/10 md:hover:text-white md:hover:bg-white/20"
+                      : isActive
+                        ? "bg-gray-100 text-black shadow-sm"
+                        : "text-gray-700 hover:bg-gray-100 hover:text-black"
+                  }`
+                }
+              >
+                <Search />
               </NavLink>
 
               {currentUser ? (
