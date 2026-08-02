@@ -5,6 +5,7 @@ import axiosInstance from "../api/axios";
 import { Link } from "react-router-dom";
 import { PostGrid } from "../components/PostGrid";
 import { LayoutDashboard, Users } from "lucide-react";
+import { PostDetailsModal } from "../components/PostDetailsModal";
 
 export const Search = () => {
   const [query, setQuery] = useState("");
@@ -15,6 +16,12 @@ export const Search = () => {
   const debouncedQuery = useDebounce(query, 300);
 
   const [activeTab, setActiveTab] = useState("profiles");
+
+  const handlePostUpdate = (updatedPost) => {
+    setPosts((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+  };
 
   useEffect(() => {
     if (!debouncedQuery.trim()) {
@@ -115,6 +122,14 @@ export const Search = () => {
             )}
           </div>
         </>
+      )}
+
+      {selectedPost && (
+        <PostDetailsModal
+          post={selectedPost}
+          onClose={() => setSelectedPost(null)}
+          onPostUpdate={handlePostUpdate}
+        />
       )}
     </div>
   );
