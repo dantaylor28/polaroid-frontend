@@ -51,7 +51,7 @@ export const Search = () => {
     fetchResults();
   }, [debouncedQuery]);
 
-  const handleTabChange = async (tab) => {
+  const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
   return (
@@ -85,7 +85,11 @@ export const Search = () => {
               />
             </div>
 
-            {activeTab === "profiles" ? (
+            {loading ? (
+              <div className="flex justify-center py-16">
+                <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+              </div>
+            ) : activeTab === "profiles" ? (
               profiles.length === 0 ? (
                 <p className="py-12 text-center text-sm text-black/50">
                   No users found.
