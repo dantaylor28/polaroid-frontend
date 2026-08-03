@@ -18,12 +18,14 @@ export const Search = () => {
   const [activeTab, setActiveTab] = useState("profiles");
 
   const handlePostUpdate = (updatedPost) => {
+    setSelectedPost(updatedPost);
     setPosts((prev) =>
       prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
     );
   };
 
   useEffect(() => {
+    setSelectedPost(null);
     if (!debouncedQuery.trim()) {
       setProfiles([]);
       setPosts([]);
