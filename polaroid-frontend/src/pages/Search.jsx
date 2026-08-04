@@ -4,7 +4,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import axiosInstance from "../api/axios";
 import { Link } from "react-router-dom";
 import { PostGrid } from "../components/PostGrid";
-import { LayoutDashboard, Users } from "lucide-react";
+import { LayoutDashboard, Search as SearchIcon, Users } from "lucide-react";
 import { PostDetailsModal } from "../components/PostDetailsModal";
 
 export const Search = () => {
@@ -59,12 +59,23 @@ export const Search = () => {
   return (
     <div className="max-w-3xl mx-auto mt-32 px-6">
       <SearchBar
-        placeholder="What are you searching for?"
+        placeholder="Search for something"
         value={query}
         onChange={setQuery}
       />
 
-      {debouncedQuery && (
+      {!debouncedQuery ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <SearchIcon className="size-12 text-gray-300 mb-4" />
+          <h2 className="text-lg font-medium text-black/80">
+            What are you searching for?
+          </h2>
+          <p className="mt-2 text-sm text-black/50 max-w-sm">
+            Start typing a username, caption or tag to discover people and
+            posts.
+          </p>
+        </div>
+      ) : (
         <>
           <div className="mt-6">
             <div className="relative flex items-center justify-center mt-8">
