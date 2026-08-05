@@ -24,11 +24,17 @@ export const Search = () => {
     );
   };
 
+  // Instant clearing of search results
   useEffect(() => {
-    setSelectedPost(null);
-    if (!debouncedQuery.trim()) {
+    if (!query.trim()) {
       setProfiles([]);
       setPosts([]);
+      setSelectedPost(null);
+    }
+  }, [query]);
+
+  useEffect(() => {
+    if (!debouncedQuery.trim()) {
       return;
     }
 
