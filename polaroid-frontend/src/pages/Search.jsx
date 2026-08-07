@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import { useDebounce } from "../hooks/useDebounce";
 import axiosInstance from "../api/axios";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { PostGrid } from "../components/PostGrid";
 import { LayoutDashboard, Search as SearchIcon, Users } from "lucide-react";
 import { PostDetailsModal } from "../components/PostDetailsModal";
@@ -16,6 +16,12 @@ export const Search = () => {
   const debouncedQuery = useDebounce(query, 300);
 
   const [activeTab, setActiveTab] = useState("profiles");
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
 
   const handlePostUpdate = (updatedPost) => {
     setSelectedPost(updatedPost);

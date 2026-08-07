@@ -221,12 +221,13 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             {post.tags_display?.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {post.tags_display.map((tag) => (
-                  <span
+                  <Link
                     key={tag}
+                    to={`/search?q=${encodeURIComponent(tag)}`}
                     className="text-xs bg-blue-600/90 hover:bg-blue-600 text-white px-2 py-1 rounded-full cursor-pointer"
                   >
                     #{tag}
-                  </span>
+                  </Link>
                 ))}
               </div>
             )}
