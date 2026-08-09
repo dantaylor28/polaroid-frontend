@@ -223,7 +223,7 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
                 {post.tags_display.map((tag) => (
                   <Link
                     key={tag}
-                    to={`/search?q=${encodeURIComponent(tag)}`}
+                    to={`/search?q=${encodeURIComponent(tag)}&tab=posts`}
                     className="text-xs bg-blue-600/90 hover:bg-blue-600 text-white px-2 py-1 rounded-full cursor-pointer"
                   >
                     #{tag}

@@ -20,6 +20,14 @@ export const Search = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
+  const tab = searchParams.get("tab");
+
+  if (tab === "posts" || tab === "profiles") {
+    setActiveTab(tab);
+  }
+}, [searchParams]);
+
+  useEffect(() => {
     setQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
