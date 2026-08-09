@@ -19,13 +19,25 @@ export const Search = () => {
 
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-  const tab = searchParams.get("tab");
+  // Check if search term contains a # & remove if so
+  const isTagSearch = debouncedQuery.trim().startsWith("#");
+  const searchTerm = isTagSearch
+    ? debouncedQuery.trim().slice(1)
+    : debouncedQuery.trim();
 
-  if (tab === "posts" || tab === "profiles") {
-    setActiveTab(tab);
-  }
-}, [searchParams]);
+  useEffect(() => {
+    if (isTagSearch) {
+      setActiveTab("posts");
+    }
+  }, [isTagSearch]);
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+
+    if (tab === "posts" || tab === "profiles") {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     setQuery(searchParams.get("q") || "");
@@ -47,6 +59,32 @@ export const Search = () => {
     }
   }, [query]);
 
+  // useEffect(() => {
+  //   if (!debouncedQuery.trim()) {
+  //     return;
+  //   }
+
+  //   const fetchResults = async () => {
+  //     setLoading(true);
+
+  //     try {
+  //       const [profilesRes, postsRes] = await Promise.all([
+  //         axiosInstance.get(`/profiles/?search=${debouncedQuery}`),
+  //         axiosInstance.get(`/posts/?search=${debouncedQuery}`),
+  //       ]);
+
+  //       setProfiles(profilesRes.data.results);
+  //       setPosts(postsRes.data.results);
+  //     } catch (error) {
+  //       console.error("Error fetching search query", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchResults();
+  // }, [debouncedQuery]);
+
   useEffect(() => {
     if (!debouncedQuery.trim()) {
       return;
@@ -56,13 +94,26 @@ export const Search = () => {
       setLoading(true);
 
       try {
-        const [profilesRes, postsRes] = await Promise.all([
-          axiosInstance.get(`/profiles/?search=${debouncedQuery}`),
-          axiosInstance.get(`/posts/?search=${debouncedQuery}`),
-        ]);
+        if (isTagSearch) {
+          const { data } = await axiosInstance.get(
+            `/posts/?tag=${encodeURIComponent(searchTerm)}`,
+          );
 
-        setProfiles(profilesRes.data.results);
-        setPosts(postsRes.data.results);
+          setPosts(data.results);
+          setProfiles([]);
+        } else {
+          const [profilesRes, postsRes] = await Promise.all([
+            axiosInstance.get(
+              `/profiles/?search=${encodeURIComponent(searchTerm)}`,
+            ),
+            axiosInstance.get(
+              `/posts/?search=${encodeURIComponent(searchTerm)}`,
+            ),
+          ]);
+
+          setProfiles(profilesRes.data.results);
+          setPosts(postsRes.data.results);
+        }
       } catch (error) {
         console.error("Error fetching search query", error);
       } finally {
@@ -71,7 +122,7 @@ export const Search = () => {
     };
 
     fetchResults();
-  }, [debouncedQuery]);
+  }, [debouncedQuery, isTagSearch, searchTerm]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
