@@ -19,36 +19,36 @@ export const Search = () => {
 
   const [searchParams] = useSearchParams();
 
+  // Read search info from the url
+  const urlSearchType = searchParams.get("type");
+  const urlTab = searchParams.get("tab");
+
+  // A tag search can come from either a user typing #something or clicking a tag, which gives us "?type=tag"
+  const isTagSearch =
+    urlSearchType === "tag" || debouncedQuery.trim().startsWith("#");
   // Check if search term contains a # & remove if so
-  const isTagSearch = debouncedQuery.trim().startsWith("#");
-  const searchTerm = isTagSearch
-    ? debouncedQuery.trim().slice(1)
+  const searchTerm = debouncedQuery.trim().startsWith("#")
+    ? debouncedQuery.trim().slice(1).trim()
     : debouncedQuery.trim();
 
+  // Set initial search query from url
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
+
+  // Set active tab from url
+  useEffect(() => {
+    if (urlTab === "posts" || urlTab === "profiles") {
+      setActiveTab(urlTab);
+    }
+  }, [urlTab]);
+
+  // Automatically switch to posts if searching for a tag
   useEffect(() => {
     if (isTagSearch) {
       setActiveTab("posts");
     }
   }, [isTagSearch]);
-
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-
-    if (tab === "posts" || tab === "profiles") {
-      setActiveTab(tab);
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    setQuery(searchParams.get("q") || "");
-  }, [searchParams]);
-
-  const handlePostUpdate = (updatedPost) => {
-    setSelectedPost(updatedPost);
-    setPosts((prev) =>
-      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
-    );
-  };
 
   // Instant clearing of search results
   useEffect(() => {
@@ -59,34 +59,9 @@ export const Search = () => {
     }
   }, [query]);
 
-  // useEffect(() => {
-  //   if (!debouncedQuery.trim()) {
-  //     return;
-  //   }
-
-  //   const fetchResults = async () => {
-  //     setLoading(true);
-
-  //     try {
-  //       const [profilesRes, postsRes] = await Promise.all([
-  //         axiosInstance.get(`/profiles/?search=${debouncedQuery}`),
-  //         axiosInstance.get(`/posts/?search=${debouncedQuery}`),
-  //       ]);
-
-  //       setProfiles(profilesRes.data.results);
-  //       setPosts(postsRes.data.results);
-  //     } catch (error) {
-  //       console.error("Error fetching search query", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchResults();
-  // }, [debouncedQuery]);
-
+  // Fetch search results
   useEffect(() => {
-    if (!debouncedQuery.trim()) {
+    if (!debouncedQuery.trim() || !searchTerm) {
       return;
     }
 
@@ -95,6 +70,7 @@ export const Search = () => {
 
       try {
         if (isTagSearch) {
+          // Tag search so only fetch posts
           const { data } = await axiosInstance.get(
             `/posts/?tag=${encodeURIComponent(searchTerm)}`,
           );
@@ -123,6 +99,13 @@ export const Search = () => {
 
     fetchResults();
   }, [debouncedQuery, isTagSearch, searchTerm]);
+
+  const handlePostUpdate = (updatedPost) => {
+    setSelectedPost(updatedPost);
+    setPosts((prev) =>
+      prev.map((post) => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+  };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -153,6 +136,7 @@ export const Search = () => {
               <button
                 onClick={() => handleTabChange("profiles")}
                 className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "profiles" ? "text-black" : "text-black/40"}`}
+                disabled={isTagSearch}
               >
                 <Users className="hover:text-black/70" />
               </button>
@@ -173,7 +157,7 @@ export const Search = () => {
               <div className="flex justify-center py-16">
                 <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
               </div>
-            ) : activeTab === "profiles" ? (
+            ) : activeTab === "profiles" && !isTagSearch ? (
               profiles.length === 0 ? (
                 <p className="py-12 text-center text-sm text-black/50">
                   No users found.
