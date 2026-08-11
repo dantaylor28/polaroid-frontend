@@ -31,9 +31,12 @@ export const Search = () => {
     ? debouncedQuery.trim().slice(1).trim()
     : debouncedQuery.trim();
 
-  // Set initial search query from url
+  // Set initial search query from url and prepend with a #
   useEffect(() => {
-    setQuery(searchParams.get("q") || "");
+    const q = searchParams.get("q") || "";
+    const type = searchParams.get("type");
+
+    setQuery(type === "tag" ? `#${q}` : q);
   }, [searchParams]);
 
   // Set active tab from url
