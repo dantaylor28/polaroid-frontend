@@ -128,7 +128,7 @@ export const Search = () => {
             What are you searching for?
           </h2>
           <p className="mt-2 text-sm text-black/50 max-w-sm">
-            Start typing a username, caption or tag to discover people and
+            Start typing a @username, #tag or caption to discover people and
             posts.
           </p>
         </div>
@@ -138,10 +138,10 @@ export const Search = () => {
             <div className="relative flex items-center justify-center mt-8">
               <button
                 onClick={() => handleTabChange("profiles")}
-                className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "profiles" ? "text-black" : "text-black/40"}`}
+                className={`group flex-1 flex justify-center py-3 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${activeTab === "profiles" ? "text-black" : "text-black/40"}`}
                 disabled={isTagSearch}
               >
-                <Users className="hover:text-black/70" />
+                <Users className="hover:text-black/70 group-disabled:hover:text-black/40" />
               </button>
 
               <button
