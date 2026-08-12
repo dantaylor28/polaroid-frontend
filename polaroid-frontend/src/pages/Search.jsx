@@ -23,13 +23,14 @@ export const Search = () => {
   const urlSearchType = searchParams.get("type");
   const urlTab = searchParams.get("tab");
 
-  // A tag search can come from either a user typing #something or clicking a tag, which gives us "?type=tag"
+  // A tag/user search can come from either a user typing #something/@someone or clicking a tag, which gives us "?type=tag"
   const isTagSearch =
     urlSearchType === "tag" || debouncedQuery.trim().startsWith("#");
-  // Check if search term contains a # & remove if so
-  const searchTerm = debouncedQuery.trim().startsWith("#")
-    ? debouncedQuery.trim().slice(1).trim()
-    : debouncedQuery.trim();
+
+  const isUserSearch =
+    urlSearchType === "user" || debouncedQuery.trim().startsWith("@");
+  // Check if search term contains a #/@ & remove if so
+  const searchTerm = debouncedQuery.trim().replace(/^[@#]/, "").trim();
 
   // Set initial search query from url and prepend with a #
   useEffect(() => {
@@ -46,12 +47,15 @@ export const Search = () => {
     }
   }, [urlTab]);
 
-  // Automatically switch to posts if searching for a tag
+  // Automatically switch to corresponding tab if searching for a tag/profile
   useEffect(() => {
     if (isTagSearch) {
       setActiveTab("posts");
     }
-  }, [isTagSearch]);
+    if (isUserSearch) {
+      setActiveTab("profiles");
+    }
+  }, [isTagSearch, isUserSearch]);
 
   // Instant clearing of search results
   useEffect(() => {
@@ -80,7 +84,16 @@ export const Search = () => {
 
           setPosts(data.results);
           setProfiles([]);
+        } else if (isUserSearch) {
+          // User search so only fetch profiles
+          const { data } = await axiosInstance.get(
+            `/profiles/?search=${encodeURIComponent(searchTerm)}`,
+          );
+
+          setProfiles(data.results);
+          setPosts([]);
         } else {
+          // Normal search so fetch profiles and posts
           const [profilesRes, postsRes] = await Promise.all([
             axiosInstance.get(
               `/profiles/?search=${encodeURIComponent(searchTerm)}`,
@@ -101,7 +114,7 @@ export const Search = () => {
     };
 
     fetchResults();
-  }, [debouncedQuery, isTagSearch, searchTerm]);
+  }, [debouncedQuery, isTagSearch, isUserSearch, searchTerm]);
 
   const handlePostUpdate = (updatedPost) => {
     setSelectedPost(updatedPost);
@@ -146,9 +159,10 @@ export const Search = () => {
 
               <button
                 onClick={() => handleTabChange("posts")}
-                className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
+                className={`group flex-1 flex justify-center py-3 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
+                disabled={isTagSearch || isUserSearch}
               >
-                <LayoutDashboard className="hover:text-black/70" />
+                <LayoutDashboard className="hover:text-black/70 group-disabled:hover:text-black/40" />
               </button>
 
               <span
