@@ -37,7 +37,11 @@ export const Search = () => {
     const q = searchParams.get("q") || "";
     const type = searchParams.get("type");
 
-    setQuery(type === "tag" ? `#${q}` : q);
+    if (type === "tag") {
+      setQuery(`#${q}`);
+    } else {
+      setQuery(q);
+    }
   }, [searchParams]);
 
   // Set active tab from url

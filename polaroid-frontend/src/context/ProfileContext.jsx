@@ -21,8 +21,21 @@ export const ProfileProvider = ({ children }) => {
     fetchProfiles();
   }, []);
 
+  const updateProfile = (profileId, updates) => {
+    setProfiles((previous) =>
+      previous.map((profile) =>
+        profile.id === profileId
+          ? {
+              ...profile,
+              ...updates,
+            }
+          : profile,
+      ),
+    );
+  };
+
   return (
-    <ProfileContext.Provider value={{ profiles, loading }}>
+    <ProfileContext.Provider value={{ profiles, loading, updateProfile }}>
       {children}
     </ProfileContext.Provider>
   );
