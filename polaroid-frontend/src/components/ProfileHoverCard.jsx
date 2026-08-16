@@ -1,5 +1,6 @@
 import { SquareArrowOutUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FollowButton } from "./FollowButton";
 
 export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
   return (
@@ -48,9 +49,10 @@ export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
           </p>
 
           {!profile.is_profile_owner && (
-            <button className="w-full py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700">
-              Follow
-            </button>
+            <FollowButton
+              profile={profile}
+              className="w-full py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+            />
           )}
         </div>
       </div>

@@ -11,11 +11,15 @@ export const ProfileList = ({
   profilesToShow,
   onProfileClick,
 }) => {
-  const [openProfileCard, setOpenProfileCard] = useState(null);
+  const [openProfileId, setOpenProfileId] = useState(null);
   const [anchorRect, setAnchorRect] = useState(null);
-  const { loading } = useProfiles();
+  const { profiles, loading } = useProfiles();
 
   const displayProfiles = loading || searching ? [] : profilesToShow;
+
+  const selectedProfile = profiles.find(
+    (profile) => profile.id === openProfileId,
+  );
   return (
     <div>
       {loading || searching ? (
@@ -43,7 +47,7 @@ export const ProfileList = ({
               <li
                 className="relative group flex items-center gap-3 px-3 py-2 mx-3 rounded-lg hover:bg-black/5 cursor-pointer transition"
                 onMouseEnter={(e) => {
-                  setOpenProfileCard(profile);
+                  setOpenProfileId(profile.id);
                   setAnchorRect(e.currentTarget.getBoundingClientRect());
                 }}
               >
@@ -63,12 +67,12 @@ export const ProfileList = ({
         </ul>
       )}
       {/* Profile Hover Card */}
-      {openProfileCard && anchorRect && (
+      {selectedProfile && anchorRect && (
         <ProfileHoverCard
-          profile={openProfileCard}
+          profile={selectedProfile}
           anchorRect={anchorRect}
           onClose={() => {
-            setOpenProfileCard(null);
+            setOpenProfileId(null);
             setAnchorRect(null);
           }}
         />

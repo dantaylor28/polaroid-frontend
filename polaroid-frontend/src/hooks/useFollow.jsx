@@ -8,7 +8,7 @@ export const useFollow = () => {
   const toggleFollow = async (profile, setLocalProfile) => {
     try {
       if (profile.following_id) {
-        await axiosInstance.delete(`/followers/${profile.following_id}/`);
+        await axiosInstance.delete(`/followers/${profile.following_id}`);
 
         const updates = {
           following_id: null,

@@ -6,6 +6,7 @@ import { ProfileSkeleton } from "../components/ProfileSkeleton";
 import { PostGrid } from "../components/PostGrid";
 import { PostDetailsModal } from "../components/PostDetailsModal";
 import { LayoutDashboard, Pin, Images } from "lucide-react";
+import { FollowButton } from "../components/FollowButton";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -143,9 +144,11 @@ export const Profile = () => {
               Edit profile
             </button>
           ) : (
-            <button className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700">
-              Follow
-            </button>
+            <FollowButton
+              profile={profile}
+              setLocalProfile={setProfile}
+              className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
+            />
           )}
         </div>
       </div>
