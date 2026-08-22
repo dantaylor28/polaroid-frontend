@@ -7,6 +7,8 @@ import { PostGrid } from "../components/PostGrid";
 import { PostDetailsModal } from "../components/PostDetailsModal";
 import { LayoutDashboard, Pin, Images } from "lucide-react";
 import { FollowButton } from "../components/FollowButton";
+import { useFollow } from "../hooks/useFollow";
+import { ConfirmModal } from "../utils/ConfirmModal";
 
 export const Profile = () => {
   const { username } = useParams();
@@ -25,6 +27,9 @@ export const Profile = () => {
   const [loadingPinnedPosts, setLoadingPinnedPosts] = useState(false);
   const displayedPosts = activeTab === "posts" ? posts : pinnedPosts;
   const isLoading = activeTab === "posts" ? loadingPosts : loadingPinnedPosts;
+
+  const [openUnfollowConfirm, setOpenUnfollowConfirm] = useState(false);
+  const { toggleFollow } = useFollow();
 
   const handlePostUpdate = (updatedPost) => {
     setPosts((prev) =>
@@ -115,105 +120,121 @@ export const Profile = () => {
     );
   }
   return (
-    <div className="max-w-3xl mx-auto mt-32 px-6">
-      {/* Header */}
-      <div className="flex items-center gap-6 mb-6">
-        <img
-          src={profile.profile_image}
-          alt={profile.owner}
-          className="w-24 h-24 rounded-full object-cover"
-        />
+    <>
+      <div className="max-w-3xl mx-auto mt-32 px-6">
+        {/* Header */}
+        <div className="flex items-center gap-6 mb-6">
+          <img
+            src={profile.profile_image}
+            alt={profile.owner}
+            className="w-24 h-24 rounded-full object-cover"
+          />
 
-        <div>
-          <h1 className="text-2xl font-semibold">{profile.owner}</h1>
-          <p className="text-sm text-black/60">
-            {profile.location || "No location"}
-          </p>
+          <div>
+            <h1 className="text-2xl font-semibold">{profile.owner}</h1>
+            <p className="text-sm text-black/60">
+              {profile.location || "No location"}
+            </p>
 
-          <div className="flex gap-4 mt-2 text-sm text-black/70">
-            <span>{profile.num_of_posts} posts</span>
-            <span>{profile.num_of_followers} followers</span>
-            <span>{profile.num_of_following} following</span>
+            <div className="flex gap-4 mt-2 text-sm text-black/70">
+              <span>{profile.num_of_posts} posts</span>
+              <span>{profile.num_of_followers} followers</span>
+              <span>{profile.num_of_following} following</span>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="ml-auto">
+            {isSelf ? (
+              <button className="px-4 py-2 text-sm rounded-md border">
+                Edit profile
+              </button>
+            ) : (
+              <FollowButton
+                profile={profile}
+                setLocalProfile={setProfile}
+                className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                onUnfollow={() => setOpenUnfollowConfirm(true)}
+              />
+            )}
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="ml-auto">
-          {isSelf ? (
-            <button className="px-4 py-2 text-sm rounded-md border">
-              Edit profile
-            </button>
-          ) : (
-            <FollowButton
-              profile={profile}
-              setLocalProfile={setProfile}
-              className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
-            />
-          )}
+        <div className="bg-white border border-black/10 rounded-lg p-4">
+          <h2 className="font-medium mb-2">Bio</h2>
+          <p className="text-sm text-black/70">
+            {profile.bio || "This user hasn’t written a bio yet."}
+          </p>
         </div>
-      </div>
+        <div className="relative flex items-center justify-center mt-8">
+          <button
+            onClick={() => handleTabChange("posts")}
+            className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
+          >
+            <LayoutDashboard className="hover:text-black/70" />
+          </button>
 
-      <div className="bg-white border border-black/10 rounded-lg p-4">
-        <h2 className="font-medium mb-2">Bio</h2>
-        <p className="text-sm text-black/70">
-          {profile.bio || "This user hasn’t written a bio yet."}
-        </p>
-      </div>
-      <div className="relative flex items-center justify-center mt-8">
-        <button
-          onClick={() => handleTabChange("posts")}
-          className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
-        >
-          <LayoutDashboard className="hover:text-black/70" />
-        </button>
+          <button
+            onClick={() => handleTabChange("pinned")}
+            className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "pinned" ? "text-black" : "text-black/40"}`}
+          >
+            <Pin className="hover:text-black/70" />
+          </button>
 
-        <button
-          onClick={() => handleTabChange("pinned")}
-          className={`flex-1 flex justify-center py-3 cursor-pointer ${activeTab === "pinned" ? "text-black" : "text-black/40"}`}
-        >
-          <Pin className="hover:text-black/70" />
-        </button>
-
-        <span
-          className={`absolute bottom-0 h-px w-1/2 transition-all bg-black/30 duration-400 ${activeTab === "posts" ? "left-0" : "left-1/2"}`}
-        />
-      </div>
-
-      {isLoading ? (
-        <div className="flex justify-center py-16">
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+          <span
+            className={`absolute bottom-0 h-px w-1/2 transition-all bg-black/30 duration-400 ${activeTab === "posts" ? "left-0" : "left-1/2"}`}
+          />
         </div>
-      ) : displayedPosts.length === 0 ? (
-        <div className="py-12 text-center text-sm text-black/70">
-          {activeTab === "posts" ? (
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Images className="size-12 text-gray-400" />
-              <p>
-                <span className="capitalize">{profile.owner}</span> doesn't have
-                any posts yet.
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Images className="size-12 text-gray-400" />
-              <p>
-                <span className="capitalize">{profile.owner}</span> doesn't have
-                any pinned posts yet.
-              </p>
-            </div>
-          )}
-        </div>
-      ) : (
-        <PostGrid posts={displayedPosts} onSelectPost={setSelectedPost} />
-      )}
 
-      {selectedPost && (
-        <PostDetailsModal
-          post={selectedPost}
-          onClose={() => setSelectedPost(null)}
-          onPostUpdate={handlePostUpdate}
-        />
-      )}
-    </div>
+        {isLoading ? (
+          <div className="flex justify-center py-16">
+            <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+          </div>
+        ) : displayedPosts.length === 0 ? (
+          <div className="py-12 text-center text-sm text-black/70">
+            {activeTab === "posts" ? (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Images className="size-12 text-gray-400" />
+                <p>
+                  <span className="capitalize">{profile.owner}</span> doesn't
+                  have any posts yet.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <Images className="size-12 text-gray-400" />
+                <p>
+                  <span className="capitalize">{profile.owner}</span> doesn't
+                  have any pinned posts yet.
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <PostGrid posts={displayedPosts} onSelectPost={setSelectedPost} />
+        )}
+
+        {selectedPost && (
+          <PostDetailsModal
+            post={selectedPost}
+            onClose={() => setSelectedPost(null)}
+            onPostUpdate={handlePostUpdate}
+          />
+        )}
+      </div>
+      <ConfirmModal
+        open={openUnfollowConfirm}
+        title={`Unfollow ${profile.owner}?`}
+        description={`You will no longer see ${profile.owner}'s posts and activity in your feed.`}
+        confirmText="Unfollow"
+        cancelText="Cancel"
+        onConfirm={() => {
+          toggleFollow(profile, setProfile);
+          setOpenUnfollowConfirm(false);
+        }}
+        onCancel={() => setOpenUnfollowConfirm(false)}
+        variant="danger"
+      />
+    </>
   );
 };
