@@ -42,8 +42,10 @@ export const useFollow = () => {
           }));
         }
       }
+      return true;
     } catch (error) {
       console.error("Error updating following state", error);
+      return false;
     }
   };
   return { toggleFollow };

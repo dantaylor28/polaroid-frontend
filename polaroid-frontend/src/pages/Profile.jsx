@@ -228,9 +228,12 @@ export const Profile = () => {
         description={`You will no longer see ${profile.owner}'s posts and activity in your feed.`}
         confirmText="Unfollow"
         cancelText="Cancel"
-        onConfirm={() => {
-          toggleFollow(profile, setProfile);
-          setOpenUnfollowConfirm(false);
+        onConfirm={async () => {
+          const success = await toggleFollow(profile, setProfile);
+
+          if (success) {
+            setOpenUnfollowConfirm(false);
+          }
         }}
         onCancel={() => setOpenUnfollowConfirm(false)}
         variant="danger"
