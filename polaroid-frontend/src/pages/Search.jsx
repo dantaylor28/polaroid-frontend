@@ -164,7 +164,7 @@ export const Search = () => {
               <button
                 onClick={() => handleTabChange("posts")}
                 className={`group flex-1 flex justify-center py-3 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${activeTab === "posts" ? "text-black" : "text-black/40"}`}
-                disabled={isTagSearch || isUserSearch}
+                disabled={isUserSearch}
               >
                 <LayoutDashboard className="hover:text-black/70 group-disabled:hover:text-black/40" />
               </button>
