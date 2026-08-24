@@ -225,7 +225,7 @@ export const Profile = () => {
       <ConfirmModal
         open={openUnfollowConfirm}
         title={`Unfollow ${profile.owner}?`}
-        description={`You will no longer see ${profile.owner}'s posts and activity in your feed.`}
+        description={`You will no longer see ${profile.owner}'s posts or activity in your feed.`}
         confirmText="Unfollow"
         cancelText="Cancel"
         onConfirm={async () => {
