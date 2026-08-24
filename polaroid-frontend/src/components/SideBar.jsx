@@ -17,7 +17,7 @@ export const SideBar = () => {
     (profile) => !profile.following_id,
   );
 
-  const followingProfiles = profiles.profilesToShow.filter(
+  const followingProfiles = profilesToShow.filter(
     (profile) => profile.following_id,
   );
 
@@ -26,11 +26,39 @@ export const SideBar = () => {
 
   return (
     <aside className="hidden md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5">
-      <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
+      {/* <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
         Suggested Users
-      </h2>
+      </h2> */}
+
       {/* SearchBar */}
       <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
+
+      <div className="relative flex mb-6 mt-2 mx-4">
+        <button
+          onClick={() => setActiveTab("suggested")}
+          className={`flex-1 py-3 text-sm ${
+            activeTab === "suggested" ? "text-black" : "text-black/40"
+          }`}
+        >
+          Suggested
+        </button>
+
+        <button
+          onClick={() => setActiveTab("following")}
+          className={`flex-1 py-3 text-sm ${
+            activeTab === "following" ? "text-black" : "text-black/40"
+          }`}
+        >
+          Following
+        </button>
+
+        <span
+          className={`absolute bottom-0 h-px w-1/2 bg-black/30 transition-all duration-300 ${
+            activeTab === "suggested" ? "left-0" : "left-1/2"
+          }`}
+        />
+      </div>
+
       <ProfileList
         debouncedQuery={debouncedQuery}
         searching={searching}
