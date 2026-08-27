@@ -62,7 +62,7 @@ export const SideBar = () => {
       <ProfileList
         debouncedQuery={debouncedQuery}
         searching={searching}
-        profilesToShow={profilesToShow}
+        profilesToShow={displayedProfiles}
       />
     </aside>
   );

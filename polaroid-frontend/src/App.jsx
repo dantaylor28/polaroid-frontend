@@ -4,7 +4,6 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/auth/Login";
 import { Profile } from "./pages/Profile";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
-import { AuthProvider } from "./context/AuthContext";
 import { GuestRoute } from "./routes/GuestRoute";
 import { Signup } from "./pages/auth/Signup";
 import { Toaster } from "react-hot-toast";
@@ -13,46 +12,44 @@ import { Search } from "./pages/Search";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Toaster />
-        <NavBar />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/search" element={<Search />} />
+    <Router>
+      <Toaster />
+      <NavBar />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/search" element={<Search />} />
 
-          {/* Guest Routes */}
-          <Route
-            path="/login"
-            element={
-              <GuestRoute>
-                <Login />
-              </GuestRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <GuestRoute>
-                <Signup />
-              </GuestRoute>
-            }
-          />
+        {/* Guest Routes */}
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <Login />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <GuestRoute>
+              <Signup />
+            </GuestRoute>
+          }
+        />
 
-          {/* Protected Routes */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+        {/* Protected Routes */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 

@@ -29,7 +29,7 @@ export const useProfileSearch = (profiles, currentUser) => {
       }
     };
     fetchSearchResults();
-  }, [debouncedQuery]);
+  }, [debouncedQuery, currentUser]);
 
   const profilesToShow = (debouncedQuery ? searchResults : profiles).filter(
     (p) => p.owner !== currentUser?.username,

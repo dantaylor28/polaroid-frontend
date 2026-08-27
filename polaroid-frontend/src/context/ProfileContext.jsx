@@ -1,14 +1,30 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
+import { useAuth } from "./AuthContext";
 
 const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
+  const { currentUser, loading: authLoading } = useAuth();
+
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Wait until AuthContext has finished determining
+    // whether someone is logged in.
+    if (authLoading) return;
+
+    // Clear profiles whenever authentication state changes
+    setProfiles([]);
+
+    if (!currentUser) {
+      setLoading(false);
+      return;
+    }
+
     const fetchProfiles = async () => {
+      setLoading(true);
       try {
         const { data } = await axiosInstance.get("/profiles/");
         setProfiles(data.results);
@@ -19,7 +35,7 @@ export const ProfileProvider = ({ children }) => {
       }
     };
     fetchProfiles();
-  }, []);
+  }, [currentUser, authLoading]);
 
   const updateProfile = (profileId, updates) => {
     setProfiles((previous) =>
