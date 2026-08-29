@@ -33,7 +33,7 @@ export const SideBar = () => {
       <div className="relative flex mb-6 mt-2 mx-4">
         <button
           onClick={() => setActiveTab("suggested")}
-          className={`flex-1 py-3 text-sm ${
+          className={`flex-1 py-3 text-sm hover:text-black cursor-pointer transition ${
             activeTab === "suggested" ? "text-black" : "text-black/40"
           }`}
         >
@@ -42,7 +42,7 @@ export const SideBar = () => {
 
         <button
           onClick={() => setActiveTab("following")}
-          className={`flex-1 py-3 text-sm ${
+          className={`flex-1 py-3 text-sm hover:text-black cursor-pointer transition ${
             activeTab === "following" ? "text-black" : "text-black/40"
           }`}
         >
@@ -60,6 +60,7 @@ export const SideBar = () => {
         debouncedQuery={debouncedQuery}
         searching={searching}
         profilesToShow={displayedProfiles}
+        activeTab={activeTab}
       />
     </aside>
   );

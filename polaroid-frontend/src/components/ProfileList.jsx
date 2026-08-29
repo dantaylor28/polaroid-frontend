@@ -10,6 +10,7 @@ export const ProfileList = ({
   searching,
   profilesToShow,
   onProfileClick,
+  activeTab,
 }) => {
   const [openProfileId, setOpenProfileId] = useState(null);
   const [anchorRect, setAnchorRect] = useState(null);
@@ -37,9 +38,7 @@ export const ProfileList = ({
                   No users found for "
                   <span className="font-medium">{debouncedQuery}</span>"
                 </>
-              ) : (
-                <span>No users to display.</span>
-              )}
+              ) : activeTab === "suggested" ? ("You're following everyone!") : ("You're not following anyone yet.")}
             </li>
           ) : (
             displayProfiles.map((profile) => (
