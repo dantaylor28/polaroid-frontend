@@ -6,15 +6,27 @@ import { useProfiles } from "../context/ProfileContext";
 import { useAuth } from "../context/AuthContext";
 import SearchBar from "./SearchBar";
 import { ProfileList } from "./ProfileList";
+import { ProfileListHeading } from "./ProfileListHeading";
 
 export const MobileSidebar = () => {
   const [expanded, setExpanded] = useState(false);
   const sidebarRef = useRef(null);
   const { profiles } = useProfiles();
   const { currentUser } = useAuth();
+  const [activeTab, setActiveTab] = useState("suggested");
 
-  const { query, setQuery, debouncedQuery, searching, profilesToShow } =
-    useProfileSearch(profiles, currentUser);
+  const {
+    query,
+    setQuery,
+    debouncedQuery,
+    searching,
+    profilesToShow,
+    suggestedProfiles,
+    followingProfiles,
+  } = useProfileSearch(profiles, currentUser);
+
+  const displayedProfiles =
+    activeTab === "suggested" ? suggestedProfiles : followingProfiles;
 
   //   Close sidebar when a profile is clicked
   const handleSidebarClick = () => {
@@ -66,9 +78,7 @@ export const MobileSidebar = () => {
           </Link>
         </div>
         {/* Rest of sidebar content here */}
-        <h2 className="px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black/60 text-center">
-          Suggested Users
-        </h2>
+        <ProfileListHeading activeTab={activeTab} setActiveTab={setActiveTab} />
         <SearchBar
           value={query}
           onChange={setQuery}
@@ -76,7 +86,7 @@ export const MobileSidebar = () => {
         />
         <ProfileList
           searching={searching}
-          profilesToShow={profilesToShow}
+          profilesToShow={displayedProfiles}
           debouncedQuery={debouncedQuery}
           onProfileClick={handleSidebarClick}
         />

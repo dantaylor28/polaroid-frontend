@@ -34,11 +34,22 @@ export const useProfileSearch = (profiles, currentUser) => {
   const profilesToShow = (debouncedQuery ? searchResults : profiles).filter(
     (p) => p.owner !== currentUser?.username,
   );
+
+  const suggestedProfiles = profilesToShow.filter(
+    (profile) => !profile.following_id,
+  );
+
+  const followingProfiles = profilesToShow.filter(
+    (profile) => profile.following_id,
+  );
+
   return {
     query,
     setQuery,
     debouncedQuery,
     searching,
     profilesToShow,
+    suggestedProfiles,
+    followingProfiles,
   };
 };
