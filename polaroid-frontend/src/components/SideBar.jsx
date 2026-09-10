@@ -25,7 +25,9 @@ export const SideBar = () => {
     activeTab === "suggested" ? suggestedProfiles : followingProfiles;
 
   return (
-    <aside className="hidden md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5">
+    <aside
+      className={`hidden ${!currentUser && "md:hidden"} md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5`}
+    >
       {/* SearchBar */}
       <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
 
