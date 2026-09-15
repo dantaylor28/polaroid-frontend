@@ -19,7 +19,7 @@ export const Home = () => {
         const { data } = await axiosInstance.get("/posts/?exclude_self=true");
         setPosts(data.results);
       } catch (error) {
-        console.error("Error fetching posts", error); 
+        console.error("Error fetching posts", error);
       }
     };
 
@@ -40,38 +40,29 @@ export const Home = () => {
   return (
     <div className="pt-32 flex">
       <SideBar />
-      <div>
-        {!currentUser ? (
-          <p>Not logged in</p>
-        ) : (
-          <div className="pb-28">
-            <h1 className="text-blue-500">Welcome, {currentUser.username}</h1>
-            <CreatePostBtn
-              onClick={() => {
-                setIsCreateModalOpen(true);
-              }}
-            />
+      <PostGrid posts={posts} onSelectPost={setSelectedPost} />
+      {selectedPost && (
+        <PostDetailsModal
+          post={posts.find((p) => p.id === selectedPost.id) || selectedPost}
+          onClose={() => setSelectedPost(null)}
+          onPostUpdate={handlePostUpdate}
+        />
+      )}
+      <div className="pb-28">
+        {currentUser && (
+          <CreatePostBtn
+            onClick={() => {
+              setIsCreateModalOpen(true);
+            }}
+          />
+        )}
 
-            <PostGrid posts={posts} onSelectPost={setSelectedPost} />
-
-            {/* Modal */}
-            {isCreateModalOpen && (
-              <CreatePostModal
-                onClose={() => setIsCreateModalOpen(false)}
-                addPost={addPost}
-              />
-            )}
-
-            {selectedPost && (
-              <PostDetailsModal
-                post={
-                  posts.find((p) => p.id === selectedPost.id) || selectedPost
-                }
-                onClose={() => setSelectedPost(null)}
-                onPostUpdate={handlePostUpdate}
-              />
-            )}
-          </div>
+        {/* Modal */}
+        {isCreateModalOpen && (
+          <CreatePostModal
+            onClose={() => setIsCreateModalOpen(false)}
+            addPost={addPost}
+          />
         )}
       </div>
     </div>
