@@ -18,11 +18,6 @@ export const ProfileProvider = ({ children }) => {
     // Clear profiles whenever authentication state changes
     setProfiles([]);
 
-    if (!currentUser) {
-      setLoading(false);
-      return;
-    }
-
     const fetchProfiles = async () => {
       setLoading(true);
       try {

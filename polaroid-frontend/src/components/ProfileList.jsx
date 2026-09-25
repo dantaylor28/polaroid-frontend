@@ -38,7 +38,13 @@ export const ProfileList = ({
                   No users found for "
                   <span className="font-medium">{debouncedQuery}</span>"
                 </>
-              ) : activeTab === "suggested" ? ("You're following everyone!") : ("You're not following anyone yet.")}
+              ) : activeTab === "suggested" ? (
+                "You're following everyone!"
+              ) : activeTab === "following" ? (
+                "You're not following anyone yet."
+              ) : (
+                "No users found."
+              )}
             </li>
           ) : (
             displayProfiles.map((profile) => (

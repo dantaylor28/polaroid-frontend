@@ -32,7 +32,7 @@ export const useProfileSearch = (profiles, currentUser) => {
   }, [debouncedQuery, currentUser]);
 
   const profilesToShow = (debouncedQuery ? searchResults : profiles).filter(
-    (p) => p.owner !== currentUser?.username,
+    (profile) => !currentUser || profile.owner !== currentUser.username,
   );
 
   const suggestedProfiles = profilesToShow.filter(

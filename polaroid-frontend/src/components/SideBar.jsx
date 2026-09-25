@@ -21,23 +21,34 @@ export const SideBar = () => {
     followingProfiles,
   } = useProfileSearch(profiles, currentUser);
 
-  const displayedProfiles =
-    activeTab === "suggested" ? suggestedProfiles : followingProfiles;
+  const displayedProfiles = currentUser
+    ? activeTab === "suggested"
+      ? suggestedProfiles
+      : followingProfiles
+    : profilesToShow;
 
   return (
+    // <aside
+    //   className={`hidden ${!currentUser && "md:hidden"} md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5`}
+    // >
     <aside
-      className={`hidden ${!currentUser && "md:hidden"} md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5`}
+      className={`hidden md:flex flex-col md:min-w-64 lg:min-w-76 xl:min-w-84 border-r border-black/5`}
     >
       {/* SearchBar */}
       <SearchBar value={query} onChange={setQuery} placeholder="Search Users" />
 
-      <ProfileListHeading activeTab={activeTab} setActiveTab={setActiveTab} />
+      {currentUser && (
+        <ProfileListHeading
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+      )}
 
       <ProfileList
         debouncedQuery={debouncedQuery}
         searching={searching}
         profilesToShow={displayedProfiles}
-        activeTab={activeTab}
+        activeTab={currentUser ? activeTab : null}
       />
     </aside>
   );
