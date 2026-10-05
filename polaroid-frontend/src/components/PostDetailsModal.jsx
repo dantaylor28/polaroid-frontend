@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { useToggleAction } from "../hooks/useToggleAction";
 import axiosInstance from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   const { toggleAction } = useToggleAction(onPostUpdate);
@@ -19,6 +20,8 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [loadingComments, setLoadingComments] = useState(true);
+
+  const { currentUser } = useAuth();
 
   // Close on ESC
   useEffect(() => {
@@ -168,7 +171,8 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             {/* Like button */}
             <div className="flex items-center gap-1">
               <button
-                className={`${post.liked_id ? "text-red-500" : "text-gray-300"} cursor-pointer ${!post.liked_id ? "hover:text-red-500/80" : ""} transition`}
+                className={`${post.liked_id ? "text-red-500" : "text-gray-300 hover:text-red-500/80"} ${!currentUser ? "pointer-events-none" : ""} cursor-pointer transition`}
+                disabled={!currentUser}
                 onClick={() =>
                   toggleAction({
                     post,
@@ -188,7 +192,8 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
             {/* Pin button */}
             <div className="flex items-center gap-1 text-sm">
               <button
-                className={`${post.pinned_id ? "text-blue-600" : "text-gray-300"} cursor-pointer ${!post.pinned_id ? "hover:text-blue-600/80" : ""} transition`}
+                className={`${post.pinned_id ? "text-blue-600" : "text-gray-300 hover:text-blue-600/80"} ${!currentUser ? "pointer-events-none" : ""} cursor-pointer transition`}
+                disabled={!currentUser}
                 onClick={() =>
                   toggleAction({
                     post,
