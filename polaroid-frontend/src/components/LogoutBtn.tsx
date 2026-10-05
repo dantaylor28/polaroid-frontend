@@ -1,6 +1,11 @@
 import { LogOut } from "lucide-react";
+import type { MouseEventHandler } from "react";
 
-export const LogoutBtn = ({ onClick }) => {
+interface LogoutBtnProps {
+  onClick: MouseEventHandler<HTMLButtonElement>;
+}
+
+export const LogoutBtn = ({ onClick }: LogoutBtnProps) => {
   return (
     <>
       <button

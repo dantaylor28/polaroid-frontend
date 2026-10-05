@@ -1,8 +1,8 @@
 import { Plus } from "lucide-react";
-import React from "react";
+import type { MouseEventHandler } from "react";
 
 interface CreatePostBtnProps {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const CreatePostBtn = ({ onClick }: CreatePostBtnProps) => {
