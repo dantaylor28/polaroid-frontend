@@ -1,6 +1,19 @@
 import { Eye, EyeOff } from "lucide-react";
 
-export const DisplayPasswordBtn = ({ displayPassword, setDisplayPassword }) => {
+interface DisplayPasswordBtnProps {
+  displayPassword: boolean;
+  setDisplayPassword: (value: boolean) => void;
+}
+
+interface DisplayConfirmPasswordBtnProps {
+  displayConfirmPassword: boolean;
+  setDisplayConfirmPassword: (value: boolean) => void;
+}
+
+export const DisplayPasswordBtn = ({
+  displayPassword,
+  setDisplayPassword,
+}: DisplayPasswordBtnProps) => {
   return (
     <button
       type="button"
@@ -16,7 +29,10 @@ export const DisplayPasswordBtn = ({ displayPassword, setDisplayPassword }) => {
   );
 };
 
-export const DisplayConfirmPasswordBtn = ({ displayConfirmPassword, setDisplayConfirmPassword }) => {
+export const DisplayConfirmPasswordBtn = ({
+  displayConfirmPassword,
+  setDisplayConfirmPassword,
+}: DisplayConfirmPasswordBtnProps) => {
   return (
     <button
       type="button"
