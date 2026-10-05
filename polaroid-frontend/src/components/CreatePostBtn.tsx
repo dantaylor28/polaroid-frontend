@@ -1,7 +1,11 @@
 import { Plus } from "lucide-react";
 import React from "react";
 
-export const CreatePostBtn = ({ onClick }) => {
+interface CreatePostBtnProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+export const CreatePostBtn = ({ onClick }: CreatePostBtnProps) => {
   return (
     <button
       className="flex gap-1 fixed bottom-10 left-1/2 -translate-x-1/2
