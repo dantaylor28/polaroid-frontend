@@ -1,8 +1,20 @@
 import React, { useMemo } from "react";
+import type { CSSProperties } from "react";
 
-export const AnimatedCircles = ({ className }) => {
-  const style = useMemo(() => {
-    const rand = (min, max) =>
+interface AnimatedCirclesProps {
+  className: string;
+}
+
+interface CirclesStyle extends CSSProperties {
+  "--float-x": number;
+  "--float-y": number;
+  "--float-duration": string;
+  "--float-delay": string;
+}
+
+export const AnimatedCircles = ({ className }: AnimatedCirclesProps) => {
+  const style = useMemo<CirclesStyle>(() => {
+    const rand = (min: number, max: number): number =>
       Math.floor(Math.random() * (max - min + 1)) + min;
 
     return {
