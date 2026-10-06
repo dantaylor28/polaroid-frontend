@@ -1,6 +1,14 @@
-import React from "react";
 
-export const ProfileListHeading = ({ activeTab, setActiveTab }) => {
+
+interface ProfileListHeadingProps {
+  activeTab: string;
+  setActiveTab: (value: string) => void;
+}
+
+export const ProfileListHeading = ({
+  activeTab,
+  setActiveTab,
+}: ProfileListHeadingProps) => {
   return (
     <div className="relative flex mb-6 mt-2 mx-4">
       <button
