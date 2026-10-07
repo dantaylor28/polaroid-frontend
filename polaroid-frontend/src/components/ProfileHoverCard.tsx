@@ -1,8 +1,19 @@
 import { SquareArrowOutUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { FollowButton } from "./FollowBtn";
+import type { Profile } from "../types/profile";
 
-export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
+interface ProfileHoverCardProps {
+  profile: Profile;
+  anchorRect: DOMRect;
+  onClose: () => void;
+}
+
+export const ProfileHoverCard = ({
+  profile,
+  anchorRect,
+  onClose,
+}: ProfileHoverCardProps) => {
   return (
     <div
       className="fixed z-50"
