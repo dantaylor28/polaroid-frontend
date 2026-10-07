@@ -1,6 +1,12 @@
 import { X } from "lucide-react";
 
-const SearchBar = ({ value, onChange, placeholder = "Search" }) => {
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
+
+const SearchBar = ({ value, onChange, placeholder = "Search" }: SearchBarProps) => {
   return (
     <div className="flex items-center pb-2 relative px-3">
       <input
