@@ -1,3 +1,14 @@
+interface ConfirmModalProps {
+  open: boolean;
+  title?: string;
+  description?: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+  variant?: "danger" | "primary"; // An example of a union type
+}
+
 export const ConfirmModal = ({
   open,
   title = "Are you sure?",
@@ -7,7 +18,7 @@ export const ConfirmModal = ({
   onConfirm,
   onCancel,
   variant = "danger",
-}) => {
+}: ConfirmModalProps) => {
   if (!open) return null;
 
   const confirmStyles =
