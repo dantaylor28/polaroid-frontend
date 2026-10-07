@@ -6,7 +6,7 @@ import { ProfileSkeleton } from "../components/ProfileSkeleton";
 import { PostGrid } from "../components/PostGrid";
 import { PostDetailsModal } from "../components/PostDetailsModal";
 import { LayoutDashboard, Pin, Images } from "lucide-react";
-import { FollowButton } from "../components/FollowButton";
+import { FollowButton } from "../components/FollowBtn";
 import { useFollow } from "../hooks/useFollow";
 import { ConfirmModal } from "../utils/ConfirmModal";
 

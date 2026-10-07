@@ -1,6 +1,6 @@
 import { SquareArrowOutUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FollowButton } from "./FollowButton";
+import { FollowButton } from "./FollowBtn";
 
 export const ProfileHoverCard = ({ profile, anchorRect, onClose }) => {
   return (
