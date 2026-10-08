@@ -1,9 +1,19 @@
 import { useState } from "react";
+import type { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { SidebarSkeleton } from "./SidebarSkeleton";
 import { ChevronRight } from "lucide-react";
 import { ProfileHoverCard } from "../components/ProfileHoverCard";
 import { useProfiles } from "../context/ProfileContext";
+import type { Profile } from "../types/profile";
+
+interface ProfileListProps {
+  debouncedQuery: string;
+  searching: boolean;
+  profilesToShow: Profile[];
+  onProfileClick: MouseEventHandler<HTMLAnchorElement>;
+  activeTab: "suggested" | "following";
+}
 
 export const ProfileList = ({
   debouncedQuery,
@@ -11,15 +21,15 @@ export const ProfileList = ({
   profilesToShow,
   onProfileClick,
   activeTab,
-}) => {
-  const [openProfileId, setOpenProfileId] = useState(null);
-  const [anchorRect, setAnchorRect] = useState(null);
+}: ProfileListProps) => {
+  const [openProfileId, setOpenProfileId] = useState<number | null>(null);
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
   const { profiles, loading } = useProfiles();
 
   const displayProfiles = loading || searching ? [] : profilesToShow;
 
   const selectedProfile = profiles.find(
-    (profile) => profile.id === openProfileId,
+    (profile: Profile) => profile.id === openProfileId,
   );
 
   const showEmptyState = !loading && !searching && displayProfiles.length === 0;
