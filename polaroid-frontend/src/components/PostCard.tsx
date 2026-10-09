@@ -1,7 +1,12 @@
-import React from "react";
 import { Heart, Pin } from "lucide-react";
+import type { Post } from "../types/post";
 
-export const PostCard = ({post, onClick}) => {
+interface PostCardProps {
+  post: Post;
+  onClick: () => void;
+}
+
+export const PostCard = ({ post, onClick }: PostCardProps) => {
   return (
     <div
       className="cursor-pointer mb-4 break-inside-avoid relative group"
