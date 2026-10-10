@@ -12,20 +12,46 @@ import { Link } from "react-router-dom";
 import { useToggleAction } from "../hooks/useToggleAction";
 import axiosInstance from "../api/axios";
 import { useAuth } from "../context/AuthContext";
+import type { Post } from "../types/post";
 
-export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
+interface Comment {
+  id: number;
+  post: number;
+  post_title: string;
+  text: string;
+  num_of_comment_likes: number;
+  owner: string;
+  is_comment_owner: boolean;
+  timestamp: string;
+  updated_at: string;
+  profile_id: number;
+  profile_image: string;
+  comment_liked_id: number | null;
+}
+
+interface PostDetailsModalProps {
+  post: Post;
+  onClose: () => void;
+  onPostUpdate: (updatedPost: Post) => void;
+}
+
+export const PostDetailsModal = ({
+  post,
+  onClose,
+  onPostUpdate,
+}: PostDetailsModalProps) => {
   const { toggleAction } = useToggleAction(onPostUpdate);
 
   // Comments state
-  const [comments, setComments] = useState([]);
-  const [commentText, setCommentText] = useState("");
-  const [loadingComments, setLoadingComments] = useState(true);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentText, setCommentText] = useState<string>("");
+  const [loadingComments, setLoadingComments] = useState<boolean>(true);
 
   const { currentUser } = useAuth();
 
   // Close on ESC
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
 
@@ -75,7 +101,7 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
   };
 
   // Toggle comment like function
-  const toggleCommentLike = async (comment) => {
+  const toggleCommentLike = async (comment: Comment) => {
     try {
       if (comment.comment_liked_id) {
         await axiosInstance.delete(
@@ -111,7 +137,7 @@ export const PostDetailsModal = ({ post, onClose, onPostUpdate }) => {
         );
       }
     } catch (error) {
-      console.error("Error creating comment like", error)
+      console.error("Error creating comment like", error);
     }
   };
 
