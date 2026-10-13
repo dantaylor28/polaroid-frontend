@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 
 export const useTags = (maxTags = 8, maxLength = 30) => {
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
 
   // Tag helper functions
-  const addTag = (value) => {
+  const addTag = (value: string): void => {
     const trimmed = value.trim().replace(/^#/, ""); // Remove whitespace and hashtag from start of tag
 
     if (!trimmed) return; // Tag is empty
@@ -17,11 +17,11 @@ export const useTags = (maxTags = 8, maxLength = 30) => {
     setTagInput(""); // Clear tag input
   };
 
-  const removeTag = (tagToRemove) => {
+  const removeTag = (tagToRemove: string): void => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleTagKeyDown = (e) => {
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
       addTag(tagInput);
