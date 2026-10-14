@@ -9,7 +9,7 @@ import { ProfileListHeading } from "./ProfileListHeading";
 export const SideBar = () => {
   const { currentUser } = useAuth();
   const { profiles } = useProfiles();
-  const [activeTab, setActiveTab] = useState("suggested");
+  const [activeTab, setActiveTab] = useState<"suggested" | "following">("suggested");
 
   const {
     query,
@@ -48,7 +48,7 @@ export const SideBar = () => {
         debouncedQuery={debouncedQuery}
         searching={searching}
         profilesToShow={displayedProfiles}
-        activeTab={currentUser ? activeTab : null}
+        activeTab={activeTab}
       />
     </aside>
   );

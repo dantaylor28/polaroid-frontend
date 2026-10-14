@@ -11,7 +11,7 @@ interface ProfileListProps {
   debouncedQuery: string;
   searching: boolean;
   profilesToShow: Profile[];
-  onProfileClick: MouseEventHandler<HTMLAnchorElement>;
+  onProfileClick?: MouseEventHandler<HTMLAnchorElement>;
   activeTab: "suggested" | "following";
 }
 

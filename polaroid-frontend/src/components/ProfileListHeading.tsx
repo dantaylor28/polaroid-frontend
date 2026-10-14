@@ -1,8 +1,8 @@
 
 
 interface ProfileListHeadingProps {
-  activeTab: string;
-  setActiveTab: (value: string) => void;
+  activeTab: "suggested" | "following";
+  setActiveTab: (value: "suggested" | "following") => void;
 }
 
 export const ProfileListHeading = ({
