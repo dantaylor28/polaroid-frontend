@@ -1,20 +1,34 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { CompressImage } from "../utils/CompressImage";
 import toast from "react-hot-toast";
 
-export const useImageCropper = () => {
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+interface CroppedAreaPixels {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
+// Not really necessary because ts can already infer it from default values in state.
+interface CropPosition {
+  x: number;
+  y: number;
+}
+
+export const useImageCropper = () => {
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const [crop, setCrop] = useState<CropPosition>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [aspect, setAspect] = useState(1); // Default 1:1
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedPreview, setCroppedPreview] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] =
+    useState<CroppedAreaPixels | null>(null);
+  const [croppedPreview, setCroppedPreview] = useState<string | null>(null);
 
   const [isEditing, setIsEditing] = useState(true); // Default start in editing mode
 
-  const handleImageChange = async (file) => {
+  const handleImageChange = async (file: File): Promise<void> => {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
@@ -65,7 +79,7 @@ export const useImageCropper = () => {
     setCroppedPreview(previewUrl);
 
     setImageFile(croppedFile);
-  }, [croppedAreaPixels, imagePreview]);
+  }, [croppedAreaPixels, imagePreview, croppedPreview]);
 
   const toggleEdit = async () => {
     if (isEditing) {
@@ -94,7 +108,7 @@ export const useImageCropper = () => {
 
 // Cropper helpers
 
-const createImage = (url) =>
+const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new window.Image();
     image.addEventListener("load", () => resolve(image));
@@ -103,10 +117,17 @@ const createImage = (url) =>
     image.src = url;
   });
 
-const getCroppedImg = async (imageSrc, cropPixels) => {
+const getCroppedImg = async (
+  imageSrc: string,
+  cropPixels: CroppedAreaPixels,
+): Promise<Blob> => {
   const image = await createImage(imageSrc);
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Could not create canvas context");
+  }
 
   canvas.width = cropPixels.width;
   canvas.height = cropPixels.height;
@@ -123,9 +144,13 @@ const getCroppedImg = async (imageSrc, cropPixels) => {
     cropPixels.height,
   );
 
-  return new Promise((resolve) => {
+  return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => {
-      resolve(blob);
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error("Could not crop image"));
+      }
     }, "image/jpeg");
   });
 };

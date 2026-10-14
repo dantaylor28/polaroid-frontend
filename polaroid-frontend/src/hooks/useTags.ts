@@ -1,4 +1,5 @@
-import React, { KeyboardEvent, useState } from "react";
+import { useState } from "react";
+import type { KeyboardEvent } from "react";
 
 export const useTags = (maxTags = 8, maxLength = 30) => {
   const [tags, setTags] = useState<string[]>([]);
@@ -21,7 +22,7 @@ export const useTags = (maxTags = 8, maxLength = 30) => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleTagKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" || e.key === ",") {
       e.preventDefault();
       addTag(tagInput);
