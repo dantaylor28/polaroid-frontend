@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { ConfirmModal } from "../utils/ConfirmModal";
 import { useTags } from "../hooks/useTags";
 import { useImageCropper } from "../hooks/useImageCropper";
 import { ImageCropper } from "./ImageCropper";
 import axiosInstance from "../api/axios";
+import { isAxiosError } from "axios";
+import type { Post } from "../types/post";
 
-export const CreatePostModal = ({ onClose, addPost }) => {
+interface CreatePostModalProps {
+  onClose: () => void;
+  addPost: (newPost: Post) => void;
+}
+
+export const CreatePostModal = ({ onClose, addPost }: CreatePostModalProps) => {
   const [caption, setCaption] = useState("");
   const [openDiscardPostConfirm, setOpenDiscardPostConfirm] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -29,7 +36,6 @@ export const CreatePostModal = ({ onClose, addPost }) => {
     zoom,
     aspect,
     isEditing,
-    croppedAreaPixels,
     setCrop,
     setZoom,
     setAspect,
@@ -40,7 +46,7 @@ export const CreatePostModal = ({ onClose, addPost }) => {
   } = useImageCropper();
 
   // Confirm modal close while data exists in form
-  const hasUnsavedData = Boolean(imagePreview) || caption || tags.length > 0;
+  const hasUnsavedData = Boolean(imagePreview || caption || tags.length > 0);
   const handleCloseAttempt = () => {
     if (!hasUnsavedData) {
       onClose();
@@ -51,7 +57,7 @@ export const CreatePostModal = ({ onClose, addPost }) => {
 
   // Close on ESC
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleCloseAttempt();
     };
 
@@ -66,7 +72,7 @@ export const CreatePostModal = ({ onClose, addPost }) => {
 
   const handleSubmitPost = async () => {
     try {
-      if (!imagePreview || isUploading) return;
+      if (!imageFile || !imagePreview || isUploading) return;
 
       setIsUploading(true);
 
@@ -86,14 +92,20 @@ export const CreatePostModal = ({ onClose, addPost }) => {
       });
 
       // Send request
-      const { data } = await axiosInstance.post("/posts/", formData);
+      const { data } = await axiosInstance.post<Post>("/posts/", formData);
 
       addPost(data);
 
       onClose();
-    } catch (error) {
-      console.error("Post upload error:", error.response?.data || error);
-      console.log("ERROR RESPONSE:", error.response?.data);
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        console.error(
+          "Post upload error:",
+          error.response?.data ?? error.message,
+        );
+      } else {
+        console.error("Post upload error:", error);
+      }
     } finally {
       setIsUploading(false);
     }
