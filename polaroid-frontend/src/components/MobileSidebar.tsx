@@ -1,5 +1,5 @@
 import { Menu, X } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useProfileSearch } from "../hooks/useProfileSearch";
 import { useProfiles } from "../context/ProfileContext";
@@ -10,10 +10,12 @@ import { ProfileListHeading } from "./ProfileListHeading";
 
 export const MobileSidebar = () => {
   const [expanded, setExpanded] = useState(false);
-  const sidebarRef = useRef(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const { profiles } = useProfiles();
   const { currentUser } = useAuth();
-  const [activeTab, setActiveTab] = useState("suggested");
+  const [activeTab, setActiveTab] = useState<"suggested" | "following">(
+    "suggested",
+  );
 
   const {
     query,
@@ -35,8 +37,11 @@ export const MobileSidebar = () => {
 
   //   Close sidebar when a user clicks outside it
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         setExpanded(false);
       }
     };
@@ -93,6 +98,7 @@ export const MobileSidebar = () => {
           profilesToShow={displayedProfiles}
           debouncedQuery={debouncedQuery}
           onProfileClick={handleSidebarClick}
+          activeTab={activeTab}
         />
       </div>
     </>
